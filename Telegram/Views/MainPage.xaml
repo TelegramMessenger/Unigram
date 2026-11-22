@@ -467,6 +467,7 @@
                                                   FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                   AutomationProperties.Name="{CustomResource ProxySettings}"
                                                   ToolTipService.ToolTip="{CustomResource ProxySettings}"
+                                                  CornerRadius="16"
                                                   Width="40"
                                                   Height="40" />
                             <controls:GlyphButton x:Name="Lock"
@@ -475,9 +476,9 @@
                                                   Click="Lock_Click"
                                                   AutomationProperties.Name="{CustomResource AccDescrPasscodeLock}"
                                                   ToolTipService.ToolTip="{CustomResource AccDescrPasscodeLock}"
+                                                  CornerRadius="16"
                                                   Width="40"
-                                                  Height="40"
-                                                  CornerRadius="16" />
+                                                  Height="40" />
                         </StackPanel>
                     </Grid>
                 </Grid>
