@@ -36,6 +36,7 @@
             </Grid.ColumnDefinitions>
 
             <controls:GlyphButton x:Name="BackButton"
+                                  AutomationProperties.Name="{CustomResource Back}"
                                   Glyph="&#xE72B;"
                                   Click="Back_Click"
                                   CornerRadius="20"
@@ -89,6 +90,7 @@
                 <controls:WalletCard x:Name="Card" />
 
                 <controls:GlyphButton x:Name="DetailsButton"
+                                      AutomationProperties.Name="{CustomResource AccDescrIVDetails}"
                                       Glyph="&#xE946;"
                                       Click="Details_Click"
                                       Background="{ThemeResource ContentDialogBackground}"

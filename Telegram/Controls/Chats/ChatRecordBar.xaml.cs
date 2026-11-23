@@ -52,6 +52,7 @@ namespace Telegram.Controls.Chats
         public ChatRecordBar()
         {
             InitializeComponent();
+            Automation.SetToggleNames(PauseButton, Strings.AccDescrPauseRecording, Strings.AccDescrResumeRecording);
 
             if (ApiInfo.CanCreateThemeShadow)
             {

@@ -684,6 +684,7 @@
                                     CornerRadius="20"
                                     Grid.Column="1">
                                 <controls:GlyphButton Click="{x:Bind ViewModel.ChangeRotation}"
+                                                      AutomationProperties.Name="{CustomResource AccDescrRotate}"
                                                       Glyph="&#xF791;"
                                                       RenderTransformOrigin="0.5,0.5"
                                                       CornerRadius="20"
@@ -701,6 +702,7 @@
                                     CornerRadius="20"
                                     Grid.Column="1">
                                 <controls:GlyphButton Click="Play_Click"
+                                                      AutomationProperties.Name="{CustomResource AccActionPlay}"
                                                       Glyph="&#xF792;"
                                                       RenderTransformOrigin="0.5,0.5"
                                                       CornerRadius="20"

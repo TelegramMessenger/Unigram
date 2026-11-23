@@ -51,6 +51,7 @@
                                  CornerRadius="16"
                                  Grid.Row="1" />
         <controls:GlyphButton x:Name="SearchClear"
+                              AutomationProperties.Name="{CustomResource Clear}"
                               Click="SearchClear_Click"
                               AllowFocusOnInteraction="False"
                               Glyph="&#xE711;"

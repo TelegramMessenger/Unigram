@@ -154,6 +154,7 @@
                             </StackPanel>
 
                             <controls:GlyphButton x:Name="Explanation"
+                                                  AutomationProperties.Name="{CustomResource QuizExplanationTitle}"
                                                   Glyph="&#xEA80;"
                                                   Foreground="{ThemeResource MessageSubtleForegroundBrush}"
                                                   Margin="0,-4,-10,-5"

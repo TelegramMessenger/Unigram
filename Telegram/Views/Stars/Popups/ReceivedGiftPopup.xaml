@@ -664,6 +664,7 @@
                                                              VerticalAlignment="Center"
                                                              Margin="8,5,8,6" />
                                 <controls:GlyphButton x:Name="UpgradedCaptionRemove"
+                                                      AutomationProperties.Name="{CustomResource Remove}"
                                                       Click="UpgradedCaptionRemove_Click"
                                                       Glyph="&#xE74D;"
                                                       Visibility="Collapsed"

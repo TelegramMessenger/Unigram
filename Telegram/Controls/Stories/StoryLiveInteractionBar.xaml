@@ -312,6 +312,7 @@
                    Margin="-48" />
 
             <controls:GlyphButton x:Name="ReactButton"
+                                  AutomationProperties.Name="{CustomResource LiveStoryReactTitle}"
                                   Click="DeleteButton_Click"
                                   ContextRequested="ReactButton_ContextRequested"
                                   Glyph="&#xEA87;"

@@ -18,6 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Telegram.Common
 {
@@ -88,6 +89,17 @@ namespace Telegram.Common
             {
                 // Seems to happen some times
             }
+        }
+
+        public static void SetToggleNames(ToggleButton button, string uncheckedName, string checkedName)
+        {
+            void Update()
+            {
+                AutomationProperties.SetName(button, button.IsChecked == true ? checkedName : uncheckedName);
+            }
+
+            Update();
+            button.RegisterPropertyChangedCallback(ToggleButton.IsCheckedProperty, (s, e) => Update());
         }
 
         public static string GetSummaryWithName(MessageWithOwner message, bool details = false, bool addCaption = true)

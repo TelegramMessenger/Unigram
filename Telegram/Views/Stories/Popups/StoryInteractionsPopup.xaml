@@ -91,6 +91,7 @@
         </controls:TopNavView>
 
         <controls:GlyphButton Glyph="&#xE9E6;"
+                              AutomationProperties.Name="{CustomResource AccDescrContactSorting}"
                               HorizontalAlignment="Right"
                               Click="SortBy_ContextRequested"
                               Visibility="Collapsed" />

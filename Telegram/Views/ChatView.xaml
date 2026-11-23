@@ -1054,6 +1054,7 @@
                                 Margin="0,8,0,0"
                                 Grid.Column="2">
                             <controls:GlyphButton x:Name="StickySummaryAboveButton"
+                                                  AutomationProperties.Name="{CustomResource SummaryTitle}"
                                                   Click="StickySummaryAbove_Click"
                                                   Foreground="{ThemeResource MessageServiceForegroundBrush}"
                                                   FontSize="{StaticResource GlyphSmallFontSize}"
