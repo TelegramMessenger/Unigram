@@ -147,6 +147,7 @@
                         Background="{ThemeResource MessageMediaBackgroundBrush}"
                         VerticalAlignment="Top">
                     <controls:AnimatedGlyphButton x:Name="Glyph"
+                                                  AutomationProperties.Name="{CustomResource Remove}"
                                                   Click="Remove_Click"
                                                   Foreground="{ThemeResource MessageMediaForegroundBrush}"
                                                   FontFamily="{StaticResource SymbolThemeFontFamily}"
@@ -238,6 +239,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <controls:GlyphToggleButton x:Name="Mute"
+                                                AutomationProperties.Name="{CustomResource AccDescrMuteVideo}"
                                                 Click="Mute_Click"
                                                 Glyph="&#xE906;"
                                                 CheckedGlyph="&#xE906;"

@@ -225,6 +225,7 @@
                 </Border>
 
                 <controls:GlyphButton x:Name="PrivacyButton"
+                                      AutomationProperties.Name="{CustomResource PrivacyTitle}"
                                       Click="Privacy_Click"
                                       Glyph=""
                                       Margin="0,-8,-4,-8"
@@ -232,6 +233,7 @@
                                       Grid.Column="3" />
 
                 <controls:GlyphToggleButton x:Name="Mute"
+                                            AutomationProperties.Name="{CustomResource Sound}"
                                             Click="Mute_Click"
                                             Glyph="&#xE74F;"
                                             CheckedGlyph="&#xEA12;"
@@ -241,6 +243,7 @@
                                             Grid.Column="4" />
 
                 <controls:GlyphButton x:Name="MutePlaceholder"
+                                      AutomationProperties.Name="{CustomResource StoryNoSound}"
                                       Click="MutePlaceholder_Click"
                                       Glyph=""
                                       Margin="0,-8,-4,-8"

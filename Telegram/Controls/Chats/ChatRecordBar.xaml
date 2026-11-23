@@ -25,6 +25,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <controls:GlyphButton x:Name="DeleteButton"
+                                      AutomationProperties.Name="{CustomResource Delete}"
                                       Click="ButtonCancelRecording_Click"
                                       Glyph="&#xE74D;"
                                       Visibility="Collapsed" />
@@ -173,6 +174,7 @@
                                     Height="36"
                                     Width="36">
                                 <controls:AnimatedGlyphToggleButton x:Name="ViewOnceButton"
+                                                                    AutomationProperties.Name="{CustomResource TimerPeriodOnce}"
                                                                     Click="ViewOnce_Click"
                                                                     Width="44"
                                                                     Height="44"

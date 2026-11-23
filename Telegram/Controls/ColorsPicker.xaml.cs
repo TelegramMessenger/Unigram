@@ -11,6 +11,7 @@ using Telegram.Controls.Media;
 using Telegram.ViewModels;
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 
 namespace Telegram.Controls
@@ -62,6 +63,7 @@ namespace Telegram.Controls
                 : Visibility.Collapsed;
 
             AddRemoveColorButton.Glyph = colors.Count < _maximum ? Icons.Add : Icons.Dismiss;
+            AutomationProperties.SetName(AddRemoveColorButton, colors.Count < _maximum ? Strings.Add : Strings.Remove);
 
             return colors;
         }

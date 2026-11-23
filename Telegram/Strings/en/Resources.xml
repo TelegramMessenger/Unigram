@@ -14779,4 +14779,12 @@
   <string name="AttachWidget">Widget</string>
   <string name="WidgetNetworkHint">A tap may send data to the bot's server.</string>
 
+  <string name="AccDescrFolderIcon">Folder icon</string>
+  <string name="AccDescrMuteVideo">Mute video</string>
+  <string name="AccDescrShowPassword">Show password</string>
+  <string name="AccDescrPauseRecording">Pause recording</string>
+  <string name="AccDescrResumeRecording">Resume recording</string>
+  <string name="AccDescrHideMessages">Hide messages</string>
+  <string name="AccDescrShowMessages">Show messages</string>
+
 </resources>

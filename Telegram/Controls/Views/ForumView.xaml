@@ -389,6 +389,7 @@
 
         <!-- In the corner the docked layouts leave free of ScrollingHost. -->
         <controls:GlyphToggleButton x:Name="ModeButton"
+                                    AutomationProperties.Name="{CustomResource TopicsLayout}"
                                     x:Load="False"
                                     Click="ModeButton_Click"
                                     HorizontalAlignment="Left"

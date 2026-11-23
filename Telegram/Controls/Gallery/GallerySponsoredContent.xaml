@@ -165,6 +165,7 @@
                 </controls:AnimatedTextBlock>
             </Grid>
             <controls:GlyphButton x:Name="RemoveButton"
+                                  AutomationProperties.Name="{CustomResource Close}"
                                   Click="Remove_Click"
                                   CornerRadius="24" />
         </Grid>

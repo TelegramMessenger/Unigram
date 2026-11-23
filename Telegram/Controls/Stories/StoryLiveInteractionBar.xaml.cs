@@ -46,6 +46,7 @@ namespace Telegram.Controls.Stories
         public StoryLiveInteractionBar()
         {
             InitializeComponent();
+            Automation.SetToggleNames(ShowHideButton, Strings.AccDescrHideMessages, Strings.AccDescrShowMessages);
 
             Unloaded += OnUnloaded;
         }

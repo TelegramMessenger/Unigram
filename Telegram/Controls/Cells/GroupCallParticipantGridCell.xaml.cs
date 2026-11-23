@@ -43,6 +43,7 @@ namespace Telegram.Controls.Cells
         public GroupCallParticipantGridCell(IClientService clientService, GroupCallParticipant participant, GroupCallParticipantVideoInfo videoInfo, bool screenSharing)
         {
             InitializeComponent();
+            Automation.SetToggleNames(Pin, Strings.PinMessage, Strings.UnpinMessage);
             UpdateGroupCallParticipant(clientService, participant, videoInfo);
 
             _screenSharing = screenSharing;

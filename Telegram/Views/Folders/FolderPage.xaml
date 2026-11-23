@@ -123,6 +123,7 @@
                                         </controls:HeaderedControl>
 
                                         <controls:AnimatedGlyphButton x:Name="IconButton"
+                                                                      AutomationProperties.Name="{CustomResource AccDescrFolderIcon}"
                                                                       Glyph="{x:Bind ConvertIcon(ViewModel.Icon), Mode=OneWay}"
                                                                       Click="Icon_Click"
                                                                       Width="60"

@@ -23,6 +23,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <controls:GlyphButton x:Name="BackButton"
+                                  AutomationProperties.Name="{CustomResource Back}"
                                   Click="BackButton_Click"
                                   RenderTransformOrigin="0.5,0.5"
                                   VerticalAlignment="Bottom"

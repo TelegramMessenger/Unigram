@@ -41,6 +41,7 @@ namespace Telegram.Views.Gifts.Popups
         public GiftVariantsPopup(IClientService clientService, INavigationService navigationService, ReceivedGift gift, GiftUpgradeVariants variants)
         {
             InitializeComponent();
+            Automation.SetToggleNames(Randomize, Strings.AccActionPlay, Strings.AccActionPause);
 
             _clientService = clientService;
             _navigationService = navigationService;
