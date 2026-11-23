@@ -70,6 +70,7 @@
                                 <ColumnDefinition x:Name="MaximumCommission" />
                             </Grid.ColumnDefinitions>
                             <Slider x:Name="CommissionGhost"
+                                    AutomationProperties.AccessibilityView="Raw"
                                     Maximum="900"
                                     Minimum="1"
                                     SmallChange="1"
@@ -152,6 +153,7 @@
                                     Opacity="0.4" />
 
                             <Slider x:Name="Commission"
+                                    AutomationProperties.Name="{CustomResource AffiliateProgramCommission}"
                                     Maximum="900"
                                     Value="{x:Bind ViewModel.Commission, Mode=TwoWay}"
                                     SmallChange="1"
@@ -183,6 +185,7 @@
                                 <ColumnDefinition x:Name="MaximumDuration" />
                             </Grid.ColumnDefinitions>
                             <Slider x:Name="DurationGhost"
+                                    AutomationProperties.AccessibilityView="Raw"
                                     Maximum="7"
                                     Minimum="1"
                                     SmallChange="1"
@@ -265,6 +268,7 @@
                                     Opacity="0.4" />
 
                             <Slider x:Name="Duration"
+                                    AutomationProperties.Name="{CustomResource AffiliateProgramDuration}"
                                     Maximum="6"
                                     Value="{x:Bind ViewModel.Duration, Mode=TwoWay}"
                                     SmallChange="1"
