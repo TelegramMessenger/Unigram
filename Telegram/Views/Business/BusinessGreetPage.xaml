@@ -140,6 +140,7 @@
                             </Grid.RowDefinitions>
 
                             <Slider x:Name="Period"
+                                    AutomationProperties.Name="{CustomResource BusinessGreetPeriod}"
                                     Value="{x:Bind ViewModel.InactivityDays, Mode=TwoWay}"
                                     Maximum="3"
                                     Minimum="0"
