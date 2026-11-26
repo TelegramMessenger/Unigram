@@ -9,6 +9,7 @@ using Telegram.Navigation.Services;
 using Telegram.Services;
 using Telegram.Td.Api;
 using Telegram.Views.Authorization;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -41,15 +42,21 @@ namespace Telegram.Views
             {
                 _clientService.Send(new Destroy());
             }
-            else if (_navigationService != null && _navigationService.Window.UpdateChatTheme(ActualTheme, null, null, null, null))
+            else if (_navigationService != null)
             {
-                if (_clientService == null)
-                {
-                    return;
-                }
+                ResetChatTheme(_navigationService, ActualTheme, _clientService, _aggregator);
+            }
+        }
 
-                _aggregator.Publish(new UpdateDefaultBackground(false, _clientService.GetDefaultBackground(false)));
-                _aggregator.Publish(new UpdateDefaultBackground(true, _clientService.GetDefaultBackground(true)));
+        /// <summary>
+        /// Puts back the default chat theme and background, which is what the empty detail pane shows.
+        /// </summary>
+        public static void ResetChatTheme(INavigationService navigationService, ElementTheme theme, IClientService clientService, IEventAggregator aggregator)
+        {
+            if (navigationService.Window.UpdateChatTheme(theme, null, null, null, null) && clientService != null)
+            {
+                aggregator.Publish(new UpdateDefaultBackground(false, clientService.GetDefaultBackground(false)));
+                aggregator.Publish(new UpdateDefaultBackground(true, clientService.GetDefaultBackground(true)));
             }
         }
     }
