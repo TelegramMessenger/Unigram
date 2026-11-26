@@ -15077,5 +15077,11 @@
   <string name="WidgetNetworkHint">A tap may send data to the bot's server.</string>
 
 
+    <string name="DeleteAllMessagesFromUsers">Delete all their messages</string>
+    <string name="DeleteAllReactionsFromUsers">Delete all their reactions</string>
+    <string name="RestrictUserDeleteAllMessages">Delete all messages</string>
+    <string name="RestrictUserDeleteAllReactions">Delete all reactions</string>
+    <string name="DeleteAllMessagesFrom">Delete all messages from {0}</string>
+    <string name="DeleteAllReactionsFrom">Delete all reactions from {0}</string>
 
 </resources>
