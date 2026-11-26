@@ -26,6 +26,9 @@ namespace winrt::Telegram::Native::Calls::implementation
         bool IsNoiseSuppressionEnabled();
         void IsNoiseSuppressionEnabled(bool value);
 
+        bool IsReferenceImpl();
+        void IsReferenceImpl(bool value);
+
         bool IsStream();
         void IsStream(bool value);
 
@@ -39,6 +42,7 @@ namespace winrt::Telegram::Native::Calls::implementation
         VoipCaptureBase m_videoCapture{ nullptr };
         bool m_isConference{ false };
         bool m_isNoiseSuppressionEnabled{ true };
+        bool m_isReferenceImpl{ false };
         bool m_isStream{ false };
         int64_t m_audioProcessId{ 0 };
     };

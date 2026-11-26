@@ -181,6 +181,8 @@
     <ClInclude Include="..\Libraries\tgcalls\tgcalls\FakeAudioDeviceModule.h" />
     <ClInclude Include="..\Libraries\tgcalls\tgcalls\StaticThreads.h" />
     <ClInclude Include="..\Libraries\tgcalls\tgcalls\group\GroupInstanceCustomImpl.h" />
+    <ClInclude Include="..\Libraries\tgcalls\tgcalls\group\GroupInstanceReferenceImpl.h" />
+    <ClInclude Include="..\Libraries\tgcalls\tgcalls\group\GroupOpusDred.h" />
     <ClInclude Include="..\Libraries\tgcalls\tgcalls\group\GroupNetworkManager.h" />
     <ClInclude Include="..\Libraries\tgcalls\tgcalls\group\GroupAv1Decision.h" />
     <ClInclude Include="..\Libraries\tgcalls\tgcalls\group\GroupReferenceFieldTrials.h" />
@@ -387,6 +389,9 @@
     <ClCompile Include="..\Libraries\tgcalls\tgcalls\group\GroupInstanceCustomImpl.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Libraries\tgcalls\tgcalls\group\GroupInstanceReferenceImpl.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Libraries\tgcalls\tgcalls\group\GroupNetworkManager.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -403,6 +408,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Libraries\tgcalls\tgcalls\group\ScreencastSendParameters.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Libraries\tgcalls\tgcalls\group\GroupOpusDred.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Libraries\tgcalls\tgcalls\group\GroupExternalAudio.cpp">

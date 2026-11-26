@@ -215,6 +215,9 @@
     <ClCompile Include="..\Libraries\tgcalls\tgcalls\group\GroupInstanceReferenceImpl.cpp">
       <Filter>tgcalls\group</Filter>
     </ClCompile>
+    <ClCompile Include="..\Libraries\tgcalls\tgcalls\group\GroupOpusDred.cpp">
+      <Filter>tgcalls\group</Filter>
+    </ClCompile>
     <ClCompile Include="..\Libraries\tgcalls\tgcalls\v2\CustomDcSctpSocket.cpp">
       <Filter>tgcalls\v2</Filter>
     </ClCompile>
@@ -490,6 +493,9 @@
       <Filter>tgcalls\group</Filter>
     </ClInclude>
     <ClInclude Include="..\Libraries\tgcalls\tgcalls\group\GroupInstanceReferenceImpl.h">
+      <Filter>tgcalls\group</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libraries\tgcalls\tgcalls\group\GroupOpusDred.h">
       <Filter>tgcalls\group</Filter>
     </ClInclude>
     <ClInclude Include="..\Libraries\tgcalls\tgcalls\v2\CustomDcSctpSocket.h">

@@ -150,7 +150,8 @@ namespace Telegram.Services.Calls
                 IsStream = groupCall.IsRtmpStream,
                 //AudioInputId = _inputWatcher.GetAndUpdateAsync().Result,
                 //AudioOutputId = _outputWatcher.GetAndUpdateAsync().Result,
-                IsNoiseSuppressionEnabled = AppSettings.VoIP.IsNoiseSuppressionEnabled
+                IsNoiseSuppressionEnabled = AppSettings.VoIP.IsNoiseSuppressionEnabled,
+                IsReferenceImpl = UseReferenceImpl
             };
 
             lock (_managerLock)
@@ -303,7 +304,8 @@ namespace Telegram.Services.Calls
                 IsConference = true,
                 //AudioInputId = _inputWatcher.GetAndUpdateAsync().Result,
                 //AudioOutputId = _outputWatcher.GetAndUpdateAsync().Result,
-                IsNoiseSuppressionEnabled = AppSettings.VoIP.IsNoiseSuppressionEnabled
+                IsNoiseSuppressionEnabled = AppSettings.VoIP.IsNoiseSuppressionEnabled,
+                IsReferenceImpl = UseReferenceImpl
             };
 
             lock (_managerLock)
@@ -366,7 +368,8 @@ namespace Telegram.Services.Calls
                 IsConference = true,
                 //AudioInputId = _inputWatcher.GetAndUpdateAsync().Result,
                 //AudioOutputId = _outputWatcher.GetAndUpdateAsync().Result,
-                IsNoiseSuppressionEnabled = AppSettings.VoIP.IsNoiseSuppressionEnabled
+                IsNoiseSuppressionEnabled = AppSettings.VoIP.IsNoiseSuppressionEnabled,
+                IsReferenceImpl = UseReferenceImpl
             };
 
             lock (_managerLock)
@@ -808,7 +811,8 @@ namespace Telegram.Services.Calls
                 IsConference = !IsVideoChat,
                 VideoContentType = VoipVideoContentType.Screencast,
                 VideoCapture = _screenCapturer,
-                AudioProcessId = item.ProcessId
+                AudioProcessId = item.ProcessId,
+                IsReferenceImpl = UseReferenceImpl
             };
 
             lock (_managerLock)
@@ -2057,6 +2061,9 @@ namespace Telegram.Services.Calls
         public bool IsVideoChat { get; private set; }
 
         public bool IsLiveStory { get; private set; }
+
+        // The server can roll group calls back to the custom engine.
+        private bool UseReferenceImpl => ClientService.Config.GetNamedBoolean("unigram_calls_group_reference_impl", true);
 
         /// <summary>
         /// Invite link for the group call; for group calls that aren't bound to a chat.

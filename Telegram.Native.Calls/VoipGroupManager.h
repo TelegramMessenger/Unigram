@@ -2,6 +2,7 @@
 
 #include "VoipGroupManager.g.h"
 #include "group/GroupInstanceCustomImpl.h"
+#include "group/GroupInstanceReferenceImpl.h"
 
 #include "rtc_base/synchronization/mutex.h"
 
@@ -90,7 +91,7 @@ namespace winrt::Telegram::Native::Calls::implementation
         void MediaChannelDescriptionsRequested(winrt::event_token const& token);
 
     private:
-        std::unique_ptr<tgcalls::GroupInstanceCustomImpl> m_impl = nullptr;
+        std::unique_ptr<tgcalls::GroupInstanceInterface> m_impl = nullptr;
 
         // Only the encrypt/decrypt delegates need guarding: they are written from the UI
         // thread and read per frame from a media thread. The events guard themselves.

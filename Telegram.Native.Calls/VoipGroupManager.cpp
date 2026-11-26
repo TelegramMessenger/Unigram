@@ -18,6 +18,7 @@
 
 #include "api/audio/create_audio_device_module.h"
 #include "api/environment/environment_factory.h"
+#include "modules/audio_device/include/audio_device_data_observer.h"
 
 #include "../Telegram.Native/AppModelPaths.h"
 
@@ -30,6 +31,34 @@ namespace winrt::Telegram::Native::Calls::implementation
     namespace
     {
         constexpr int64_t kStatusTickUs = 500000;
+
+        // The device thread's 10 ms playout block: the broadcast replaces the call's playout while it plays.
+        class BroadcastPlayoutObserver : public webrtc::AudioDeviceDataObserver
+        {
+        public:
+            explicit BroadcastPlayoutObserver(std::shared_ptr<broadcast_audio::Core> core)
+                : m_core(std::move(core))
+            {
+            }
+
+            void OnCaptureData(const void* audio_samples, const size_t num_samples, const size_t bytes_per_sample, const size_t num_channels, const uint32_t samples_per_sec) override
+            {
+            }
+
+            void OnRenderData(const void* audio_samples, const size_t num_samples, const size_t bytes_per_sample, const size_t num_channels, const uint32_t samples_per_sec) override
+            {
+                if (bytes_per_sample != num_channels * sizeof(int16_t) || samples_per_sec % 100 != 0 || num_samples != samples_per_sec / 100)
+                {
+                    return;
+                }
+
+                // The observer hands playout over as const, but the buffer is the device's own and is played after this returns.
+                m_core->render(static_cast<int16_t*>(const_cast<void*>(audio_samples)), num_samples, num_channels, samples_per_sec);
+            }
+
+        private:
+            const std::shared_ptr<broadcast_audio::Core> m_core;
+        };
     }
 
     VoipGroupManager::VoipGroupManager(VoipGroupDescriptor descriptor)
@@ -83,14 +112,6 @@ namespace winrt::Telegram::Native::Calls::implementation
             .initialEnableNoiseSuppression = m_isNoiseSuppressionEnabled,
         };
 
-        if (m_core)
-        {
-            // The device thread's 10 ms block: the broadcast replaces the call's playout while it plays.
-            impl.onPlayoutFrame = [core = m_core](int16_t* samples, size_t frames, size_t channels, uint32_t sampleRate) {
-                core->render(samples, frames, channels, sampleRate);
-            };
-        }
-
         if (descriptor.IsConference())
         {
             impl.isConference = true;
@@ -118,12 +139,27 @@ namespace winrt::Telegram::Native::Calls::implementation
         // screencast is left without it, because only then does tgcalls give it its fake device.
         if (!m_isScreencast)
         {
-            impl.createAudioDeviceModule = [](webrtc::TaskQueueFactory*) {
-                return webrtc::CreateAudioDeviceModule(webrtc::CreateEnvironment(), webrtc::AudioDeviceModule::kPlatformDefaultAudio);
+            // The broadcast is rendered over the device's playout here rather than through the
+            // engine's onPlayoutFrame, which GroupInstanceReferenceImpl does not call.
+            impl.createAudioDeviceModule = [core = m_core](webrtc::TaskQueueFactory*) {
+                auto module = webrtc::CreateAudioDeviceModule(webrtc::CreateEnvironment(), webrtc::AudioDeviceModule::kPlatformDefaultAudio);
+                if (core && module)
+                {
+                    return webrtc::CreateAudioDeviceWithDataObserver(module, std::make_unique<BroadcastPlayoutObserver>(core));
+                }
+
+                return module;
             };
         }
 
-        m_impl = std::make_unique<tgcalls::GroupInstanceCustomImpl>(std::move(impl));
+        if (descriptor.IsReferenceImpl())
+        {
+            m_impl = std::make_unique<tgcalls::GroupInstanceReferenceImpl>(std::move(impl));
+        }
+        else
+        {
+            m_impl = std::make_unique<tgcalls::GroupInstanceCustomImpl>(std::move(impl));
+        }
 
         if (m_isScreencast)
         {

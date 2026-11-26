@@ -76,6 +76,16 @@ namespace winrt::Telegram::Native::Calls::implementation
         m_isNoiseSuppressionEnabled = value;
     }
 
+    bool VoipGroupDescriptor::IsReferenceImpl()
+    {
+        return m_isReferenceImpl;
+    }
+
+    void VoipGroupDescriptor::IsReferenceImpl(bool value)
+    {
+        m_isReferenceImpl = value;
+    }
+
     int64_t VoipGroupDescriptor::AudioProcessId()
     {
         return m_audioProcessId;
