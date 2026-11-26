@@ -133,6 +133,10 @@
                               Content="Connected Animations Debug"
                               Style="{StaticResource SettingsCheckBoxStyle}" />
 
+                    <CheckBox IsChecked="{x:Bind services:AppSettings.Diagnostics.ParkChatPageDebug, Mode=TwoWay}"
+                              Content="Park Chat Page Debug"
+                              Style="{StaticResource SettingsCheckBoxStyle}" />
+
                     <CheckBox IsChecked="{x:Bind services:AppSettings.Diagnostics.DirectTextDebug, Mode=TwoWay}"
                               Content="Direct Text Debug (restart)"
                               Style="{StaticResource SettingsCheckBoxStyle}" />

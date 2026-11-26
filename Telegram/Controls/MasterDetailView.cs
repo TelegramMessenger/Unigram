@@ -110,7 +110,7 @@ namespace Telegram.Controls
             _windowTitleSession.Aggregator.Subscribe<UpdateWindowTitleDetails>(this, Handle);
 
             // A standalone window has navigated before it gets here.
-            WatchWindowTitle(DetailFrame.Content as HostedPage);
+            WatchWindowTitle(service.ActiveContent as HostedPage);
         }
 
         public bool HasMaster { get; private set; }
@@ -178,7 +178,8 @@ namespace Telegram.Controls
                 }
             }
 
-            if (DetailFrame.Content is INavigablePage detailPage /*&& type == BackStackType.Navigation*/)
+            // A parked chat stands for the empty pane, which has nothing to go back from.
+            if (DetailFrame.Content is INavigablePage detailPage && !NavigationService.IsParked /*&& type == BackStackType.Navigation*/)
             {
                 detailPage.OnBackRequested(args);
                 if (args.Handled)
@@ -191,13 +192,18 @@ namespace Telegram.Controls
             // but if it is 0 it means that the control is not loaded, and the event shouldn't be handled
             if (CanGoBack && ActualWidth > 0 /*&& type == BackStackType.Navigation*/)
             {
-                NavigationTransitionInfo transitionInfoOverride = null;
-                if (CurrentState == MasterDetailState.Minimal && DetailFrame.BackStackDepth == 1)
+                // The frame is driven directly here, which skips the parking in FrameFacade.GoBack.
+                if (!NavigationService.TryPark())
                 {
-                    transitionInfoOverride = new SuppressNavigationTransitionInfo();
+                    NavigationTransitionInfo transitionInfoOverride = null;
+                    if (CurrentState == MasterDetailState.Minimal && DetailFrame.BackStackDepth == 1)
+                    {
+                        transitionInfoOverride = new SuppressNavigationTransitionInfo();
+                    }
+
+                    DetailFrame.GoBack(transitionInfoOverride);
                 }
 
-                DetailFrame.GoBack(transitionInfoOverride);
                 args.Handled = true;
             }
             else if (ParentFrame.Content is INavigablePage masterPage /*&& type == BackStackType.Hamburger*/)
@@ -227,7 +233,7 @@ namespace Telegram.Controls
 
         private void UpdateMasterVisibility()
         {
-            if (CurrentState == MasterDetailState.Minimal && DetailFrame?.CurrentSourcePageType == BlankPageType)
+            if (CurrentState == MasterDetailState.Minimal && NavigationService?.CurrentPageType == BlankPageType)
             {
                 MasterVisibility = Visibility.Visible;
             }
@@ -415,11 +421,12 @@ namespace Telegram.Controls
                 {
                     DetailPresenter.Children.Add(DetailFrame);
 
-                    if (DetailFrame.Content is Page page)
+                    if (DetailFrame.Content is Page)
                     {
+                        // A parked chat is replayed as the empty pane it stands for.
                         OnNavigated(null, new NavigatedEventArgs
                         {
-                            Content = page
+                            Content = NavigationService.ActiveContent as Page
                         });
                     }
 
@@ -429,7 +436,7 @@ namespace Telegram.Controls
                         {
                             NavigationService.Navigate(BlankPageType);
                         }
-                        else
+                        else if (!NavigationService.IsParked)
                         {
                             NavigationService.InsertToBackStack(0, BlankPageType);
                         }
@@ -501,7 +508,7 @@ namespace Telegram.Controls
             var batch = banner.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
             batch.Completed += (s, args) =>
             {
-                if (DetailFrame?.Content is IChatPage chatPage)
+                if (NavigationService?.ActiveContent is IChatPage chatPage)
                 {
                     chatPage.CompleteBannerAnimation(false);
                 }
@@ -526,7 +533,7 @@ namespace Telegram.Controls
 
             banner.StartAnimation("Translation.Y", translate);
 
-            if (CurrentState == MasterDetailState.Minimal && DetailFrame?.CurrentSourcePageType == BlankPageType)
+            if (CurrentState == MasterDetailState.Minimal && NavigationService?.CurrentPageType == BlankPageType)
             {
                 //translate.InsertKeyFrame(show ? 0 : 1, -48);
 
@@ -538,7 +545,7 @@ namespace Telegram.Controls
                 var detailVisual = ElementComposition.GetElementVisual(DetailPresenter);
                 detailVisual.Clip = detailVisual.Compositor.CreateInsetClip(0, -40, 0, 0);
 
-                if (DetailFrame.Content is IChatPage chatPage)
+                if (NavigationService.ActiveContent is IChatPage chatPage)
                 {
                     chatPage.StartBannerAnimation(translate, false);
                 }

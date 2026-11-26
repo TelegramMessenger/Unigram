@@ -90,6 +90,11 @@ namespace Telegram.Views
             View.Activate(viewModel);
         }
 
+        public void Park()
+        {
+            View.Park();
+        }
+
         public void PopupOpened()
         {
             View.PopupOpened();

@@ -533,6 +533,52 @@ namespace Telegram.Views
             _viewMessagesLastVisibleId = 0;
         }
 
+        // Parked: the page stands for the empty pane, until the next Activate. Hidden: collapsed,
+        // until the next chat has its messages in OnInitialized, which comes later.
+        private bool _parked;
+        private bool _hidden;
+
+        /// <summary>
+        /// Hides the view while the page stands for the empty pane, and does what unloading would
+        /// have: a collapsed view stays loaded, so OnUnloaded never runs for it.
+        /// </summary>
+        public void Park()
+        {
+            // The containers leave the panel here, as on a normal close, so the close pays for
+            // recycling the chat's rows rather than the next open. The layout has to run before
+            // collapsing: a collapsed panel lets them go only when it is shown again. Activate
+            // sets ItemsSource back.
+            Messages.Disconnect();
+            Messages.UpdateLayout();
+
+            // A protected chat blocks capture for the whole window, chat list included.
+            ViewModel?.NavigationService?.Window?.EnableScreenCapture(GetHashCode());
+            _forumViewModel?.SetChat(null);
+
+            // The window title reads it from the page as soon as the next chat unparks it, before
+            // that chat has set its own.
+            _pageTitle = null;
+            UpdatePageTitle();
+
+            _parked = true;
+            _hidden = true;
+            Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowParked()
+        {
+            if (_hidden)
+            {
+                _hidden = false;
+                Visibility = Visibility.Visible;
+
+                // OnLoaded focused the composer when a chat opened over the empty pane, and a
+                // shown view is not loaded again. Debounced, so it lands after the layout that
+                // makes it focusable: the focus ShowArea asked for may have come while collapsed.
+                TrySetFocusState(FocusState.Programmatic, false);
+            }
+        }
+
         public void Deactivate(bool navigation)
         {
             // Not a frame: whatever the list still owes is applied now, and whatever was captured
@@ -783,6 +829,10 @@ namespace Telegram.Views
                 _loader.Initialize(viewModel);
                 _messages.UpdateSource(viewModel.Items, viewModel.IsSavedMessagesTab);
 
+                // After the reset, never before it: a shown view lays out nested inside the reset
+                // and prepares containers in the middle of it.
+                ShowParked();
+
                 viewModel.Initialized -= OnInitialized;
 
                 if (!viewModel.HasProtectedContent)
@@ -820,6 +870,10 @@ namespace Telegram.Views
 
             DataContext = _viewModel = viewModel;
             Messages.ViewModel = viewModel;
+
+            // Still hidden until ShowParked, but input is the new chat's again: a key typed while
+            // it loads goes to its composer.
+            _parked = false;
 
             // The view outlives the chat, so the next chat's footer must be applied even when it
             // equals the last one: ShowArea also moves focus to the composer.
@@ -1623,6 +1677,13 @@ namespace Telegram.Views
 
         private void Window_Activated(object sender, Navigation.WindowActivatedEventArgs e)
         {
+            // The window events stay subscribed while parked, as the view is never unloaded, and
+            // the empty pane has no composer to focus or chat to save.
+            if (_parked)
+            {
+                return;
+            }
+
             // This window, not Window.Current: the event is raised by the window this view
             // belongs to, which in a secondary view is not the current one.
             var window = ViewModel.NavigationService.Window;
@@ -1667,7 +1728,7 @@ namespace Telegram.Views
 
         private void Window_VisibilityChanged(object sender, WindowVisibilityEventArgs e)
         {
-            if (e.IsVisible)
+            if (e.IsVisible && !_parked)
             {
                 var popups = VisualTreeHelper.GetOpenPopupsForXamlRoot(XamlRoot);
                 if (popups.Count > 0)
@@ -1716,6 +1777,12 @@ namespace Telegram.Views
 
         private void OnCharacterReceived(WindowContext sender, CharacterReceivedRoutedEventArgs args)
         {
+            // Typing over the empty pane searches the chat list, in MainPage.
+            if (_parked)
+            {
+                return;
+            }
+
             var character = args.Character;
             if ((char.IsControl(character) && character != '\u0016') || char.IsWhiteSpace(character))
             {

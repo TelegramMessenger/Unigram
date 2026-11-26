@@ -2431,6 +2431,29 @@ namespace Telegram.ViewModels
             }
         }
 
+        /// <summary>
+        /// For a chat or topic that is gone by the time it opens. Nothing loads after this, so the
+        /// page is closed rather than left standing empty.
+        /// </summary>
+        private void CloseInaccessible()
+        {
+            ShowToast(Strings.ChannelCantOpenPrivate, ToastPopupIcon.Error);
+
+            // Dispatched: this can run inside the frame's Navigated, which must not navigate again.
+            Dispatcher.Dispatch(GoBackFromInaccessible);
+        }
+
+        private void GoBackFromInaccessible()
+        {
+            // By now another chat may have replaced this one, and that one must stay open.
+            if (_navigatedFrom || NavigationService?.ActiveContent is not FrameworkElement { DataContext: var context } || context != this)
+            {
+                return;
+            }
+
+            NavigationService.GoBack();
+        }
+
         protected override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, NavigationState state)
         {
             _navigatedFrom = false;
@@ -2453,6 +2476,7 @@ namespace Telegram.ViewModels
                     }
                     else
                     {
+                        CloseInaccessible();
                         return;
                     }
 
@@ -2479,6 +2503,7 @@ namespace Telegram.ViewModels
                     }
                     else
                     {
+                        CloseInaccessible();
                         return;
                     }
                 }
@@ -2492,6 +2517,13 @@ namespace Telegram.ViewModels
                     else
                     {
                         DirectMessagesChatTopic = await ClientService.SendAsync(new GetDirectMessagesChatTopic(chatMessageTopic.ChatId, directMessagesChat.DirectMessagesChatTopicId)) as DirectMessagesChatTopic;
+
+                        if (DirectMessagesChatTopic == null)
+                        {
+                            CloseInaccessible();
+                            return;
+                        }
+
                         TopicId = new MessageTopicDirectMessages(DirectMessagesChatTopic.Id);
                     }
 
@@ -2515,6 +2547,7 @@ namespace Telegram.ViewModels
                     }
                     else
                     {
+                        CloseInaccessible();
                         return;
                     }
                 }
@@ -2531,6 +2564,7 @@ namespace Telegram.ViewModels
 
             if (chat == null)
             {
+                CloseInaccessible();
                 return;
             }
 

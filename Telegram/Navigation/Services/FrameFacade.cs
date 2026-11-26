@@ -50,25 +50,32 @@ namespace Telegram.Navigation.Services
                 NavigationService.CacheKeyToParameter[CurrentPageCacheKey] = parameter;
                 CurrentPageParam = parameter;
 
-                var args = new NavigatedEventArgs
+                RaiseNavigatedToListeners(new NavigatedEventArgs
                 {
                     NavigationMode = NavigationMode.Refresh,
                     SourcePageType = CurrentPageType,
                     Parameter = CurrentPageParam,
                     Content = Frame.Content as Page
-                };
+                });
+            }
+        }
 
-                if (Navigated is MulticastDelegate multicast)
+        /// <summary>
+        /// Raises <see cref="Navigated"/> for a navigation the frame did not make. The navigation
+        /// service's own handler is skipped: it is the one that reacts to the frame.
+        /// </summary>
+        public void RaiseNavigatedToListeners(NavigatedEventArgs args)
+        {
+            if (Navigated is MulticastDelegate multicast)
+            {
+                foreach (var handler in multicast.GetInvocationList())
                 {
-                    foreach (var handler in multicast.GetInvocationList())
+                    if (handler.Target is INavigationService)
                     {
-                        if (handler.Target is INavigationService)
-                        {
-                            continue;
-                        }
-
-                        handler.DynamicInvoke(Frame, args);
+                        continue;
                     }
+
+                    handler.DynamicInvoke(Frame, args);
                 }
             }
         }
@@ -172,6 +179,11 @@ namespace Telegram.Navigation.Services
 
             if (CanGoBack)
             {
+                if (NavigationService.TryPark())
+                {
+                    return;
+                }
+
                 NavigationModeHint = NavigationMode.Back;
 
                 if (infoOverride == null)
@@ -261,6 +273,11 @@ namespace Telegram.Navigation.Services
 
             if (CanGoForward)
             {
+                if (NavigationService.TryUnparkForward())
+                {
+                    return;
+                }
+
                 NavigationModeHint = NavigationMode.Forward;
                 Frame.GoForward();
             }

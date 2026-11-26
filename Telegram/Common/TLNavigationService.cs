@@ -60,6 +60,17 @@ namespace Telegram.Common
 
         public IClientService ClientService => _clientService;
 
+        protected override bool GoForwardToParked(object parameter)
+        {
+            if (this.TryGetChatFromParameter(parameter, out ChatMessageTopic target))
+            {
+                NavigateToChat(target.ChatId, topic: target.MessageTopic, force: false);
+                return true;
+            }
+
+            return false;
+        }
+
         public async void NavigateToTextEditor(long chatId, MessageTopic topic, long messageId, RichMessage message, InputMessageReplyTo replyTo = null, MessageSendOptions sendOptions = null)
         {
             var previous = Window;
@@ -595,13 +606,36 @@ namespace Telegram.Common
                             parameter = chat.Id;
                         }
 
-                        chatPage.ViewModel.NavigatedFrom(null, false);
+                        // A parked page was deactivated when it was parked. The view model is also
+                        // missing after a frame navigation out of the parking that then failed.
+                        var unparked = Unpark(chatPage, parameter);
+                        if (!unparked)
+                        {
+                            chatPage.ViewModel?.NavigatedFrom(null, false);
+                            chatPage.Deactivate(false);
+                        }
 
-                        chatPage.Deactivate(false);
                         chatPage.Activate(this);
-                        chatPage.ViewModel.NavigationService = this;
-                        chatPage.ViewModel.Dispatcher = Dispatcher;
-                        await chatPage.ViewModel.NavigatedToAsync(parameter, NavigationMode.New, state);
+
+                        var viewModel = chatPage.ViewModel;
+                        viewModel.NavigationService = this;
+                        viewModel.Dispatcher = Dispatcher;
+
+                        // Before the load, where a frame navigation raises it too: the BlankPage
+                        // entry goes back under the chat, so going back while it loads closes it.
+                        if (unparked)
+                        {
+                            RaiseUnparked(chatPage, parameter);
+                        }
+
+                        await viewModel.NavigatedToAsync(parameter, NavigationMode.New, state);
+
+                        // Closed, replaced by another chat or navigated away from while it loaded:
+                        // whatever came after owns the page and the stacks now.
+                        if (viewModel != chatPage.ViewModel || IsParked || Frame?.Content != chatPage)
+                        {
+                            return;
+                        }
 
                         FrameFacade.RaiseNavigated(parameter);
                         Frame.ForwardStack.Clear();

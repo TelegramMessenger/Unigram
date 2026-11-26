@@ -1129,7 +1129,7 @@ namespace Telegram.Views
             {
                 // Null once Dispose has run: switching or logging out the account tears this page
                 // down without waiting for the animation, and the batch still completes after it.
-                if (MasterDetail.NavigationService?.Content is IChatPage chatPage)
+                if (MasterDetail.NavigationService?.ActiveContent is IChatPage chatPage)
                 {
                     chatPage.CompleteBannerAnimation(true);
                 }
@@ -1165,7 +1165,7 @@ namespace Telegram.Views
 
             LayoutRoot.Margin = new(0, 0, 0, -40);
 
-            if (MasterDetail.NavigationService.Content is IChatPage chatPage)
+            if (MasterDetail.NavigationService.ActiveContent is IChatPage chatPage)
             {
                 chatPage.StartBannerAnimation(negative, true);
             }
@@ -1690,7 +1690,7 @@ namespace Telegram.Views
 
         private void OnCharacterReceived(WindowContext sender, CharacterReceivedRoutedEventArgs args)
         {
-            if (MasterDetail.NavigationService?.Frame.Content is not BlankPage)
+            if (MasterDetail.NavigationService?.CurrentPageType != typeof(BlankPage))
             {
                 return;
             }
@@ -1814,7 +1814,7 @@ namespace Telegram.Views
             }
             else if (command is ShortcutCommand.Search)
             {
-                if (MasterDetail.NavigationService.Frame.Content is ISearchablePage child)
+                if (MasterDetail.NavigationService.ActiveContent is ISearchablePage child)
                 {
                     child.Search();
                 }
@@ -2271,18 +2271,18 @@ namespace Telegram.Views
 
             ChatsList.UpdateViewState(MasterDetail.CurrentState);
 
-            var frame = MasterDetail.NavigationService.Frame;
-            var allowed = frame.CurrentSourcePageType == typeof(ChatPage) ||
-                frame.CurrentSourcePageType == typeof(ChatPinnedPage) ||
-                frame.CurrentSourcePageType == typeof(ChatScheduledPage) ||
-                frame.CurrentSourcePageType == typeof(ChatEventLogPage) ||
-                frame.CurrentSourcePageType == typeof(ChatBusinessRepliesPage) ||
-                frame.CurrentSourcePageType == typeof(ChatWelcomeMessagesPage) ||
-                frame.CurrentSourcePageType == typeof(BlankPage);
+            var current = MasterDetail.NavigationService.CurrentPageType;
+            var allowed = current == typeof(ChatPage) ||
+                current == typeof(ChatPinnedPage) ||
+                current == typeof(ChatScheduledPage) ||
+                current == typeof(ChatEventLogPage) ||
+                current == typeof(ChatBusinessRepliesPage) ||
+                current == typeof(ChatWelcomeMessagesPage) ||
+                current == typeof(BlankPage);
 
             var type = allowed ? BackgroundKind.Background : BackgroundKind.Material;
 
-            if (MasterDetail.CurrentState == MasterDetailState.Minimal && frame.CurrentSourcePageType == typeof(BlankPage))
+            if (MasterDetail.CurrentState == MasterDetailState.Minimal && current == typeof(BlankPage))
             {
                 type = BackgroundKind.None;
             }
@@ -3903,7 +3903,7 @@ namespace Telegram.Views
         {
             NavigationService.Window.SetTitleBar(null);
 
-            if (NavigationService.Frame.Content is IActivablePage page)
+            if (MasterDetail.NavigationService.ActiveContent is IActivablePage page)
             {
                 page.PopupOpened();
             }
@@ -3913,7 +3913,7 @@ namespace Telegram.Views
         {
             NavigationService.Window.SetTitleBar(TitleBarHandle);
 
-            if (NavigationService.Frame.Content is IActivablePage page)
+            if (MasterDetail.NavigationService.ActiveContent is IActivablePage page)
             {
                 page.PopupClosed();
             }

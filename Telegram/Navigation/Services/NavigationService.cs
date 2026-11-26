@@ -34,6 +34,8 @@ namespace Telegram.Navigation.Services
 
         object Content { get; }
 
+        object ActiveContent { get; }
+
         XamlRoot XamlRoot { get; }
 
         bool Navigate(Type page, object parameter = null, NavigationState state = null, NavigationTransitionInfo infoOverride = null, bool navigationStackEnabled = true);
@@ -225,6 +227,144 @@ namespace Telegram.Navigation.Services
             BackStack.Clear();
         }
 
+        // Going back from the only chat to BlankPage would take ChatPage out of the tree, for the
+        // next open to put it back. Instead the chat is parked: the page stays the frame's content
+        // with its view collapsed, the BlankPage entry under it is dropped, and the facade reports
+        // BlankPage, so CurrentPageType and ActiveContent see the empty pane. The next chat opens in
+        // place, as a switch does.
+        private ChatPage _parkedPage;
+        private object _parkedParameter;
+        private bool _leavingParked;
+
+        public bool IsParked => _parkedPage != null;
+
+        /// <summary>
+        /// The frame's content, or null while it holds a parked chat, which stands for the empty pane.
+        /// </summary>
+        public object ActiveContent => _parkedPage != null ? null : Frame?.Content;
+
+        /// <summary>
+        /// Parks the chat instead of going back, when going back would land on the empty pane.
+        /// True when the back navigation has been dealt with, parked or cancelled.
+        /// </summary>
+        public bool TryPark()
+        {
+            if (_parkedPage != null || _blocked || !AppSettings.Diagnostics.ParkChatPageDebug)
+            {
+                return false;
+            }
+
+            // Only the detail frame of a master puts BlankPage under a chat.
+            if (FrameFacade.Content is not ChatPage page || Frame.BackStackDepth != 1 || Frame.BackStack[0].SourcePageType != typeof(BlankPage))
+            {
+                return false;
+            }
+
+            if (page.DataContext is INavigable dataContext)
+            {
+                if (!NavigatingFrom(page, typeof(BlankPage), null, dataContext, false, NavigationMode.Back))
+                {
+                    return true;
+                }
+
+                NavigateFrom(page, dataContext, false);
+            }
+
+            page.Deactivate(false);
+            page.Park();
+
+            _parkedPage = page;
+            _parkedParameter = FrameFacade.CurrentPageParam;
+
+            RemoveFromBackStack(0);
+
+            // The entry going back would have left, so CanGoForward holds and the existing clears drop
+            // it. The frame never follows it: FrameFacade.GoForward reopens the parked page instead.
+            Frame.ForwardStack.Insert(0, new PageStackEntry(typeof(ChatPage), FrameFacade.CurrentPageCacheKey ?? _parkedParameter, null));
+
+            FrameFacade.CurrentPageType = typeof(BlankPage);
+            FrameFacade.CurrentPageParam = null;
+
+            // What BlankPage does when navigated to. Left applied, the closed chat's theme would be
+            // undone inside the next chat's first frame.
+            BlankPage.ResetChatTheme(this, page.ActualTheme, Session.Resolve<IClientService>(), Session.Resolve<IEventAggregator>());
+
+            var args = new NavigatedEventArgs
+            {
+                NavigationMode = NavigationMode.Back,
+                SourcePageType = typeof(BlankPage)
+            };
+
+            FrameFacade.RaiseNavigatedToListeners(args);
+            Navigated?.Invoke(this, args);
+            BackStackChanged?.Invoke(this, EventArgs.Empty);
+
+            // As OnNavigated does for a real back navigation.
+            OverlayWindow.TryHide(XamlRoot, ContentDialogResult.None);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Reopens the parked chat in place, for the forward entry parking left. False when nothing is
+        /// parked or the chat cannot be reopened, and the frame goes forward as usual.
+        /// </summary>
+        public bool TryUnparkForward()
+        {
+            return _parkedPage != null && GoForwardToParked(_parkedParameter);
+        }
+
+        protected virtual bool GoForwardToParked(object parameter)
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Makes the parked page current again for <paramref name="parameter"/>, deactivated, with
+        /// its view still collapsed: the view shows itself once the chat has its messages.
+        /// </summary>
+        protected bool Unpark(ChatPage page, object parameter)
+        {
+            if (page == null || page != _parkedPage)
+            {
+                return false;
+            }
+
+            _parkedPage = null;
+            _parkedParameter = null;
+
+            FrameFacade.CurrentPageType = typeof(ChatPage);
+            FrameFacade.CurrentPageParam = parameter;
+
+            // The frame's entry for the page still holds this key, and resolves it through the map.
+            if (FrameFacade.CurrentPageCacheKey is string cacheKey)
+            {
+                CacheKeyToParameter[cacheKey] = parameter;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Tells the listeners of both Navigated events that a parked page shows a chat again, as
+        /// <see cref="TryPark"/> told them it had gone. The frame did not move, so nothing else
+        /// would: the detail header, the window title, the background, the chat list's selection,
+        /// and the BlankPage entry that goes back under the chat.
+        /// </summary>
+        protected void RaiseUnparked(Page page, object parameter)
+        {
+            var args = new NavigatedEventArgs
+            {
+                NavigationMode = NavigationMode.New,
+                SourcePageType = typeof(ChatPage),
+                Parameter = parameter,
+                Content = page
+            };
+
+            FrameFacade.RaiseNavigatedToListeners(args);
+            Navigated?.Invoke(this, args);
+        }
+
         public NavigationService(ISession session, WindowContext window, Frame frame, string id)
         {
             Window = window;
@@ -241,6 +381,10 @@ namespace Telegram.Navigation.Services
             {
                 return;
             }
+
+            // Anything but a chat opened in place leaves the empty pane through the frame. The page
+            // goes out as the chat it was; OnNavigated takes the entry the frame pushes for it.
+            _leavingParked = Unpark(_parkedPage, _parkedParameter);
 
             if (FrameFacade.Content is Page page)
             {
@@ -280,6 +424,19 @@ namespace Telegram.Navigation.Services
 
         private async void OnNavigated(object sender, NavigatedEventArgs e)
         {
+            if (_leavingParked)
+            {
+                _leavingParked = false;
+
+                // Pushed for the parked chat, though the pane was empty. With the stack left empty,
+                // MasterDetailView puts BlankPage back under the new page.
+                var last = Frame.BackStackDepth - 1;
+                if (last >= 0 && Frame.BackStack[last].SourcePageType == typeof(ChatPage))
+                {
+                    RemoveFromBackStack(last);
+                }
+            }
+
             if (e.NavigationMode == NavigationMode.Back && Frame.ForwardStack.Count > 0)
             {
                 if (_unallowedTypes.Contains(Frame.ForwardStack[0].SourcePageType))
@@ -331,7 +488,9 @@ namespace Telegram.Navigation.Services
 
         public async void Resume()
         {
-            var page = FrameFacade.Content as Page;
+            // A parked page was deactivated when it was parked, and the pane it stands for has
+            // nothing to resume.
+            var page = _parkedPage == null ? FrameFacade.Content as Page : null;
             if (page != null)
             {
                 if (page is IActivablePage cleanup)
@@ -353,7 +512,7 @@ namespace Telegram.Navigation.Services
 
         public void Suspend()
         {
-            var page = FrameFacade.Content as Page;
+            var page = _parkedPage == null ? FrameFacade.Content as Page : null;
             if (page != null)
             {
                 // call navagable override (navigating)

@@ -269,6 +269,13 @@ namespace Telegram.Services.Settings
             set => AddOrUpdateValue(ref _connectedAnimationsDebug, "ConnectedAnimationsDebug", value);
         }
 
+        private bool? _parkChatPageDebug;
+        public bool ParkChatPageDebug
+        {
+            get => _parkChatPageDebug ??= GetValueOrDefault("ParkChatPageDebug", true);
+            set => AddOrUpdateValue(ref _parkChatPageDebug, "ParkChatPageDebug", value);
+        }
+
         public bool IsLastErrorDiskFull { get; set; }
     }
 }
