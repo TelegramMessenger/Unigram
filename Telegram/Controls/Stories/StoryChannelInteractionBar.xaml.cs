@@ -29,6 +29,8 @@ namespace Telegram.Controls.Stories
         private StoryViewModel _viewModel;
         public StoryViewModel ViewModel => _viewModel;
 
+        public StoryReactionButton ReactionButton => ReactButton;
+
         public StoryChannelInteractionBar()
         {
             InitializeComponent();

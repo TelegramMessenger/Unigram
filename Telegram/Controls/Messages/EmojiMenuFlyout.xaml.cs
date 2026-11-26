@@ -9,6 +9,7 @@ using System;
 using System.Numerics;
 using Telegram.Common;
 using Telegram.Controls.Drawers;
+using Telegram.Controls.Stories;
 using Telegram.Navigation;
 using Telegram.Services;
 using Telegram.Td.Api;
@@ -73,6 +74,8 @@ namespace Telegram.Controls.Messages
 
         public event EventHandler Opened;
 
+        public event EventHandler Closed;
+
         public static EmojiMenuFlyout ShowAt(FrameworkElement element, MessageViewModel message, IReactionsDelegate bubble, AvailableReactions reactions, EmojiDrawerViewModel viewModel)
         {
             return new EmojiMenuFlyout(element, message, bubble, reactions, viewModel);
@@ -112,6 +115,8 @@ namespace Telegram.Controls.Messages
                 var selector = element.GetParent<SelectorItem>();
                 selector?.Focus(FocusState.Keyboard);
             }
+
+            Closed?.Invoke(this, EventArgs.Empty);
         }
 
         public static EmojiMenuFlyout ShowAt(IClientService clientService, EmojiDrawerMode mode, FrameworkElement element, EmojiFlyoutAlignment alignment, EmojiDrawerViewModel viewModel = null)
@@ -131,12 +136,12 @@ namespace Telegram.Controls.Messages
             Initialize(clientService, element, alignment, viewModel);
         }
 
-        public static EmojiMenuFlyout ShowAt(FrameworkElement element, StoryViewModel story, FrameworkElement reserved, AvailableReactions reactions, EmojiDrawerViewModel viewModel)
+        public static EmojiMenuFlyout ShowAt(FrameworkElement element, StoryViewModel story, FrameworkElement reserved, AvailableReactions reactions, EmojiDrawerViewModel viewModel, EmojiFlyoutAlignment alignment = EmojiFlyoutAlignment.Center)
         {
-            return new EmojiMenuFlyout(element, story, reserved, reactions, viewModel);
+            return new EmojiMenuFlyout(element, story, reserved, reactions, viewModel, alignment);
         }
 
-        private EmojiMenuFlyout(FrameworkElement element, StoryViewModel story, FrameworkElement reserved, AvailableReactions reactions, EmojiDrawerViewModel viewModel)
+        private EmojiMenuFlyout(FrameworkElement element, StoryViewModel story, FrameworkElement reserved, AvailableReactions reactions, EmojiDrawerViewModel viewModel, EmojiFlyoutAlignment alignment)
         {
             InitializeComponent();
 
@@ -147,7 +152,7 @@ namespace Telegram.Controls.Messages
 
             _popup = new Popup();
 
-            Initialize(story.ClientService, element, EmojiFlyoutAlignment.Center, viewModel);
+            Initialize(story.ClientService, element, alignment, viewModel);
         }
 
         private void Initialize(IClientService clientService, FrameworkElement element, EmojiFlyoutAlignment alignment, EmojiDrawerViewModel viewModel = null)
@@ -613,11 +618,11 @@ namespace Telegram.Controls.Messages
             }
         }
 
-        private async void StoryToggleReaction(AvailableReaction reaction)
+        private void StoryToggleReaction(AvailableReaction reaction)
         {
             if (reaction.NeedsPremium && !_story.ClientService.IsPremium)
             {
-                ToastPopup.ShowFeaturePromo(WindowContext.GetNavigationService(this), new PremiumFeatureUniqueReactions());
+                ToastPopup.ShowFeaturePromo(WindowContext.GetNavigationService(_reserved ?? this), new PremiumFeatureUniqueReactions());
                 return;
             }
 
@@ -627,12 +632,14 @@ namespace Telegram.Controls.Messages
             }
             else
             {
-                await _story.ClientService.SendAsync(new SetStoryReaction(_story.PosterChatId, _story.Id, reaction.Type, true));
-
-                if (_reserved != null && _reserved.IsLoaded)
+                // Shown in the button at once, which plays its effect once the story is updated
+                // with it.
+                if (_reserved is StoryReactionButton target && target.IsLoaded)
                 {
-                    // TODO: UI feedback
+                    target.Choose(reaction.Type);
                 }
+
+                _story.ClientService.Send(new SetStoryReaction(_story.PosterChatId, _story.Id, reaction.Type, true));
             }
         }
 

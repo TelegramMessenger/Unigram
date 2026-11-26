@@ -54,6 +54,8 @@ namespace Telegram.Controls.Stories
             InitializeComponent();
             InitializeStickers();
 
+            ChannelInteractions.ReactionButton.ContextRequested += ButtonReact_ContextRequested;
+
             _stealthTimer = new DispatcherTimer();
             _stealthTimer.Interval = TimeSpan.FromSeconds(1);
             _stealthTimer.Tick += StealthTimer_Tick;
@@ -178,6 +180,10 @@ namespace Telegram.Controls.Stories
 
             IsHitTestVisible = false;
             ActiveCard?.Suspend(StoryPauseSource.Window);
+
+            // Their effects play in popups, which would outlive the window.
+            ButtonReact.Stop();
+            ChannelInteractions.ReactionButton.Stop();
 
             var layer = ElementComposition.GetElementVisual(Layer);
             var backButton = ElementComposition.GetElementVisual(BackButton);
@@ -363,7 +369,8 @@ namespace Telegram.Controls.Stories
 
         private void UpdateReactions(StoryViewModel story)
         {
-            if (_viewModel == null || _index < 0 || _index >= _viewModel.Items.Count)
+            // Closing already, when an effect started now would play over what is below.
+            if (_done || _viewModel == null || _index < 0 || _index >= _viewModel.Items.Count)
             {
                 return;
             }
@@ -376,6 +383,10 @@ namespace Telegram.Controls.Stories
             if (ChannelInteractions.Visibility == Visibility.Visible)
             {
                 ChannelInteractions.Update(story);
+            }
+            else if (TextArea.Visibility == Visibility.Visible)
+            {
+                ButtonReact.SetReaction(story);
             }
 
             ActiveCard?.UpdateSuggestedReactions(story);
@@ -474,6 +485,7 @@ namespace Telegram.Controls.Stories
                             ChannelInteractions.Visibility = Visibility.Collapsed;
                             TextArea.Visibility = Visibility.Visible;
 
+                            ButtonReact.SetReaction(selectedItem);
                             LiveInteractions.Unload();
                         }
                         else
@@ -1186,7 +1198,11 @@ namespace Telegram.Controls.Stories
                             || reactions.PopularReactions.Count > 0
                             || reactions.RecentReactions.Count > 0)
                         {
-                            ReactionsMenuFlyout.ShowAt(reactions, story, null, flyout);
+                            // Closing the menu resumes the story, which stays paused while the
+                            // picker expanded from it is open.
+                            var picker = ReactionsMenuFlyout.ShowAt(reactions, story, GetVisibleReactionButton(), flyout);
+                            picker.Expanding += (s, e) => ActiveCard.Suspend(StoryPauseSource.Popup);
+                            picker.Dismissed += (s, e) => ActiveCard.Resume(StoryPauseSource.Popup);
                         }
                     }
                 };
@@ -1376,6 +1392,51 @@ namespace Telegram.Controls.Stories
             }
         }
 
+        private async void ButtonReact_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+        {
+            args.Handled = true;
+
+            var story = _viewModel?.Items[_index].SelectedItem;
+            if (story == null || sender is not StoryReactionButton button)
+            {
+                return;
+            }
+
+            // Paused while loading too, so that the story the reactions are for is still on screen.
+            ActiveCard.Suspend(StoryPauseSource.Flyout);
+
+            var response = await story.ClientService.SendAsync(new GetStoryAvailableReactions(8));
+            if (response is AvailableReactions reactions
+                && reactions.TopReactions.Count + reactions.RecentReactions.Count + reactions.PopularReactions.Count > 0
+                && button.IsLoaded)
+            {
+                var flyout = ReactionsMenuFlyout.ShowAt(reactions, story, button);
+                flyout.Dismissed += (s, e) => ActiveCard.Resume(StoryPauseSource.Flyout);
+            }
+            else
+            {
+                ActiveCard.Resume(StoryPauseSource.Flyout);
+            }
+        }
+
+        /// <summary>
+        /// The button showing the reaction chosen for the story on screen, if any is visible, to
+        /// show a reaction chosen elsewhere at once.
+        /// </summary>
+        private StoryReactionButton GetVisibleReactionButton()
+        {
+            if (TextArea.Visibility == Visibility.Visible && ButtonReact.Visibility == Visibility.Visible)
+            {
+                return ButtonReact;
+            }
+            else if (ChannelInteractions.Visibility == Visibility.Visible && ChannelInteractions.ReactionButton.Visibility == Visibility.Visible)
+            {
+                return ChannelInteractions.ReactionButton;
+            }
+
+            return null;
+        }
+
         private void Flyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs args)
         {
             sender.Closing -= Flyout_Closing;
@@ -1518,6 +1579,11 @@ namespace Telegram.Controls.Stories
                 ButtonStickers.Source = empty
                     ? AppSettings.Stickers.SelectedTab
                     : Services.Settings.StickersTab.Emoji;
+
+                // As in the other apps, reacting gives way to sending while typing.
+                ButtonReact.Visibility = empty
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
             }
 
             FrameworkElement elementHide = null;

@@ -3392,27 +3392,40 @@
                                 <VisualState x:Name="CheckedDisabled" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid Margin="0,-4">
-                            <local:CustomEmojiIcon x:Name="Icon"
-                                                   CleanOnSourceChanged="False" />
-                            <Popup x:Name="Overlay"
-                                   IsHitTestVisible="False"
-                                   Margin="-32"
-                                   Width="96"
-                                   Height="96" />
-                        </Grid>
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Margin="0,-4">
+                                <local:CustomEmojiIcon x:Name="Icon"
+                                                       CleanOnSourceChanged="False" />
+                                <!-- Shown in place of the reaction while none is chosen, where the
+                                     button asks for it -->
+                                <TextBlock x:Name="Glyph"
+                                           Text="&#xE987;"
+                                           Foreground="#FFFFFF"
+                                           FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                           FontSize="{StaticResource GlyphLargeFontSize}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           AutomationProperties.AccessibilityView="Raw"
+                                           Visibility="Collapsed" />
+                                <Popup x:Name="Overlay"
+                                       IsHitTestVisible="False"
+                                       Margin="-32"
+                                       Width="96"
+                                       Height="96" />
+                            </Grid>
 
-                        <local:AnimatedTextBlock x:Name="Count"
-                                                 Foreground="#FFFFFF"
-                                                 VerticalAlignment="Center"
-                                                 AutomationProperties.AccessibilityView="Raw"
-                                                 IsTabStop="False"
-                                                 Margin="0,1,8,2"
-                                                 Grid.Column="1" />
+                            <local:AnimatedTextBlock x:Name="Count"
+                                                     Foreground="#FFFFFF"
+                                                     VerticalAlignment="Center"
+                                                     AutomationProperties.AccessibilityView="Raw"
+                                                     IsTabStop="False"
+                                                     Margin="0,1,8,2"
+                                                     Grid.Column="1" />
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
