@@ -269,5 +269,10 @@ namespace Telegram.Views.Profile
         {
             ViewModel.AddGiftsToCollection(ViewModel.SelectedCollection);
         }
+
+        private void ResetFilters_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetFilters();
+        }
     }
 }

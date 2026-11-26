@@ -13225,6 +13225,8 @@
     <string name="GiftsCollectionCreateNew">Create a New Collection</string>
     <string name="GiftsCollectionAddHint">Choose a name for your collection and add your gifts.</string>
     <string name="GiftsCollectionMenuRemoveFromCollection">Remove from Collection</string>
+    <string name="ProfileGiftsNotFoundTitle">No matching gifts</string>
+    <string name="ProfileGiftsNotFoundButton">View All Gifts</string>
     <string name="GiftsCollectionOrganizeTitle">Organize Your Gifts</string>
     <string name="GiftsCollectionOrganizeDescription">Add some of your gifts to this collection.</string>
     <string name="GiftAddedToCollectionTitle_one">{0} gift saved to **{1}**</string>

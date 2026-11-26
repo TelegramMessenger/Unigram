@@ -679,6 +679,34 @@ namespace Telegram.ViewModels.Profile
             }
         }
 
+        public bool HasFilters => _excludeUnsaved || _excludeSaved || _excludeUnlimited || _excludeUpgradable || _excludeNonUpgradable || _excludeUpgraded || _sortByPrice;
+
+        public void ResetFilters()
+        {
+            if (!HasFilters)
+            {
+                return;
+            }
+
+            _excludeUnsaved = false;
+            _excludeSaved = false;
+            _excludeUnlimited = false;
+            _excludeUpgradable = false;
+            _excludeNonUpgradable = false;
+            _excludeUpgraded = false;
+            _sortByPrice = false;
+
+            RaisePropertyChanged(nameof(ExcludeUnsaved));
+            RaisePropertyChanged(nameof(ExcludeSaved));
+            RaisePropertyChanged(nameof(ExcludeUnlimited));
+            RaisePropertyChanged(nameof(ExcludeUpgradable));
+            RaisePropertyChanged(nameof(ExcludeNonUpgradable));
+            RaisePropertyChanged(nameof(ExcludeUpgraded));
+            RaisePropertyChanged(nameof(SortByPrice));
+
+            Reload();
+        }
+
         /// <summary>
         /// Limits the list to gifts that can still be upgraded, as the type filters would; takes
         /// effect on the next load.
@@ -811,10 +839,10 @@ namespace Telegram.ViewModels.Profile
 
                     _viewModel.OnItemsReady();
 
-                    _collection.IsEmpty = Items.Count == 0;
-
                     HasMoreItems = !string.IsNullOrEmpty(_nextOffsetId);
                     IsLoaded = true;
+
+                    _collection.OnLoaded(Items.Count == 0);
 
                     _loading = false;
                     return new LoadMoreItemsResult
@@ -1517,6 +1545,7 @@ namespace Telegram.ViewModels.Profile
                 if (Set(ref _isEmpty, value))
                 {
                     RaisePropertyChanged(nameof(ShowEmptyState));
+                    RaisePropertyChanged(nameof(ShowNotFound));
                 }
             }
         }
@@ -1526,6 +1555,19 @@ namespace Telegram.ViewModels.Profile
         /// empty or filtered-out profile shows.
         /// </summary>
         public bool ShowEmptyState => _isEmpty && Id != 0 && _viewModel.IsOwned;
+
+        /// <summary>
+        /// Only an answer once the list has loaded: a reload empties it first.
+        /// </summary>
+        public bool ShowNotFound => _isEmpty && Id == 0 && _viewModel.HasFilters && Items.Source.IsLoaded;
+
+        // IsEmpty may already hold the answer from the reload that emptied the list, so the
+        // loaded state is raised whether it changed or not.
+        public void OnLoaded(bool empty)
+        {
+            IsEmpty = empty;
+            RaisePropertyChanged(nameof(ShowNotFound));
+        }
 
         //public void ReorderStories()
         //{
