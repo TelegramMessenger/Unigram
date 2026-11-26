@@ -57,11 +57,17 @@ namespace Telegram.ViewModels
             _translateService = translateService;
 
             _giftsTabViewModel.ItemsReady += Gifts_ItemsReady;
+            _giftsTabViewModel.PinnedGiftsChanged += Gifts_PinnedGiftsChanged;
 
             SetTimerCommand = new RelayCommand<int?>(SetTimer);
         }
 
         private void Gifts_ItemsReady(object sender, EventArgs e)
+        {
+            Delegate?.UpdateChatGifts(Chat);
+        }
+
+        private void Gifts_PinnedGiftsChanged(object sender, EventArgs e)
         {
             Delegate?.UpdateChatGifts(Chat);
         }

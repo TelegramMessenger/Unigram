@@ -40,6 +40,7 @@ namespace Telegram.ViewModels.Profile
         // The profile's pinned gifts in order, whichever collection or filter is on screen;
         // null until a pin operation needs it.
         private List<ReceivedGift> _pinned;
+        private IList<ReceivedGift> _pinnedGifts = Array.Empty<ReceivedGift>();
 
         public ProfileGiftsTabViewModel(IClientService clientService, ISettingsService settingsService, IEventAggregator aggregator)
             : base(clientService, settingsService, aggregator)
@@ -391,7 +392,7 @@ namespace Telegram.ViewModels.Profile
             var unpinned = !isSaved && IsPinned(receivedGiftId);
             if (unpinned && _pinned != null)
             {
-                _pinned = Without(_pinned, receivedGiftId);
+                SetPinned(Without(_pinned, receivedGiftId));
             }
 
             foreach (var collection in Collections)
@@ -438,7 +439,7 @@ namespace Telegram.ViewModels.Profile
             {
                 if (_pinned != null)
                 {
-                    _pinned = Without(_pinned, update.ReceivedGiftId);
+                    SetPinned(Without(_pinned, update.ReceivedGiftId));
                 }
 
                 foreach (var collection in Collections)
@@ -824,16 +825,41 @@ namespace Telegram.ViewModels.Profile
 
                     var total = 0u;
                     var limit = count == 3 ? 3 : 50;
+                    var first = !IsLoaded;
 
                     var response = await _viewModel.ClientService.SendAsync(new GetReceivedGifts(_ownerId, _collection.Id, _excludeUnsaved, _excludeSaved, _excludeUnlimited, _excludeUpgradable, _excludeNonUpgradable, _excludeUpgraded, false, false, _sortByPrice, _nextOffsetId, limit));
                     if (response is ReceivedGifts gifts)
                     {
                         _nextOffsetId = gifts.NextOffset;
 
+                        // Sorted by date with nothing left out, the first page opens with every
+                        // pinned gift, and the header needs no request of its own for them. They
+                        // are only known to be all of them once a gift that is not pinned follows.
+                        var leading = first && _collection.Id == 0 && !_excludeUnsaved && !_excludeSaved && !_excludeUnlimited && !_excludeUpgradable && !_excludeNonUpgradable && !_excludeUpgraded && !_sortByPrice;
+                        var complete = leading && string.IsNullOrEmpty(gifts.NextOffset);
+                        var pinned = leading ? new List<ReceivedGift>() : null;
+
                         foreach (var gift in gifts.Gifts)
                         {
-                            Add(_viewModel.GetOrCreate(gift));
+                            var item = _viewModel.GetOrCreate(gift);
+
+                            if (leading && item.IsPinned)
+                            {
+                                pinned.Add(item);
+                            }
+                            else if (leading)
+                            {
+                                leading = false;
+                                complete = true;
+                            }
+
+                            Add(item);
                             total++;
+                        }
+
+                        if (first)
+                        {
+                            _viewModel.OnFirstPage(complete ? pinned : null);
                         }
                     }
 
@@ -988,7 +1014,35 @@ namespace Telegram.ViewModels.Profile
                 pinned.Add(GetOrCreate(gift));
             }
 
-            return _pinned = pinned;
+            SetPinned(pinned);
+            return pinned;
+        }
+
+        /// <summary>
+        /// The pinned gifts the profile header shows. Unlike the list pinning works from, a reload
+        /// does not clear it, so the header keeps its gifts until the new list arrives.
+        /// </summary>
+        public IList<ReceivedGift> PinnedGifts => _pinnedGifts;
+
+        public event EventHandler PinnedGiftsChanged;
+
+        private void SetPinned(List<ReceivedGift> pinned)
+        {
+            _pinned = pinned;
+            _pinnedGifts = pinned;
+            PinnedGiftsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnFirstPage(List<ReceivedGift> pinned)
+        {
+            if (pinned != null)
+            {
+                SetPinned(pinned);
+            }
+            else if (_pinned == null)
+            {
+                _ = GetPinnedAsync();
+            }
         }
 
         public async Task<bool> IsPinLimitReachedAsync(ReceivedGift gift)
@@ -1128,7 +1182,7 @@ namespace Telegram.ViewModels.Profile
 
         private void ApplyPinned(List<ReceivedGift> pinned, List<ReceivedGift> updated)
         {
-            _pinned = updated;
+            SetPinned(updated);
 
             foreach (var gift in pinned)
             {

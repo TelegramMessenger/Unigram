@@ -722,6 +722,9 @@ namespace Telegram.Controls
             {
                 Identity.SetStatus(ViewModel.ClientService, chat, BotVerified);
             }
+
+            // The gift worn as the status leaves the cover.
+            GiftsCover.TransitionFraction = _verticalOffset / (32 + 140 + 96);
         }
 
         public void UpdateChatActiveStories(Chat chat)
