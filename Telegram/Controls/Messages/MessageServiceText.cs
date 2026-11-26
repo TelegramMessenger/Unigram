@@ -2791,7 +2791,7 @@ namespace Telegram.Controls.Messages
                     }
                     else if (replyTo.SuggestedPostInfo.Price is SuggestedPostPriceGram priceGram)
                     {
-                        return string.Format(Strings.SuggestedOfferRefundByAdminAmountF.ReplaceStar(Icons.Ton), sender, message.Chat.Title, priceGram.GramCentCount).AsFormattedText();
+                        return string.Format(Strings.SuggestedOfferRefundByAdminAmountF.ReplaceStar(Icons.Ton), sender, message.Chat.Title, TransferGiftPopup.FormatGram(priceGram.GramCentCount)).AsFormattedText();
                     }
                 }
                 else
@@ -2807,7 +2807,7 @@ namespace Telegram.Controls.Messages
                 }
                 else if (replyTo.SuggestedPostInfo.Price is SuggestedPostPriceGram priceGram)
                 {
-                    return string.Format(Strings.SuggestedOfferRefundByUserAmountF.ReplaceStar(Icons.Ton), sender, message.Chat.Title, priceGram.GramCentCount).AsFormattedText();
+                    return string.Format(Strings.SuggestedOfferRefundByUserAmountF.ReplaceStar(Icons.Ton), sender, message.Chat.Title, TransferGiftPopup.FormatGram(priceGram.GramCentCount)).AsFormattedText();
                 }
             }
             else
