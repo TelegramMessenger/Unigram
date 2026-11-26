@@ -1677,24 +1677,47 @@ namespace Telegram.ViewModels
                         var count = messages.MessagesValue.Count;
                         var outOfRange = fromMessageId != 0 && count > 0 && messages.MessagesValue[^1].Id > fromMessageId;
 
-                        if (outOfRange || count < 5)
+                        if (outOfRange || count == 0)
                         {
-                            var force = await ClientService.SendAsync(new GetChatHistory(chatId, fromMessageId, offset, limit, count > 0 && !outOfRange));
+                            var force = await ClientService.SendAsync(new GetChatHistory(chatId, fromMessageId, offset, limit, false));
                             if (force is Messages forceMessages)
                             {
-                                if (forceMessages.MessagesValue.Count == 0 && count > 0 && !outOfRange)
-                                {
-                                    force = await ClientService.SendAsync(new GetChatHistory(chatId, fromMessageId, offset, limit, false));
+                                return forceMessages;
+                            }
+                        }
+                        else if (count < 5)
+                        {
+                            // TDLib answers with the run of messages it holds in memory, which for a
+                            // chat it has unloaded is often the last message alone, and reads its
+                            // database only when that run is empty: asking again returns the same run.
+                            // Asking from the oldest one, with no offset, starts past it - the older
+                            // messages the first call began preloading, or the database. Local only,
+                            // so the open never waits on the server; the single-item follow-up in
+                            // LoadMessageSliceAsync still goes there when nothing is stored.
+                            var oldest = messages.MessagesValue[^1];
 
-                                    if (force is Messages forceMessages2)
+                            var older = await ClientService.SendAsync(new GetChatHistory(chatId, oldest.Id, 0, limit - count, true));
+                            if (older is Messages olderMessages && olderMessages.MessagesValue.Count > 0)
+                            {
+                                var combined = new Message[count + olderMessages.MessagesValue.Count];
+                                messages.MessagesValue.CopyTo(combined, 0);
+
+                                var length = count;
+
+                                foreach (var message in olderMessages.MessagesValue)
+                                {
+                                    if (message.Id < oldest.Id)
                                     {
-                                        return forceMessages2;
+                                        combined[length++] = message;
                                     }
                                 }
-                                else
+
+                                if (length != combined.Length)
                                 {
-                                    return forceMessages;
+                                    Array.Resize(ref combined, length);
                                 }
+
+                                messages.MessagesValue = combined;
                             }
                         }
                     }
@@ -1702,7 +1725,16 @@ namespace Telegram.ViewModels
                     return response;
                 }
 
-                func = GetChatHistoryAsync(chat.Id, fromMessageId, Constants.HistoryOffset, Constants.HistoryLimit, alignment == VerticalAlignment.Top);
+                // Nothing is newer than the last message, and TDLib takes an offset asking for newer
+                // messages there off the limit: -12 from the last message returned 13 of 24. A zero
+                // offset leaves out the message it starts from, so -1 keeps the last one in.
+                var historyOffset = fromMessageId == 0
+                    ? 0
+                    : fromMessageId == chat.LastMessage?.Id
+                    ? -1
+                    : Constants.HistoryOffset;
+
+                func = GetChatHistoryAsync(chat.Id, fromMessageId, historyOffset, Constants.HistoryLimit, alignment == VerticalAlignment.Top);
             }
 
             var response = await func;
