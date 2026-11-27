@@ -415,7 +415,20 @@ namespace Telegram.ViewModels.Supergroups
             var required = UpdateRequiredLevel(out var feature);
             if (required > status.Level)
             {
-                await ShowPopupAsync(new ChatBoostFeaturesPopup(ClientService, NavigationService, chat, status, null, _features, feature, required));
+                // Missing when the request in OnNavigatedToAsync failed or has not answered yet.
+                var features = _features;
+                if (features == null)
+                {
+                    var responseFeatures = await ClientService.SendAsync(new GetChatBoostFeatures(chat.Type is ChatTypeSupergroup { IsChannel: true }));
+                    if (responseFeatures is not ChatBoostFeatures loaded)
+                    {
+                        return;
+                    }
+
+                    features = loaded;
+                }
+
+                await ShowPopupAsync(new ChatBoostFeaturesPopup(ClientService, NavigationService, chat, status, null, features, feature, required));
                 return;
             }
 
