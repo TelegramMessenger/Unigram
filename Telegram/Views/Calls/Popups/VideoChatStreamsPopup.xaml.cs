@@ -58,13 +58,24 @@ namespace Telegram.Views.Calls.Popups
             Hide(ContentDialogResult.Primary);
         }
 
+        // The fields stay null until GetVideoChatRtmpUrl answers, and the buttons are live before that.
         private void CopyServer_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(ServerField.Text))
+            {
+                return;
+            }
+
             MessageHelper.CopyText(XamlRoot, ServerField.Text);
         }
 
         private void CopyKey_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(StreamKeyField.Text))
+            {
+                return;
+            }
+
             MessageHelper.CopyText(XamlRoot, StreamKeyField.Text);
         }
 
