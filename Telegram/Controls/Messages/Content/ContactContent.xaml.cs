@@ -7,7 +7,7 @@
 
 using System;
 using Telegram.Common;
-using Telegram.Streams;
+using Telegram.Services;
 using Telegram.Td.Api;
 using Telegram.ViewModels;
 using Telegram.Views.Users;
@@ -53,7 +53,6 @@ namespace Telegram.Controls.Messages.Content
         protected override void OnApplyTemplate()
         {
             AccentDash = GetTemplateChild(nameof(AccentDash)) as DashPath;
-            Pattern = GetTemplateChild(nameof(Pattern)) as MessageReplyPattern;
             Photo = GetTemplateChild(nameof(Photo)) as ProfilePicture;
             Title = GetTemplateChild(nameof(Title)) as TextBlock;
             Subtitle = GetTemplateChild(nameof(Subtitle)) as TextBlock;
@@ -130,8 +129,7 @@ namespace Telegram.Controls.Messages.Content
                 AccentDash.Stripe1 = default;
                 AccentDash.Stripe2 = default;
 
-                Pattern.Source = null;
-                Pattern.Model = null;
+                SetPattern(message.ClientService, 0, 0);
                 return;
             }
 
@@ -147,8 +145,7 @@ namespace Telegram.Controls.Messages.Content
                 AccentDash.Stripe1 = colors.Count > 1 ? colors[1] : default;
                 AccentDash.Stripe2 = colors.Count > 2 ? colors[2] : default;
 
-                Pattern.Source = new CustomEmojiFileSource(message.ClientService, giftColors.SymbolCustomEmojiId);
-                Pattern.Model = new CustomEmojiFileSource(message.ClientService, giftColors.ModelCustomEmojiId);
+                SetPattern(message.ClientService, giftColors.SymbolCustomEmojiId, giftColors.ModelCustomEmojiId);
                 return;
             }
 
@@ -174,17 +171,22 @@ namespace Telegram.Controls.Messages.Content
                 AccentDash.Stripe2 = default;
             }
 
-            var customEmojiId = user?.BackgroundCustomEmojiId ?? 0;
-            if (customEmojiId != 0)
+            SetPattern(message.ClientService, user?.BackgroundCustomEmojiId ?? 0, 0);
+        }
+
+        private void SetPattern(IClientService clientService, long source, long model)
+        {
+            if (Pattern == null)
             {
-                Pattern.Source = new CustomEmojiFileSource(message.ClientService, customEmojiId);
-                Pattern.Model = null;
+                if (!_templateApplied || (source == 0 && model == 0))
+                {
+                    return;
+                }
+
+                Pattern = GetTemplateChild(nameof(Pattern)) as MessageReplyPattern;
             }
-            else
-            {
-                Pattern.Source = null;
-                Pattern.Model = null;
-            }
+
+            Pattern.Update(clientService, source, model);
         }
 
         public void Recycle()

@@ -118,6 +118,7 @@
                                            Grid.RowSpan="2" />
 
                         <messages:MessageReplyPattern x:Name="Pattern"
+                                                      x:Load="False"
                                                       HorizontalAlignment="Right"
                                                       VerticalAlignment="Stretch"
                                                       BorderBrush="{TemplateBinding Background}"
