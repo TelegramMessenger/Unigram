@@ -3169,6 +3169,19 @@ namespace Telegram.Views
 
             var flyout = new MenuFlyout();
 
+            // A setting of the chat rather than a way to send, so it comes first, apart from the
+            // sends. Secret chats keep no composition parameters, so there is nothing to turn on.
+            if (chat.TextCompositionParameters != null)
+            {
+                flyout.CreateFlyoutItem(TurnOffAutoRewrite, Strings.AIEditorAutoRewriteTurnOff, Icons.AIToolsFilled);
+                flyout.CreateFlyoutSeparator();
+            }
+            else if (chat.Type is not ChatTypeSecret && !TextField.IsEmpty)
+            {
+                flyout.CreateFlyoutItem(OpenTextEditor, Strings.AIEditorRewriteWithAI, Icons.AIToolsFilled);
+                flyout.CreateFlyoutSeparator();
+            }
+
             if (_composer.Effect != null)
             {
                 flyout.CreateFlyoutItem(RemoveMessageEffect, Strings.RemoveEffect, Icons.Delete, destructive: true);
@@ -3202,6 +3215,32 @@ namespace Telegram.Views
         private void Send_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void TurnOffAutoRewrite()
+        {
+            var chat = ViewModel.Chat;
+            if (chat?.TextCompositionParameters == null)
+            {
+                return;
+            }
+
+            ViewModel.ClientService.Send(new SetChatTextCompositionParameters(chat.Id, null));
+            ShowAutoRewriteToast(false);
+        }
+
+        private void ShowAutoRewriteToast(bool enabled)
+        {
+            if (SendMessageButton.Visibility == Visibility.Collapsed)
+            {
+                return;
+            }
+
+            var text = enabled
+                ? string.Format("**{0}**\n{1}", Strings.AIEditorAutoRewriteOn, Strings.AIEditorAutoRewriteOnText)
+                : string.Format("**{0}**\n{1}", Strings.AIEditorAutoRewriteOff, Strings.AIEditorAutoRewriteOffText);
+
+            ToastPopup.Show(SendMessageButton, text, ToastPlacementMode.TopLeft, dismissAfter: TimeSpan.FromSeconds(3.5));
         }
 
         private void RemoveMessageEffect()
@@ -9162,7 +9201,18 @@ namespace Telegram.Views
 
         private void ButtonEditor_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.OpenTextEditor();
+            OpenTextEditor();
+        }
+
+        private async void OpenTextEditor()
+        {
+            // Only a change made here says so: the same change from another device arrives as an
+            // update, and gets no toast.
+            var turnedOn = await ViewModel.OpenTextEditorAsync();
+            if (turnedOn)
+            {
+                ShowAutoRewriteToast(true);
+            }
         }
 
         private void ButtonMaximize_Click(object sender, RoutedEventArgs e)

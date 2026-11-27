@@ -12773,6 +12773,12 @@
     <string name="AIEditorAlwaysUse">Always use in this chat</string>
     <string name="AIEditorAlwaysUseInfo">Every message you send in this chat will be rewritten with these settings.</string>
     <string name="AIEditorSendFailed">Couldn\'t rewrite the message. It wasn\'t sent.</string>
+    <string name="AIEditorRewriteWithAI">Rewrite with AI</string>
+    <string name="AIEditorAutoRewriteTurnOff">Turn Off Auto-Rewrite</string>
+    <string name="AIEditorAutoRewriteOn">Auto-Rewrite is ON</string>
+    <string name="AIEditorAutoRewriteOnText">Right-click to turn it off.</string>
+    <string name="AIEditorAutoRewriteOff">Auto-Rewrite is OFF</string>
+    <string name="AIEditorAutoRewriteOffText">Right-click to turn it on.</string>
     <string name="AIEditorStyleText">Add this style to instantly\nrewrite your messages.</string>
     <string name="AIEditorBefore">Before</string>
     <string name="AIEditorAfter">After</string>

@@ -4227,7 +4227,8 @@ namespace Telegram.ViewModels
             }
         }
 
-        public async void OpenTextEditor()
+        /// <returns>Whether the editor turned on the chat's "Always use in this chat".</returns>
+        public async Task<bool> OpenTextEditorAsync()
         {
             var popup = new TextEditorPopup(ClientService, NavigationService, Chat, GetFormattedText());
 
@@ -4238,7 +4239,10 @@ namespace Telegram.ViewModels
             if (confirm == ContentDialogResult.Primary && popup.Result != null)
             {
                 SetFormattedText(popup.Result);
+                return popup.TurnedOnAlwaysUse;
             }
+
+            return false;
         }
 
         public async void SendRichMessage()

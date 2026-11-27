@@ -83,6 +83,9 @@ namespace Telegram.Views.Popups
 
         public FormattedText Result { get; private set; }
 
+        /// <summary>Whether applying turned on the chat's "Always use in this chat", which was off.</summary>
+        public bool TurnedOnAlwaysUse { get; private set; }
+
         private void Handle(UpdateTextCompositionStyles update)
         {
             this.BeginOnUIThread(() =>
@@ -253,6 +256,7 @@ namespace Telegram.Views.Popups
                 return;
             }
 
+            TurnedOnAlwaysUse = _chat.TextCompositionParameters == null;
             _clientService.Send(new SetChatTextCompositionParameters(_chat.Id, parameters));
         }
 
