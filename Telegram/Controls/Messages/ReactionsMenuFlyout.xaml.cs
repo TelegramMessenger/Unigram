@@ -56,6 +56,7 @@ namespace Telegram.Controls.Messages
         // Set when shown on its own above an element rather than over a menu.
         private readonly FrameworkElement _anchor;
         private readonly bool _focusFirst;
+        private bool _restoreFocus = true;
         private bool _expanding;
 
         // The full picker for a story, while it is open in place of the strip or the menu.
@@ -143,10 +144,14 @@ namespace Telegram.Controls.Messages
 
         /// <summary>
         /// Closes the strip and the full picker expanded from it, which live in popups of their
-        /// own and so outlive whatever closes the element they were shown for.
+        /// own and so outlive whatever closes the element they were shown for. With
+        /// <paramref name="focus"/>, the anchor takes the focus back if they were opened from the
+        /// keyboard; without, the focus is left wherever it is, as other reactions may be taking
+        /// it by the time the popups report closing.
         /// </summary>
-        public void Hide()
+        public void Hide(bool focus)
         {
+            _restoreFocus = focus;
             _expanded?.Hide();
 
             if (_popup != null)
@@ -1136,7 +1141,7 @@ namespace Telegram.Controls.Messages
         private void RestoreFocus()
         {
             // Opened from the keyboard, the focus would otherwise leave with the popup.
-            if (_focusFirst && _anchor is Control anchor && anchor.IsLoaded)
+            if (_focusFirst && _restoreFocus && _anchor is Control anchor && anchor.IsLoaded)
             {
                 anchor.Focus(FocusState.Keyboard);
             }
