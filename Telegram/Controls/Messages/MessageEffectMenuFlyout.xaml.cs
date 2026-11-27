@@ -227,7 +227,7 @@ namespace Telegram.Controls.Messages
             pillShadow.BlurRadius = 16;
             pillShadow.Opacity = 0.14f;
             pillShadow.Color = Colors.Black;
-            pillShadow.Mask = Pill.GetAlphaMask();
+            pillShadow.Mask = OutlineMask.FromPath(Pill, new Vector2(width, height + yy + byy));
 
             var pillReceiver = compositor.CreateSpriteVisual();
             pillReceiver.Shadow = pillShadow;
