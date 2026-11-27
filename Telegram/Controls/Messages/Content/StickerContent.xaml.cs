@@ -124,20 +124,27 @@ namespace Telegram.Controls.Messages.Content
 
             using (Player.BeginBatchUpdate())
             {
+                Player.FrameSize = new Size((float)maxSize, (float)maxSize);
                 Player.LoopCount = autoPlayStickers || autoPlayEmojis ? 0 : 1;
-                Player.Source = new DelayedFileSource(_message.ClientService, sticker)
+
+                var fitzModifier = message.Content is MessageAnimatedEmoji animatedEmoji2 ? animatedEmoji2.AnimatedEmoji.FitzpatrickType switch
                 {
-                    FitzModifier = message.Content is MessageAnimatedEmoji animatedEmoji2 ? animatedEmoji2.AnimatedEmoji.FitzpatrickType switch
+                    1 => FitzModifier.Type12,
+                    2 => FitzModifier.Type12,
+                    3 => FitzModifier.Type3,
+                    4 => FitzModifier.Type4,
+                    5 => FitzModifier.Type5,
+                    6 => FitzModifier.Type6,
+                    _ => FitzModifier.None
+                } : FitzModifier.None;
+
+                if (Player.Source is not DelayedFileSource source || source.Id != sticker.StickerValue.Id || source.FitzModifier != fitzModifier)
+                {
+                    Player.Source = new DelayedFileSource(_message.ClientService, sticker)
                     {
-                        1 => FitzModifier.Type12,
-                        2 => FitzModifier.Type12,
-                        3 => FitzModifier.Type3,
-                        4 => FitzModifier.Type4,
-                        5 => FitzModifier.Type5,
-                        6 => FitzModifier.Type6,
-                        _ => FitzModifier.None
-                    } : FitzModifier.None
-                };
+                        FitzModifier = fitzModifier
+                    };
+                }
             }
 
             if (sticker.StickerValue.Local.IsDownloadingCompleted)
