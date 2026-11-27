@@ -299,6 +299,13 @@ namespace Telegram.Views
 
         private void UpdateBackButton()
         {
+            // The header can be laid out before navigation hands the page its view model.
+            // UpdateChat calls this again once there is one.
+            if (ViewModel == null)
+            {
+                return;
+            }
+
             BackButton.RequestedTheme = ScrollingHost.VerticalOffset >= ProfileHeader.OccludedHeight
                 ? ElementTheme.Default
                 : ProfileHeader.HeaderTheme;
