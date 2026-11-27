@@ -162,14 +162,13 @@ namespace Telegram.Controls.Stories
 
         private bool _done;
 
-        // The quick reactions open for the story on screen, from its menu or a reaction button,
-        // and the card they keep paused, with the pause they hold on it.
+        // The quick reactions open, or loading, for the story on screen, from its menu or a
+        // reaction button, and the card they keep paused, if any. Each request for them is
+        // numbered, to tell whether it was replaced or closed while loading.
         private ReactionsMenuFlyout _reactionsFlyout;
+        private StoryViewModel _reactionsStory;
         private StoryContent _reactionsCard;
-        private StoryPauseSource? _reactionsPause;
-
-        // Reactions being loaded for a reaction button, which keep the story paused meanwhile.
-        private int _reactionsLoading;
+        private int _reactionsRequest;
 
         protected override void OnBackRequestedOverride(object sender, BackRequestedRoutedEventArgs e)
         {
@@ -469,7 +468,7 @@ namespace Telegram.Controls.Stories
                         var selectedItem = viewModel.Items[real].SelectedItem;
 
                         // Offered for another story, the reactions would react to it out of view.
-                        if (_reactionsFlyout != null && !IsSameStory(_reactionsFlyout.Story, selectedItem))
+                        if (_reactionsStory != null && !IsSameStory(_reactionsStory, selectedItem))
                         {
                             CloseReactions(true, false);
                         }
@@ -1237,6 +1236,7 @@ namespace Telegram.Controls.Stories
                             picker.Dismissed += MenuReactions_Dismissed;
 
                             _reactionsFlyout = picker;
+                            _reactionsStory = story;
                         }
                     }
                 };
@@ -1441,12 +1441,23 @@ namespace Telegram.Controls.Stories
             // Opened from the keyboard, with no pointer position, the reactions take the focus.
             var keyboard = !args.TryGetPosition(button, out _);
 
-            // Paused while loading too, so that the story the reactions are for is still on screen.
-            card.Suspend(StoryPauseSource.Flyout);
+            // One at a time: these replace the reactions open, which keep the story paused for
+            // them if it is the same card, and are paused while loading too, so that the story
+            // they are for is still on screen.
+            CloseReactions(_reactionsCard != card, false);
 
-            _reactionsLoading++;
+            _reactionsStory = story;
+            _reactionsCard = card;
+            card.Suspend(StoryPauseSource.Reactions);
+
+            var request = _reactionsRequest;
             var response = await story.ClientService.SendAsync(new GetStoryAvailableReactions(8));
-            _reactionsLoading--;
+
+            // Closed or replaced meanwhile, by whatever gave the pause back or holds it now.
+            if (request != _reactionsRequest)
+            {
+                return;
+            }
 
             // The viewer may have closed, or moved to another story, in the meantime.
             if (response is AvailableReactions reactions
@@ -1454,21 +1465,14 @@ namespace Telegram.Controls.Stories
                 && button.IsLoaded
                 && IsSameStory(story, GetSelectedStory()))
             {
-                // One at a time: closing the one open resumes its story, paused again for this one.
-                CloseReactions(true, false);
-                card.Suspend(StoryPauseSource.Flyout);
-
                 var flyout = ReactionsMenuFlyout.ShowAt(reactions, story, button, keyboard);
                 flyout.Dismissed += ButtonReactions_Dismissed;
 
                 _reactionsFlyout = flyout;
-                _reactionsCard = card;
-                _reactionsPause = StoryPauseSource.Flyout;
             }
-            else if (_reactionsLoading == 0 && (_reactionsCard != card || _reactionsPause != StoryPauseSource.Flyout))
+            else
             {
-                // Unless other reactions, open or still loading, hold the same pause.
-                card.Resume(StoryPauseSource.Flyout);
+                ReleaseReactions();
             }
         }
 
@@ -1514,8 +1518,7 @@ namespace Telegram.Controls.Stories
 
             // The menu closing resumes the story, which stays paused while the picker is open.
             _reactionsCard = ActiveCard;
-            _reactionsPause = StoryPauseSource.Popup;
-            _reactionsCard?.Suspend(StoryPauseSource.Popup);
+            _reactionsCard?.Suspend(StoryPauseSource.Reactions);
         }
 
         private void MenuReactions_Dismissed(object sender, EventArgs e)
@@ -1541,40 +1544,40 @@ namespace Telegram.Controls.Stories
         }
 
         /// <summary>
-        /// Closes the reactions open, if any, at once rather than when their popups report it.
-        /// With <paramref name="resume"/>, the story they kept paused resumes, and with
+        /// Closes the reactions open or loading, if any, at once rather than when their popups
+        /// report it. With <paramref name="resume"/>, the story they kept paused resumes, and with
         /// <paramref name="focus"/>, the button they were opened from with the keyboard takes the
         /// focus back.
         /// </summary>
         private void CloseReactions(bool resume, bool focus)
         {
             var flyout = _reactionsFlyout;
-            if (flyout == null)
+            if (flyout != null)
             {
-                return;
+                flyout.Expanding -= MenuReactions_Expanding;
+                flyout.Dismissed -= MenuReactions_Dismissed;
+                flyout.Dismissed -= ButtonReactions_Dismissed;
             }
 
-            flyout.Expanding -= MenuReactions_Expanding;
-            flyout.Dismissed -= MenuReactions_Dismissed;
-            flyout.Dismissed -= ButtonReactions_Dismissed;
-
             ReleaseReactions(resume);
-            flyout.Hide(focus);
+            flyout?.Hide(focus);
         }
 
         private void ReleaseReactions(bool resume = true)
         {
             var card = _reactionsCard;
-            var pause = _reactionsPause;
 
             _reactionsFlyout = null;
+            _reactionsStory = null;
             _reactionsCard = null;
-            _reactionsPause = null;
+
+            // Reactions still loading are dropped when they arrive.
+            _reactionsRequest++;
 
             // Closed along with the window, which stays paused.
-            if (resume && !_done && pause is StoryPauseSource source)
+            if (resume && !_done)
             {
-                card?.Resume(source);
+                card?.Resume(StoryPauseSource.Reactions);
             }
         }
 
@@ -1826,7 +1829,8 @@ namespace Telegram.Controls.Stories
         Interaction = 1 << 6,
         Caption = 1 << 7,
         Window = 1 << 8,
-        Live = 1 << 9
+        Live = 1 << 9,
+        Reactions = 1 << 0
     }
 
     enum Direction

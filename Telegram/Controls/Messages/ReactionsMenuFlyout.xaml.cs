@@ -133,11 +133,6 @@ namespace Telegram.Controls.Messages
         public event EventHandler Dismissed;
 
         /// <summary>
-        /// The story the reactions are offered for, if any.
-        /// </summary>
-        public StoryViewModel Story => _story;
-
-        /// <summary>
         /// Whether the strip, or the full picker expanded from it, is still open.
         /// </summary>
         public bool IsOpen => _popup?.IsOpen is true || _expanded != null;
