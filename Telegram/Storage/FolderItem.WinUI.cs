@@ -56,9 +56,9 @@ namespace Telegram.Storage
             return (await Source.TryGetItemAsync(name)).ToFileSystemItem();
         }
 
-        public async Task<IReadOnlyList<FileItem>> GetFilesAsync()
+        public Task<IReadOnlyList<FileItem>> GetFilesAsync()
         {
-            return (await Source.GetFilesAsync()).ToFileItems();
+            return Source.GetFilesAsync().ToFileItemsAsync();
         }
 
         public async Task<FileItem> CreateFileAsync(string desiredName)

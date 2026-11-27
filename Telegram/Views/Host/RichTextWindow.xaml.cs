@@ -1015,7 +1015,7 @@ namespace Telegram.Views.Host
             {
                 if (content.Contains(StandardDataFormats.StorageItems))
                 {
-                    var items = (await content.GetStorageItemsAsync()).ToFileSystemItems();
+                    var items = await content.GetStorageItemsAsync().ToFileSystemItemsAsync();
                     await InsertFilesAsync(items, false);
                 }
                 else if (content.Contains(StandardDataFormats.Bitmap))
