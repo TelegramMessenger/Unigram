@@ -603,16 +603,13 @@
                                          Foreground="{ThemeResource DangerButtonForeground}"
                                          Glyph="&#xE98B;" />
 
-                <Border x:Name="BotMainApp"
+                <Button x:Name="BotMainApp"
                         Visibility="Collapsed"
-                        Background="{ThemeResource SettingsItemBackground}">
-                    <Button Click="{x:Bind ViewModel.OpenMainWebApp}"
-                            Content="{CustomResource ProfileBotOpenApp}"
-                            Style="{StaticResource AccentButtonStyle}"
-                            HorizontalAlignment="Stretch"
-                            Margin="12"
-                            Height="36" />
-                </Border>
+                        Click="{x:Bind ViewModel.OpenMainWebApp}"
+                        Content="{CustomResource ProfileBotOpenApp}"
+                        Style="{StaticResource AccentButtonStyle}"
+                        HorizontalAlignment="Stretch"
+                        Height="36" />
             </controls:HeaderedControl>
 
             <Grid x:Name="BotVerifiedRoot"
