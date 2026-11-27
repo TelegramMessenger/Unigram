@@ -68,6 +68,10 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <!-- TODO: Hide in forward popup -->
+        <Border x:Name="ChatFoldersShadow"
+                CornerRadius="16"
+                Height="32"
+                Margin="16,4,16,4" />
         <controls:TopNavView x:Name="ChatFolders"
                              ItemsSource="{x:Bind ViewModel.Tabs}"
                              SelectedIndex="{x:Bind ViewModel.SelectedTab, Mode=TwoWay}"
@@ -76,11 +80,9 @@
                              FocusFollowsSingleSelection="True"
                              SingleSelectionFollowsFocus="False"
                              Height="32"
-                             Margin="16,6,16,2"
+                             Margin="16,4,16,4"
                              Padding="2,0"
-                             Background="{ThemeResource TextControlBackground}"
-                             BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
-                             BorderThickness="1"
+                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                              CornerRadius="16">
             <controls:TopNavView.ItemContainerStyle>
                 <Style TargetType="controls:TopNavViewItem">

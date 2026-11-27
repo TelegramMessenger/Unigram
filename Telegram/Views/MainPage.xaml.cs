@@ -86,6 +86,7 @@ namespace Telegram.Views
         private DateTime _bannerHintsDate;
 
         private readonly ThemeShadowEx _navigationShadow;
+        private ThemeShadowEx _chatFoldersShadow;
 
         public MainPage()
         {
@@ -118,6 +119,7 @@ namespace Telegram.Views
             RootGrid.CreateInsetClip(0, -40, 0, 0);
 
             ChatsList.RegisterPropertyChangedCallback(ListViewBase.SelectionModeProperty, List_SelectionModeChanged);
+            ChatsList.RegisterPropertyChangedCallback(MarginProperty, ChatsList_MarginChanged);
 
             //var show = !((TLViewModelBase)ViewModel).Settings.CollapseArchivedChats;
             //ArchivedChatsCompactPanel.Visibility = show ? Visibility.Collapsed : Visibility.Visible;
@@ -130,10 +132,12 @@ namespace Telegram.Views
             ElementCompositionPreview.SetIsTranslationEnabled(SearchField, true);
             ElementCompositionPreview.SetIsTranslationEnabled(ChatsList, true);
 
-            // A row that is alone slides in from above the panel, which nothing covers here.
-            BannerMaster.CreateInsetClip();
+            // A row that is alone slides in from above the panel, which nothing covers here, so
+            // only the top stays at the bounds. The other sides leave room for the card's shadow.
+            var shadowInsets = ThemeShadowEx.GetInsets(Constants.BubbleElevation);
+            BannerMaster.CreateInsetClip((float)-shadowInsets.Left, 0, (float)-shadowInsets.Right, (float)-shadowInsets.Bottom);
 
-            _navigationShadow = new ThemeShadowEx(Navigation, Constants.BubbleElevation);
+            _navigationShadow = new ThemeShadowEx(NavigationShadow, Constants.BubbleElevation);
 
             if (AppSettings.Diagnostics.ShowMemoryUsage)
             {
@@ -919,7 +923,11 @@ namespace Telegram.Views
             _bannerHeight = height;
             Stories.BannerHeight = height;
 
+            var card = GetBannerCardHeight();
+            _bannerHoleHeight = animate ? Math.Max(_bannerHoleHeight, card) : card;
+
             UpdateTopicListMargin();
+            UpdateChatsGhostHoles();
 
             var visual = ElementComposition.GetElementVisual(ChatsList);
 
@@ -962,7 +970,17 @@ namespace Telegram.Views
             {
                 _bannerBatch = null;
                 ChatsList.Margin = new Thickness(0, Stories.TopPadding, 0, 0);
+
+                _bannerHoleHeight = GetBannerCardHeight();
+                UpdateChatsGhostHoles();
             }
+        }
+
+        private float GetBannerCardHeight()
+        {
+            return _bannerHeight > 0
+                ? _bannerHeight - (float)(BannerMaster.Margin.Top + BannerMaster.Margin.Bottom)
+                : 0;
         }
 
         // Summed from the rows rather than read from the panel, which keeps measuring a row
@@ -1197,7 +1215,7 @@ namespace Telegram.Views
 
         private void UpdateNavigationBar()
         {
-            Navigation.Visibility = AppSettings.Appearance.DisableNavigationBar
+            NavigationRoot.Visibility = AppSettings.Appearance.DisableNavigationBar
                 ? Visibility.Collapsed
                 : Visibility.Visible;
 
@@ -1218,6 +1236,8 @@ namespace Telegram.Views
 
             _tabsTopCollapsed = !show;
             FindName(nameof(ChatTabs));
+
+            _chatFoldersShadow ??= new ThemeShadowEx(ChatFoldersShadow, Constants.BubbleElevation);
 
             UpdateTopicListMargin();
 
@@ -1249,7 +1269,11 @@ namespace Telegram.Views
 
             var visual = ElementComposition.GetElementVisual(DialogsPanel);
             var header = ElementComposition.GetElementVisual(ChatTabsView);
-            header.Clip = visual.Compositor.CreateInsetClip();
+
+            // Only the top inset is animated, and the clip outlives the animation: the other sides
+            // leave room for the island's shadow.
+            var insets = ThemeShadowEx.GetInsets(Constants.BubbleElevation);
+            header.Clip = visual.Compositor.CreateInsetClip((float)-insets.Left, 0, (float)-insets.Right, (float)-insets.Bottom);
 
             var batch = visual.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
             batch.Completed += (s, args) =>
@@ -2424,6 +2448,8 @@ namespace Telegram.Views
             BackButton.Visibility = _backButtonCollapsed
                 ? Visibility.Collapsed
                 : Visibility.Visible;
+
+            UpdateChatsGhostHoles();
         }
 
         private void UpdateListViewsSelectedItem(ChatMessageTopic openChat, bool fromSelection = false)
@@ -2796,6 +2822,7 @@ namespace Telegram.Views
                 if (_searchCollapsed)
                 {
                     DialogsSearchPanel.Deactivate();
+                    UpdateChatsGhostHoles();
                 }
             };
 
@@ -4379,12 +4406,298 @@ namespace Telegram.Views
                 return;
             }
 
+            _chatsGhost ??= CreateChatsGhost(element);
+            UpdateChatsGhost();
+            UpdateChatsGhostHoles();
+
             var chats = ElementComposition.GetElementVisual(element);
             if (chats.Clip is InsetClip inset && inset.RightInset != 0 && TopicListPresenter != null)
             {
                 inset.RightInset = TopicListPresenter.ActualSize.X;
             }
         }
+
+        #region Rows under the header
+
+        // The rows scroll on under the tabs and the banner cards, fading into whatever the window's
+        // backdrop is. Mica cannot be sampled, so rather than draw it over the rows, the rows are
+        // drawn again, faded: the list's ScrollViewer renders outside its bounds, a clip on the list's
+        // own visual hides that part, and a surface sourced from the template root - the clip's child,
+        // which it does not reach - copies it under the header. Rows outside the bounds are not
+        // hit-testable, so nothing there can be clicked through the cards.
+
+        private ContainerVisual _chatsGhost;
+        private CompositionVisualSurface _chatsGhostSurface;
+        private CompositionLinearGradientBrush _chatsGhostMask;
+        private Vector2 _chatsGhostSize;
+        private float _chatsGhostTitle;
+
+        // The islands are a light tint over the backdrop, too faint to hide the rows, and any fill
+        // strong enough to hide them is a flat colour that Mica's tint does not reach. So the copy
+        // leaves out each island's shape instead: the rows go past them, never through them. A
+        // visual takes one clip and nested clips intersect, so each hole has a layer of its own.
+        private ContainerVisual _chatsGhostTabsLayer;
+        private ContainerVisual _chatsGhostBannerLayer;
+
+        private ChatsGhostHole _searchHole;
+        private ChatsGhostHole _tabsHole;
+        private ChatsGhostHole _bannerHole;
+
+        private Border _searchBorder;
+
+        // The card's height for its hole, which stays fixed while the rows slide: the new height at
+        // once when the card grows, the old one until the rows are done when it shrinks. Either way
+        // the hole only reaches past the card below the copy, whose bottom slides with the card's.
+        private float _bannerHoleHeight;
+
+        private ContainerVisual CreateChatsGhost(UIElement root)
+        {
+            var visual = ElementComposition.GetElementVisual(ChatsList);
+            var compositor = visual.Compositor;
+
+            // The same clip ToggleArchive and ShowHideArchive put here.
+            visual.Clip = compositor.CreateInsetClip();
+            visual.Properties.InsertVector3("Translation", Vector3.Zero);
+
+            _chatsGhostSurface = compositor.CreateVisualSurface();
+            _chatsGhostSurface.SourceVisual = ElementComposition.GetElementVisual(root);
+
+            var source = compositor.CreateSurfaceBrush(_chatsGhostSurface);
+            source.Stretch = CompositionStretch.Fill;
+
+            // ChatView's curve, inverted and run down to nothing. What its ramp leaves showing there is
+            // under the header, an island; here it would be under the title bar, which is not one.
+            _chatsGhostMask = compositor.CreateLinearGradientBrush();
+            _chatsGhostMask.MappingMode = CompositionMappingMode.Absolute;
+            _chatsGhostMask.ColorStops.Add(compositor.CreateColorGradientStop(0, Color.FromArgb(255, 255, 255, 255)));
+            //_chatsGhostMask.ColorStops.Add(compositor.CreateColorGradientStop(1 / 3f, Color.FromArgb(150, 255, 255, 255)));
+            //_chatsGhostMask.ColorStops.Add(compositor.CreateColorGradientStop(2 / 3f, Color.FromArgb(62, 255, 255, 255)));
+            //_chatsGhostMask.ColorStops.Add(compositor.CreateColorGradientStop(1, Color.FromArgb(0, 255, 255, 255)));
+            _chatsGhostMask.ColorStops.Add(compositor.CreateColorGradientStop(1 / 3f, Color.FromArgb(160, 255, 255, 255)));
+            _chatsGhostMask.ColorStops.Add(compositor.CreateColorGradientStop(2 / 3f, Color.FromArgb(49, 255, 255, 255)));
+            _chatsGhostMask.ColorStops.Add(compositor.CreateColorGradientStop(1, Color.FromArgb(24, 255, 255, 255)));
+
+            var brush = compositor.CreateMaskBrush();
+            brush.Source = source;
+            brush.Mask = _chatsGhostMask;
+
+            var sprite = compositor.CreateSpriteVisual();
+            sprite.Brush = brush;
+            sprite.RelativeSizeAdjustment = Vector2.One;
+
+            _chatsGhostBannerLayer = compositor.CreateContainerVisual();
+            _chatsGhostBannerLayer.RelativeSizeAdjustment = Vector2.One;
+            _chatsGhostBannerLayer.Children.InsertAtTop(sprite);
+
+            _chatsGhostTabsLayer = compositor.CreateContainerVisual();
+            _chatsGhostTabsLayer.RelativeSizeAdjustment = Vector2.One;
+            _chatsGhostTabsLayer.Children.InsertAtTop(_chatsGhostBannerLayer);
+
+            // The outermost layer takes the search field's hole.
+            var ghost = compositor.CreateContainerVisual();
+            ghost.Children.InsertAtTop(_chatsGhostTabsLayer);
+
+            // The list is slid by its Translation, by the banner rows and the stories; the copy goes with it.
+            var follow = compositor.CreateExpressionAnimation("Vector3(0, list.Translation.Y, 0)");
+            follow.SetReferenceParameter("list", visual);
+            ghost.StartAnimation("Offset", follow);
+
+            ElementCompositionPreview.SetElementChildVisual(ChatsGhost, ghost);
+            return ghost;
+        }
+
+        // Each hole is placed where layout puts its island, and its expression adds what composition
+        // moves on top: the stories slide the header, the tabs and the banner, the back button slides
+        // the field and stretches its border from the left, and the copy itself moves with the list.
+        // The expressions read these before anything has animated them, hence EnsureTranslation.
+        // Read again when the back button and the search panel finish animating: closing the search
+        // resizes the field while both are still moving, and the origin read then is off.
+        private void UpdateChatsGhostHoles()
+        {
+            if (_chatsGhost == null)
+            {
+                return;
+            }
+
+            var compositor = _chatsGhost.Compositor;
+
+            _searchBorder ??= SearchField.GetChild<Border>(x => x.Name == "BorderElement");
+
+            if (_searchBorder != null)
+            {
+                if (_searchHole == null)
+                {
+                    var field = ElementComposition.GetElementVisual(SearchField);
+                    var header = ElementComposition.GetElementVisual(Header);
+
+                    ElementCompositionPreview.SetIsTranslationEnabled(Header, true);
+                    EnsureTranslation(header);
+                    EnsureTranslation(field);
+
+                    var offset = compositor.CreateExpressionAnimation("Vector2(_.Origin.X + field.Translation.X, _.Origin.Y + header.Translation.Y + field.Translation.Y - list.Translation.Y)");
+                    offset.SetReferenceParameter("field", field);
+                    offset.SetReferenceParameter("header", header);
+                    offset.SetReferenceParameter("list", ElementComposition.GetElementVisual(ChatsList));
+
+                    _searchHole = new ChatsGhostHole(_chatsGhost, offset);
+
+                    var scale = compositor.CreateExpressionAnimation("Vector2(border.Scale.X, 1)");
+                    scale.SetReferenceParameter("border", ElementComposition.GetElementVisual(_searchBorder));
+
+                    _searchHole.Clip.StartAnimation("Scale", scale);
+                }
+
+                _searchHole.Update(_searchBorder, ChatsGhost, _searchBorder.ActualSize, (float)_searchBorder.CornerRadius.TopLeft);
+            }
+
+            // Loaded the first time the tabs show. Hiding fades the tabs out, so the hole stays until they
+            // are collapsed, and showing fades them in over a hole already there.
+            if (ChatTabs != null)
+            {
+                _tabsHole ??= CreateChatsGhostHole(_chatsGhostTabsLayer, ChatTabs);
+
+                var size = ChatTabs.Visibility == Visibility.Visible
+                    ? ChatFolders.ActualSize
+                    : Vector2.Zero;
+
+                _tabsHole.Update(ChatFolders, ChatsGhost, size, (float)ChatFolders.CornerRadius.TopLeft);
+            }
+
+            // The card stacks the rows from the panel's top, as the panel has no leading spacing.
+            _bannerHole ??= CreateChatsGhostHole(_chatsGhostBannerLayer, BannerMaster);
+            _bannerHole.Update(BannerMaster, ChatsGhost, new Vector2(BannerMaster.ActualSize.X, _bannerHoleHeight), (float)BannerMaster.CardCornerRadius);
+        }
+
+        private ChatsGhostHole CreateChatsGhostHole(ContainerVisual layer, UIElement element)
+        {
+            var visual = ElementComposition.GetElementVisual(element);
+
+            ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+            EnsureTranslation(visual);
+
+            var offset = visual.Compositor.CreateExpressionAnimation("Vector2(_.Origin.X, _.Origin.Y + island.Translation.Y - list.Translation.Y)");
+            offset.SetReferenceParameter("island", visual);
+            offset.SetReferenceParameter("list", ElementComposition.GetElementVisual(ChatsList));
+
+            return new ChatsGhostHole(layer, offset);
+        }
+
+        // A clip on its layer that keeps everything but one rounded rectangle. Moving it costs an
+        // expression; its geometry is built again only when the island's size changes.
+        private sealed class ChatsGhostHole
+        {
+            private readonly ContainerVisual _layer;
+            private readonly CompositionPropertySet _origin;
+
+            private Vector2 _size;
+            private float _radius;
+            private bool _attached;
+
+            public ChatsGhostHole(ContainerVisual layer, ExpressionAnimation offset)
+            {
+                var compositor = layer.Compositor;
+
+                _layer = layer;
+                _origin = compositor.CreatePropertySet();
+                _origin.InsertVector2("Origin", Vector2.Zero);
+
+                offset.SetReferenceParameter("_", _origin);
+
+                Clip = compositor.CreateGeometricClip();
+                Clip.StartAnimation("Offset", offset);
+            }
+
+            public CompositionGeometricClip Clip { get; }
+
+            public void Update(UIElement element, UIElement ghost, Vector2 size, float radius)
+            {
+                if (size.X <= 0 || size.Y <= 0)
+                {
+                    if (_attached)
+                    {
+                        _attached = false;
+                        _layer.Clip = null;
+                    }
+
+                    return;
+                }
+
+                _origin.InsertVector2("Origin", element.TransformToVector2(ghost));
+
+                if (size != _size || radius != _radius)
+                {
+                    _size = size;
+                    _radius = radius;
+
+                    // The hole sits at the clip's origin and the clip is moved, so the rectangle around
+                    // it only has to be large enough to cover the copy from wherever the hole is.
+                    using var outer = CanvasGeometry.CreateRectangle(null, -16384, -16384, 32768, 32768);
+                    using var inner = CanvasGeometry.CreateRoundedRectangle(null, 0, 0, size.X, size.Y, radius, radius);
+                    using var combined = outer.CombineWith(inner, Matrix3x2.Identity, CanvasGeometryCombine.Exclude);
+
+                    Clip.Geometry = _layer.Compositor.CreatePathGeometry(new CompositionPath(combined));
+                }
+
+                if (!_attached)
+                {
+                    _attached = true;
+                    _layer.Clip = Clip;
+                }
+            }
+        }
+
+        private static void EnsureTranslation(Visual visual)
+        {
+            if (visual.Properties.TryGetVector3("Translation", out _) != CompositionGetValueStatus.Succeeded)
+            {
+                visual.Properties.InsertVector3("Translation", Vector3.Zero);
+            }
+        }
+
+        private void SearchField_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateChatsGhostHoles();
+        }
+
+        private void ChatTabs_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateChatsGhostHoles();
+        }
+
+        // The host sits at the top of the list's cell, so the margin is how far the copy reaches up.
+        // The ramp spans all of it below the title bar, and is gone by the title bar's bottom edge.
+        private void UpdateChatsGhost()
+        {
+            if (_chatsGhost == null)
+            {
+                return;
+            }
+
+            var size = new Vector2(ChatsList.ActualSize.X, (float)ChatsList.Margin.Top);
+            var title = TitleBarrr.TransformToVector2(ChatsGhost).Y + TitleBarrr.ActualSize.Y;
+
+            if (size == _chatsGhostSize && title == _chatsGhostTitle)
+            {
+                return;
+            }
+
+            _chatsGhostSize = size;
+            _chatsGhostTitle = title;
+
+            _chatsGhostSurface.SourceOffset = new Vector2(0, -size.Y);
+            _chatsGhostSurface.SourceSize = size;
+            _chatsGhost.Size = size;
+
+            _chatsGhostMask.StartPoint = new Vector2(0, size.Y);
+            _chatsGhostMask.EndPoint = new Vector2(0, title);
+        }
+
+        private void ChatsList_MarginChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            UpdateChatsGhost();
+        }
+
+        #endregion
 
         private void Banner_SizeChanged(object sender, SizeChangedEventArgs e)
         {

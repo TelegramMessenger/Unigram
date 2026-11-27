@@ -49,9 +49,13 @@ namespace Telegram.Controls.Views
         private SearchChatsViewModel _viewModel;
         public SearchChatsViewModel ViewModel => _viewModel ??= DataContext as SearchChatsViewModel;
 
+        private readonly ThemeShadowEx _chatFoldersShadow;
+
         public SearchChatsView()
         {
             InitializeComponent();
+
+            _chatFoldersShadow = new ThemeShadowEx(ChatFoldersShadow, Constants.BubbleElevation);
         }
 
         public Thickness PaddingImpl
@@ -127,7 +131,7 @@ namespace Telegram.Controls.Views
         public bool AreTabsVisible
         {
             get => ChatFolders.Visibility == Visibility.Visible;
-            set => ChatFolders.Visibility = value
+            set => ChatFolders.Visibility = ChatFoldersShadow.Visibility = value
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }
