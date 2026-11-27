@@ -557,7 +557,13 @@ namespace winrt::Telegram::Native::Media::implementation
 
                             if (!video->RenderSync(item.pixels.data(), static_cast<int32_t>(item.width), static_cast<int32_t>(item.height), false, position, completed))
                             {
-                                break;
+                                // Not completed: still in an edit list's lead-in, with no frame yet.
+                                if (completed)
+                                {
+                                    break;
+                                }
+
+                                continue;
                             }
 
                             if (position + Epsilon < item.position)
