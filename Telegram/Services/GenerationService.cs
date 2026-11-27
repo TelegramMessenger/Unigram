@@ -653,7 +653,7 @@ namespace Telegram.Services
             var textSide = (int)Math.Round(width * 372 / 1536);
             if (textSide > 0)
             {
-                var device = ElementComposition.GetSharedDevice();
+                var device = ElementComposition.GetBackgroundDevice();
 
                 using var bitmap = await CanvasBitmap.LoadAsync(device, new Uri("ms-appx:///Assets/Images/VideoNoteText.png"));
                 using var target = new CanvasRenderTarget(device, textSide, textSide, 96);
@@ -715,7 +715,7 @@ namespace Telegram.Services
                 throw new InvalidOperationException("A sticker drawn on the video could not be downloaded.");
             }
 
-            var device = ElementComposition.GetSharedDevice();
+            var device = ElementComposition.GetBackgroundDevice();
 
             // How many output pixels a unit of the renderer's comes to, for decoding stills at about
             // the size they are drawn.

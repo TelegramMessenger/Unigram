@@ -7,6 +7,7 @@
 
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Graphics.Canvas.UI.Composition;
 using System;
 using System.Numerics;
 using Telegram.Common;
@@ -47,13 +48,28 @@ namespace Windows.UI.Xaml.Hosting
             }
         }
 
+        /// <summary>
+        /// The window's own Direct2D device as a Win2D device, for this UI thread only. What is made
+        /// from it can be combined or drawn only with what is made from the same device: a
+        /// <c>CanvasControl</c> draws on Win2D's device, and a worker thread has to use
+        /// <see cref="GetBackgroundDevice"/>.
+        /// </summary>
         public static CanvasDevice GetSharedDevice()
+        {
+            // Not cached: Win2D finds the live wrapper of a device by itself, and a cached one would
+            // keep the old device alive once Direct2D has moved to a new one.
+            return CanvasComposition.GetCanvasDevice(Direct2D.Current.Device);
+        }
+
+        /// <summary>
+        /// Win2D's own device, for a thread with no window: Win2D holds it weakly, so whoever draws
+        /// on it should keep it for as long as the work runs.
+        /// </summary>
+        public static CanvasDevice GetBackgroundDevice()
         {
             try
             {
-                // This often throws the following exception:
-                // The GPU device instance has been suspended. Use GetDeviceRemovedReason to determine the appropriate action. (Exception from HRESULT: 0x887A0005)
-                // TODO: it's unclear when and why this happens, nor if this is a good solution to the problem.
+                // Throws 0x887A0005 when the device Win2D holds was removed.
                 return CanvasDevice.GetSharedDevice();
             }
             catch

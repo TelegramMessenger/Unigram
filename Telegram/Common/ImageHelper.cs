@@ -662,7 +662,7 @@ namespace Telegram.Common
 
             var mirrored = !generation.HasFrame && generation.Flip != ImageFlip.None;
 
-            var device = ElementComposition.GetSharedDevice();
+            var device = ElementComposition.GetBackgroundDevice();
             var target = new CanvasRenderTarget(device, outputWidth, outputHeight, 96);
 
             // Win2D sizes the bitmap by the file's DPI. Scaling it back up at draw time is not
@@ -851,7 +851,7 @@ namespace Telegram.Common
 
         public static async Task<IRandomAccessStream> DrawStrokesAsync(SoftwareBitmap file, IReadOnlyList<SmoothPathBuilder> strokes, Rect rectangle, ImageRotation rotation, ImageFlip flip)
         {
-            var device = ElementComposition.GetSharedDevice();
+            var device = ElementComposition.GetBackgroundDevice();
 
             using var bitmap = CanvasBitmap.CreateFromSoftwareBitmap(device, file);
             using var target = DrawStrokes(device, bitmap, strokes, rectangle, rotation, flip);
@@ -875,7 +875,7 @@ namespace Telegram.Common
 
         public static async Task<FileItem> DrawStrokesAsync(FileItem file, IReadOnlyList<SmoothPathBuilder> strokes, Rect rectangle, ImageRotation rotation, ImageFlip flip)
         {
-            var device = ElementComposition.GetSharedDevice();
+            var device = ElementComposition.GetBackgroundDevice();
 
             CanvasRenderTarget target;
 
