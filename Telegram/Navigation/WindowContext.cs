@@ -1255,6 +1255,7 @@ namespace Telegram.Navigation
                 }
             }
 
+            _closed = true;
             Closed?.Invoke(this, EventArgs.Empty);
         }
 
@@ -1443,9 +1444,13 @@ namespace Telegram.Navigation
         private UIElement _lockedContent;
         private PasscodeWindow _locked;
 
+        // A closed window stays in All until its view is released, so ForEach still reaches it.
+        // Locking it would unload its root, and Unlock would load it again after its Window is gone.
+        private bool _closed;
+
         public void Lock(bool biometrics)
         {
-            if (_locked != null)
+            if (_locked != null || _closed)
             {
                 return;
             }
