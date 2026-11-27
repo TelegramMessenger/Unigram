@@ -168,10 +168,11 @@ namespace Telegram.Views.Stars.Popups
                 Hide();
                 _navigationService.ShowPopup(new ConnectedAffiliateProgramPopup(_clientService, _navigationService, _program, type));
             }
-            else if (_clientService.TryGetUserFull(_program.BotUserId, out UserFullInfo fullInfo))
+            // The bot may have ended its program since this one was connected, leaving nothing to join.
+            else if (_clientService.TryGetUserFull(_program.BotUserId, out UserFullInfo fullInfo) && fullInfo.BotInfo?.AffiliateProgram is AffiliateProgramInfo info)
             {
                 Hide();
-                _navigationService.ShowPopup(new FoundAffiliateProgramPopup(_clientService, _navigationService, new FoundAffiliateProgram(_program.BotUserId, fullInfo.BotInfo.AffiliateProgram), type));
+                _navigationService.ShowPopup(new FoundAffiliateProgramPopup(_clientService, _navigationService, new FoundAffiliateProgram(_program.BotUserId, info), type));
             }
         }
 
