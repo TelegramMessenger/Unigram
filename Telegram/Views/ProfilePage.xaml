@@ -180,6 +180,7 @@
         </ToolTip>
 
         <Grid x:Name="ManagePanel"
+              x:Load="False"
               VerticalAlignment="Bottom"
               Visibility="Collapsed"
               Margin="24,0,24,8"

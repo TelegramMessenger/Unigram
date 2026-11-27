@@ -92,6 +92,7 @@
                             <controls:ProfilePicture x:Name="Photo"
                                                      Size="140" />
                             <controls:AnimatedImage x:Name="AnimatedPhoto"
+                                                    x:Load="False"
                                                     Width="140"
                                                     Height="140"
                                                     AutoPlay="True"
@@ -104,6 +105,7 @@
                     </controls:ActiveStoriesSegments>
 
                     <controls:AnimatedImage x:Name="Icon"
+                                            x:Load="False"
                                             Width="128"
                                             Height="128"
                                             FrameSize="128,128"
@@ -113,6 +115,7 @@
                                             LoopCount="3" />
 
                     <Grid x:Name="TopicIconRoot"
+                          x:Load="False"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center">
                         <Path x:Name="TopicIconPath"
@@ -131,6 +134,7 @@
                     </Grid>
 
                     <Path x:Name="TopicIconGeneral"
+                          x:Load="False"
                           Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
@@ -203,6 +207,7 @@
                                Grid.Column="1" />
 
                     <Button x:Name="SubtitleWhen"
+                            x:Load="False"
                             Visibility="Collapsed"
                             Click="{x:Bind ViewModel.ShowLastSeen}"
                             VerticalAlignment="Bottom"
@@ -331,6 +336,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Button x:Name="UserFirstAudioRoot"
+                        x:Load="False"
                         Click="UserFirstAudio_Click"
                         Padding="9,2,9,3"
                         CornerRadius="12"
@@ -372,6 +378,7 @@
                     </Grid>
                 </Button>
                 <Button x:Name="UserBalanceRoot"
+                        x:Load="False"
                         Click="UserBalance_Click"
                         FontFamily="{ThemeResource EmojiThemeFontFamilyWithSymbols}"
                         FontSize="12"
@@ -389,6 +396,7 @@
                     Canvas.ZIndex="-1"
                     Grid.Row="1">
             <controls:HeaderedControl x:Name="UnofficialRoot"
+                                      x:Load="False"
                                       Visibility="Collapsed">
                 <controls:SettingsButton Glyph="&#xEAD9;"
                                          Foreground="{ThemeResource DangerButtonForeground}">
@@ -399,6 +407,7 @@
             </controls:HeaderedControl>
 
             <StackPanel x:Name="PersonalChannelRoot"
+                        x:Load="False"
                         Visibility="Collapsed">
                 <Grid Margin="24,32,24,-8"
                       MaxWidth="1000">
@@ -507,6 +516,7 @@
                 </controls:SettingsButton>
 
                 <controls:SettingsButton x:Name="BotInvite"
+                                         x:Load="False"
                                          Visibility="Collapsed"
                                          Glyph="&#xE8FA;">
                     <controls:FormattedTextBlock x:Name="BotInviteLabel"
@@ -522,6 +532,7 @@
                                          Glyph="&#xEA84;" />
 
                 <controls:SettingsButton x:Name="UserNote"
+                                         x:Load="False"
                                          Description="{CustomResource ProfileNotes}"
                                          Visibility="Collapsed"
                                          ContextRequested="UserNote_ContextRequested"
@@ -535,6 +546,7 @@
                 </controls:SettingsButton>
 
                 <controls:SettingsButton x:Name="Location"
+                                         x:Load="False"
                                          Click="Location_Click"
                                          Visibility="Collapsed"
                                          Description="{CustomResource AttachLocation}"
@@ -561,9 +573,11 @@
                 </controls:SettingsButton>
 
                 <cells:ProfileHoursCell x:Name="BusinessHours"
+                                        x:Load="False"
                                         Visibility="Collapsed" />
 
                 <controls:SettingsButton x:Name="ChatId"
+                                         x:Load="False"
                                          Click="{x:Bind ViewModel.CopyId}"
                                          Visibility="Collapsed"
                                          Glyph="&#xEA42;">
@@ -590,6 +604,7 @@
                 </controls:SettingsButton>
 
                 <controls:SettingsButton x:Name="DeleteReaction"
+                                         x:Load="False"
                                          Click="{x:Bind ViewModel.DeleteReaction}"
                                          Visibility="{x:Bind ViewModel.DeleteReactions, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
                                          Content="{CustomResource DeleteReaction}"
@@ -597,6 +612,7 @@
                                          Glyph="&#xEB04;" />
 
                 <controls:SettingsButton x:Name="BanAndReport"
+                                         x:Load="False"
                                          Click="{x:Bind ViewModel.BanAndReport}"
                                          Visibility="{x:Bind ViewModel.ReportReactions, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
                                          Content="{CustomResource ReportReactionAndBan}"
@@ -604,6 +620,7 @@
                                          Glyph="&#xE98B;" />
 
                 <Button x:Name="BotMainApp"
+                        x:Load="False"
                         Visibility="Collapsed"
                         Click="{x:Bind ViewModel.OpenMainWebApp}"
                         Content="{CustomResource ProfileBotOpenApp}"
@@ -613,6 +630,7 @@
             </controls:HeaderedControl>
 
             <Grid x:Name="BotVerifiedRoot"
+                  x:Load="False"
                   Visibility="Collapsed"
                   MaxWidth="1000"
                   Margin="24,8,24,8">
@@ -622,7 +640,8 @@
                                              AutoFontSize="False" />
             </Grid>
 
-            <controls:HeaderedControl x:Name="AffiliateProgramRoot">
+            <controls:HeaderedControl x:Name="AffiliateProgramRoot"
+                                      x:Load="False">
                 <controls:SettingsButton x:Name="AffiliateProgram"
                                          Content="{CustomResource ProfileBotAffiliateProgram}"
                                          Click="{x:Bind ViewModel.OpenAffiliate}"
@@ -631,7 +650,8 @@
                                          Visibility="Collapsed" />
             </controls:HeaderedControl>
 
-            <controls:HeaderedControl>
+            <controls:HeaderedControl x:Name="AdminPanel"
+                                      x:Load="False">
                 <controls:SettingsButton x:Name="Members"
                                          Content="{CustomResource ChannelSubscribers}"
                                          Click="{x:Bind ViewModel.OpenMembers}"
@@ -693,6 +713,7 @@
             </controls:HeaderedControl>
 
             <controls:HeaderedControl x:Name="BotActionsRoot"
+                                      x:Load="False"
                                       Visibility="Collapsed">
                 <controls:SettingsButton x:Name="InviteToBot"
                                          Content="{CustomResource BotInviteToBot}"
@@ -706,7 +727,8 @@
                                          Visibility="Collapsed" />
             </controls:HeaderedControl>
 
-            <controls:HeaderedControl x:Name="MiscPanel">
+            <controls:HeaderedControl x:Name="MiscPanel"
+                                      x:Load="False">
                 <!--<controls:BadgeButton Content="{CustomResource SharedMedia}"
                                 Command="{x:Bind ViewModel.MediaCommand}"
                                 Badge="{x:Bind ViewModel.SharedMedia, Mode=OneWay}"/>-->
