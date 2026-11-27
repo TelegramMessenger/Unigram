@@ -158,6 +158,7 @@ namespace Telegram.Views
             }
 
             ViewModel.PropertyChanged += OnPropertyChanged;
+            _navigatedTo = true;
 
             if (ViewModel.SelectedItem is ProfileTabItem tab)
             {
@@ -205,6 +206,7 @@ namespace Telegram.Views
         {
             ViewModel.PropertyChanged -= OnPropertyChanged;
             ViewModel.Delegate = null;
+            _navigatedTo = false;
 
             if (_notifyCollectionChanged != null)
             {
@@ -1083,9 +1085,14 @@ namespace Telegram.Views
 
         private int _prevSelectedIndex = -1;
 
+        // The tabs arrive after awaits, so the binding can select one after the page has been
+        // navigated from. A chat tab opened then is activated with nothing left to deactivate it,
+        // and outlives its views subscribed to the chat. OnNavigatedTo opens the selected tab.
+        private bool _navigatedTo;
+
         private void Navigation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Navigation.SelectedItem is ProfileTabItem page && (page.Parameter != null || page.PageType != MediaFrame.Content?.GetType()))
+            if (_navigatedTo && Navigation.SelectedItem is ProfileTabItem page && (page.Parameter != null || page.PageType != MediaFrame.Content?.GetType()))
             {
                 Logger.Info(page.PageType);
 
