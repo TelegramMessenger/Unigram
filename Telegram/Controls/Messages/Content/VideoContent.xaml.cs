@@ -181,7 +181,8 @@ namespace Telegram.Controls.Messages.Content
 
         public void UpdateMessageContentOpened(MessageViewModel message)
         {
-            if (message.Content is MessageVideo video && message.Delegate.Settings.Video.TryGetPosition(video.Video.VideoValue, out double position))
+            // UpdatePosition shows nothing under 30 s, and the lookup is a settings store read.
+            if (message.Content is MessageVideo video && video.Video.Duration >= 30 && message.Delegate.Settings.Video.TryGetPosition(video.Video.VideoValue, out double position))
             {
                 UpdatePosition(position, video.Video.Duration);
             }
@@ -275,8 +276,16 @@ namespace Telegram.Controls.Messages.Content
             {
                 if (!hasSpoiler && message.Delegate.CanBeDownloaded(video, file))
                 {
-                    _message.ClientService.DownloadFile(file.Id, 32);
-                    _message.ClientService.DownloadFile(lowQuality.HlsFile.Id, 32);
+                    if (file.Local.CanBeDownloaded && !file.Local.IsDownloadingActive && !file.Local.IsDownloadingCompleted)
+                    {
+                        _message.ClientService.DownloadFile(file.Id, 32);
+                    }
+
+                    var hls = lowQuality.HlsFile;
+                    if (hls.Local.CanBeDownloaded && !hls.Local.IsDownloadingActive && !hls.Local.IsDownloadingCompleted)
+                    {
+                        _message.ClientService.DownloadFile(hls.Id, 32);
+                    }
 
                     UpdateSource(message, file);
                 }
