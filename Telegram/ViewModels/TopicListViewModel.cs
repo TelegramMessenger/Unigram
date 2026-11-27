@@ -417,6 +417,40 @@ namespace Telegram.ViewModels
             }
         }
 
+        // A topic's sender is banned from the channel the direct messages belong to, which only
+        // an administrator who can restrict members there can do, and only to a user.
+        public bool TryGetTopicSenderChannel(DirectMessagesChatTopic topic, out long channelId)
+        {
+            if (topic.SenderId is MessageSenderUser
+                && ClientService.TryGetSupergroupFull(Chat, out SupergroupFullInfo fullInfo)
+                && ClientService.TryGetChat(fullInfo.DirectMessagesChatId, out Chat channel)
+                && ClientService.TryGetSupergroup(channel, out Supergroup supergroup)
+                && supergroup.CanRestrictMembers())
+            {
+                channelId = channel.Id;
+                return true;
+            }
+
+            channelId = 0;
+            return false;
+        }
+
+        public void BanTopicSender(DirectMessagesChatTopic topic)
+        {
+            if (TryGetTopicSenderChannel(topic, out long channelId))
+            {
+                ClientService.Send(new BanChatMember(channelId, topic.SenderId, 0, false));
+            }
+        }
+
+        public void UnbanTopicSender(DirectMessagesChatTopic topic)
+        {
+            if (TryGetTopicSenderChannel(topic, out long channelId))
+            {
+                ClientService.Send(new SetChatMemberStatus(channelId, topic.SenderId, new ChatMemberStatusLeft()));
+            }
+        }
+
         #endregion
 
         #region Multiple Clear

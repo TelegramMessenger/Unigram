@@ -5469,6 +5469,8 @@
 
 
     <string name="BanUser">Ban user</string>
+    <string name="BanUserMonoforum">Ban User From Channel</string>
+    <string name="UnbanUserMonoforum">Unban User From Channel</string>
     <string name="AccDescrCustomEmoji">{0}, custom emoji</string>
 
     <string name="PopularReactions">Popular</string>
