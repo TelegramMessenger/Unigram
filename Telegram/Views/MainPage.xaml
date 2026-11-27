@@ -5,6 +5,7 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
                    xmlns:controls="using:Telegram.Controls"
+                   xmlns:calls="using:Telegram.Controls.Calls"
                    xmlns:cells="using:Telegram.Controls.Cells"
                    xmlns:stories="using:Telegram.Controls.Stories"
                    xmlns:views="using:Telegram.Controls.Views"
@@ -172,6 +173,12 @@
                     Margin="80,0,0,0"
                     Grid.Column="2"
                     Canvas.ZIndex="1" />
+
+            <calls:CallTitleBarIndicator x:Load="False"
+                                         x:Name="CallIndicator"
+                                         SizeChanged="CallIndicator_SizeChanged"
+                                         HorizontalAlignment="Right"
+                                         Canvas.ZIndex="2" />
         </Grid>
 
         <Grid x:Load="False"

@@ -139,7 +139,7 @@ namespace Telegram.Controls.Stories
                 Icon.Visibility = Visibility.Visible;
 
                 TitleBarrr?.IsHitTestVisible = false;
-                TitleBarHandle?.Margin = new Thickness(SystemOverlayLeftInset > 0 ? SystemOverlayLeftInset + (count * 12 + 12 + 8) : TitleBarrr.Margin.Left + 40 + (count * 12 + 12 + 8), 0, SystemOverlayRightInset > 0 ? SystemOverlayRightInset : 88, 0);
+                TitleBarHandle?.Margin = new Thickness(SystemOverlayLeftInset > 0 ? SystemOverlayLeftInset + _captionReserve + (count * 12 + 12 + 8) : TitleBarrr.Margin.Left + 40 + (count * 12 + 12 + 8), 0, SystemOverlayLeftInset > 0 ? SystemOverlayRightInset : (SystemOverlayRightInset > 0 ? SystemOverlayRightInset : 88) + _captionReserve, 0);
             }
             else
             {
@@ -147,7 +147,7 @@ namespace Telegram.Controls.Stories
                 Icon.Visibility = Visibility.Collapsed;
 
                 TitleBarrr?.IsHitTestVisible = true;
-                TitleBarHandle?.Margin = new Thickness(SystemOverlayLeftInset > 0 ? SystemOverlayLeftInset : TitleBarrr.Margin.Left + 40, 0, SystemOverlayRightInset > 0 ? SystemOverlayRightInset : 88, 0);
+                TitleBarHandle?.Margin = new Thickness(SystemOverlayLeftInset > 0 ? SystemOverlayLeftInset + _captionReserve : TitleBarrr.Margin.Left + 40, 0, SystemOverlayLeftInset > 0 ? SystemOverlayRightInset : (SystemOverlayRightInset > 0 ? SystemOverlayRightInset : 88) + _captionReserve, 0);
             }
 
             ScrollingHost.IsHitTestVisible = !_collapsed;
@@ -474,6 +474,29 @@ namespace Telegram.Controls.Stories
             {
                 _systemOverlayRightInset = value;
                 UpdateIndexes();
+            }
+        }
+
+        private float _captionReserve;
+
+        /// <summary>
+        /// Room to keep out of the drag region beside the caption buttons, for something
+        /// clickable the page puts there.
+        /// </summary>
+        public float CaptionReserve
+        {
+            get => _captionReserve;
+            set
+            {
+                if (_captionReserve != value)
+                {
+                    _captionReserve = value;
+
+                    if (ViewModel != null)
+                    {
+                        UpdateIndexes();
+                    }
+                }
             }
         }
 

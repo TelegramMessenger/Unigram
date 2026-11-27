@@ -329,6 +329,33 @@ namespace Telegram.ViewModels
             MessageDustEffect.Layers,
         };
 
+        public int CallIndicator
+        {
+            get => Array.IndexOf(_callIndicatorIndexer, AppSettings.Diagnostics.CallIndicator);
+            set
+            {
+                if (value >= 0 && value < _callIndicatorIndexer.Length && AppSettings.Diagnostics.CallIndicator != _callIndicatorIndexer[value])
+                {
+                    AppSettings.Diagnostics.CallIndicator = _callIndicatorIndexer[value];
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private readonly CallIndicatorStyle[] _callIndicatorIndexer = new[]
+        {
+            CallIndicatorStyle.Banner,
+            CallIndicatorStyle.Lens,
+            CallIndicatorStyle.LayeredLens,
+        };
+
+        public List<SettingsOptionItem<CallIndicatorStyle>> CallIndicatorOptions { get; } = new()
+        {
+            new SettingsOptionItem<CallIndicatorStyle>(CallIndicatorStyle.Banner, "Banner"),
+            new SettingsOptionItem<CallIndicatorStyle>(CallIndicatorStyle.Lens, "Lens"),
+            new SettingsOptionItem<CallIndicatorStyle>(CallIndicatorStyle.LayeredLens, "Lens, layered"),
+        };
+
         public int NativeTextInput
         {
             get => Array.IndexOf(_nativeTextInputIndexer, AppSettings.Diagnostics.NativeTextInput);

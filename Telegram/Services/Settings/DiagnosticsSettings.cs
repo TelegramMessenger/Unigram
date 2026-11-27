@@ -25,6 +25,14 @@ namespace Telegram.Services.Settings
             set => AddOrUpdateValue(ref _messageDust, "MessageDust", (int)value);
         }
 
+        // Read when a call starts.
+        private int? _callIndicator;
+        public CallIndicatorStyle CallIndicator
+        {
+            get => (CallIndicatorStyle)(_callIndicator ??= GetValueOrDefault("CallIndicator", (int)CallIndicatorStyle.LayeredLens));
+            set => AddOrUpdateValue(ref _callIndicator, "CallIndicator", (int)value);
+        }
+
         private int? _nativeTextInput;
         public NativeTextInputMode NativeTextInput
         {

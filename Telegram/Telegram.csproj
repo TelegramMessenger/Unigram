@@ -283,6 +283,9 @@
     <Compile Include="Composition\CompositionVisualColorSource.cs" />
     <Compile Include="Composition\WeakInteractionTrackerOwner.cs" />
     <Compile Include="Controls\ButtonEx.cs" />
+    <Compile Include="Controls\Calls\CallTitleBarIndicator.xaml.cs">
+      <DependentUpon>CallTitleBarIndicator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Calls\MediaStateBadge.xaml.cs">
       <DependentUpon>MediaStateBadge.xaml</DependentUpon>
     </Compile>
@@ -687,6 +690,7 @@
     <Compile Include="Composition\CompositionVoiceBlobVisual.cs" />
     <Compile Include="Composition\CompositionBlobVisual.cs" />
     <Compile Include="Composition\CompositionCurveVisual.cs" />
+    <Compile Include="Composition\CompositionLensVisual.cs" />
     <Compile Include="Composition\CompositionVSync.cs" />
     <Compile Include="Composition\CompositionDustVisual.cs" />
     <Compile Include="Composition\CompositionDustParticles.cs" />
@@ -3153,6 +3157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Charts\DataView\LegendSignatureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Calls\CallTitleBarIndicator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

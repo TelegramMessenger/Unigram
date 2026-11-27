@@ -28,6 +28,7 @@ using Telegram.Native;
 using Telegram.Navigation;
 using Telegram.Navigation.Services;
 using Telegram.Services;
+using Telegram.Services.Calls;
 using Telegram.Services.Settings;
 using Telegram.Services.Updates;
 using Telegram.Streams;
@@ -426,6 +427,8 @@ namespace Telegram.Views
 
             Stories.SystemOverlayLeftInset = metrics.LeftInset > 0 ? 138 : 0;
             Stories.SystemOverlayRightInset = metrics.RightInset > 0 ? 138 : 0;
+
+            UpdateCallIndicatorLayout();
         }
 
         private void UpdateTitleBarMargins()
@@ -1105,8 +1108,19 @@ namespace Telegram.Views
             this.BeginOnUIThread(() =>
             {
                 var call = ViewModel.VoipService.ActiveCall;
-                if (call != null)
+                var style = AppSettings.Diagnostics.CallIndicator;
+
+                if (call != null && style != CallIndicatorStyle.Banner)
                 {
+                    CallBanner?.Update(null, null);
+                    ShowHideActiveCall(false);
+
+                    ShowCallIndicator(call, style);
+                }
+                else if (call != null)
+                {
+                    HideCallIndicator();
+
                     FindName(nameof(CallBanner));
 
                     CallBanner.Update(ViewModel.NavigationService, call);
@@ -1114,10 +1128,59 @@ namespace Telegram.Views
                 }
                 else
                 {
+                    HideCallIndicator();
+
                     CallBanner?.Update(null, null);
                     ShowHideActiveCall(false);
                 }
             });
+        }
+
+        private void ShowCallIndicator(VoipCallBase call, CallIndicatorStyle style)
+        {
+            FindName(nameof(CallIndicator));
+
+            CallIndicator.Update(ViewModel.NavigationService, call, style);
+
+            UpdateCallIndicatorLayout();
+        }
+
+        private void HideCallIndicator()
+        {
+            if (CallIndicator != null)
+            {
+                CallIndicator.Update(null, null, CallIndicatorStyle.Banner);
+                UnloadObject(CallIndicator);
+
+                Stories.CaptionReserve = 0;
+            }
+        }
+
+        // Beside the caption buttons, on whichever side they are. Not in TitleBarrr: stories move
+        // that beside their stack and stop it hit testing, and the indicator has to stay clickable.
+        private void UpdateCallIndicatorLayout()
+        {
+            if (CallIndicator == null)
+            {
+                return;
+            }
+
+            if (Stories.SystemOverlayLeftInset > 0)
+            {
+                CallIndicator.HorizontalAlignment = HorizontalAlignment.Left;
+                CallIndicator.Margin = new Thickness(Stories.SystemOverlayLeftInset + 8, 0, 0, 0);
+            }
+            else
+            {
+                CallIndicator.HorizontalAlignment = HorizontalAlignment.Right;
+                CallIndicator.Margin = new Thickness(0, 0, (Stories.SystemOverlayRightInset > 0 ? Stories.SystemOverlayRightInset : 88) + 8, 0);
+            }
+        }
+
+        // The drag region would take the clicks, so it ends where the indicator begins.
+        private void CallIndicator_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Stories.CaptionReserve = e.NewSize.Width > 0 ? (float)e.NewSize.Width + 16 : 0;
         }
 
         // No banner until UpdateActiveCall says otherwise. The one sent on load comes through the
@@ -4889,6 +4952,7 @@ namespace Telegram.Views
             MasterDetail = null;
             Confetti = null;
             CallBanner = null;
+            CallIndicator = null;
             Header = null;
             Stories = null;
             SettingsRoot = null;

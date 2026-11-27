@@ -9547,12 +9547,14 @@
                 Value="-3" />
         <Setter Property="CornerRadius"
                 Value="{StaticResource GlyphButtonCornerRadius}" />
+        <Setter Property="Padding"
+                Value="{StaticResource GlyphButtonPadding}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:AnimatedGlyphToggleButton">
                     <Grid Background="{TemplateBinding Background}"
                           CornerRadius="{TemplateBinding CornerRadius}"
-                          Margin="{StaticResource GlyphButtonPadding}">
+                          Margin="{TemplateBinding Padding}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
