@@ -325,8 +325,11 @@ namespace Telegram.Controls.Messages.Content
                         Button.SetGlyph(file.Id, MessageContentState.Play);
                         Button.Progress = 1;
 
-                        Player.Source = new LocalFileSource(file);
-                        message.Delegate.ViewVisibleMessages();
+                        if (Player.Source is not LocalFileSource local || local.Id != file.Id)
+                        {
+                            Player.Source = new LocalFileSource(file);
+                            message.Delegate.ViewVisibleMessages();
+                        }
                     }
                 }
             }

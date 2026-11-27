@@ -170,8 +170,11 @@ namespace Telegram.Controls.Messages.Content
                     Subtitle.Text = isGame ? Strings.AttachGame : Strings.AttachGif;
                     Overlay.Opacity = 1;
 
-                    Player.Source = new LocalFileSource(file);
-                    message.Delegate.ViewVisibleMessages();
+                    if (Player.Source is not LocalFileSource local || local.Id != file.Id)
+                    {
+                        Player.Source = new LocalFileSource(file);
+                        message.Delegate.ViewVisibleMessages();
+                    }
                 }
             }
 
