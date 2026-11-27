@@ -742,7 +742,7 @@ namespace Telegram.Views
         {
             Messages.TrackMutation();
 
-            if (Messages.ItemsPanelRoot is not ItemsStackPanel panel)
+            if (Messages.ItemsStackPanel is not ItemsStackPanel panel)
             {
                 return;
             }
@@ -852,7 +852,7 @@ namespace Telegram.Views
 
         public void Activate(DialogViewModel viewModel)
         {
-            Logger.Info($"ItemsPanelRoot.Children.Count: {Messages.ItemsPanelRoot?.Children.Count}");
+            Logger.Info($"ItemsStackPanel.Children.Count: {Messages.ItemsStackPanel?.Children.Count}");
             Logger.Info($"Items.Count: {Messages.Items.Count}");
 
             DataContext = _viewModel = viewModel;
@@ -1027,13 +1027,13 @@ namespace Telegram.Views
 
         private async void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
-            var panel = Messages.ItemsPanelRoot as ItemsStackPanel;
+            var panel = Messages.ItemsStackPanel;
             if (panel == null)
             {
                 // TODO: this happens in new bot topics
                 //Messages.UpdateLayout();
 
-                //panel = Messages.ItemsPanelRoot as ItemsStackPanel;
+                //panel = Messages.ItemsStackPanel;
 
                 //if (panel == null)
                 //{
@@ -1946,7 +1946,7 @@ namespace Telegram.Views
                     return;
                 }
 
-                var panel = Messages.ItemsPanelRoot as ItemsStackPanel;
+                var panel = Messages.ItemsStackPanel;
                 if (panel == null)
                 {
                     return;
@@ -1989,7 +1989,7 @@ namespace Telegram.Views
                     return;
                 }
 
-                var panel = Messages.ItemsPanelRoot as ItemsStackPanel;
+                var panel = Messages.ItemsStackPanel;
                 if (panel == null)
                 {
                     return;
@@ -5672,7 +5672,7 @@ namespace Telegram.Views
         private void ItemsPanelRoot_Loading(FrameworkElement sender, object args)
         {
             sender.MaxWidth = AppSettings.IsAdaptiveWideEnabled ? 1024 : double.PositiveInfinity;
-            Messages.ApplyAnchor();
+            Messages.RegisterItemsStackPanel(sender as ItemsStackPanel);
         }
 
         private void ServiceMessage_Click(object sender, RoutedEventArgs e)
@@ -7911,7 +7911,7 @@ namespace Telegram.Views
                 var next = new Vector2(0, first ? 6 : 0);
                 var prev = selector.ActualSize;
 
-                var panel = Messages.ItemsPanelRoot as ItemsStackPanel;
+                var panel = Messages.ItemsStackPanel;
                 if (panel == null)
                 {
                     return;

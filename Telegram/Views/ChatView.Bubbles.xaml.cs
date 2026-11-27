@@ -62,7 +62,7 @@ namespace Telegram.Views
         {
             if (_messagesShift.HasRanges())
             {
-                var panel = Messages.ItemsPanelRoot as ItemsStackPanel;
+                var panel = Messages.ItemsStackPanel;
                 if (panel != null)
                 {
                     var reverse = panel.ItemsUpdatingScrollMode == ItemsUpdatingScrollMode.KeepLastItemInView;
@@ -139,7 +139,7 @@ namespace Telegram.Views
                 return;
             }
 
-            var panel = Messages.ItemsPanelRoot as ItemsStackPanel;
+            var panel = Messages.ItemsStackPanel;
             if (panel == null /*|| panel.FirstVisibleIndex < 0 || panel.LastVisibleIndex >= _messages.Count*/)
             {
                 return;
@@ -1247,7 +1247,7 @@ namespace Telegram.Views
         {
             var builder = new StringBuilder();
 
-            if (Messages.ItemsPanelRoot is ItemsStackPanel panel)
+            if (Messages.ItemsStackPanel is ItemsStackPanel panel)
             {
                 builder.AppendFormat("live {0}   cache [{1}-{2}]", panel.Children.Count, panel.FirstCacheIndex, panel.LastCacheIndex);
                 builder.AppendLine();
@@ -1633,7 +1633,7 @@ namespace Telegram.Views
 
             var diff = next.Y - prev.Y;
 
-            var panel = Messages.ItemsPanelRoot as ItemsStackPanel;
+            var panel = Messages.ItemsStackPanel;
             if (panel == null || prev.Y == next.Y || Math.Abs(diff) == 6)
             {
                 return;
@@ -1803,7 +1803,7 @@ namespace Telegram.Views
 
         public bool IsItemVisible(MessageKey key)
         {
-            if (Messages.ItemsPanelRoot is ItemsStackPanel panel && _messageIdToSelector.TryGetValue(key, out var container))
+            if (Messages.ItemsStackPanel is ItemsStackPanel panel && _messageIdToSelector.TryGetValue(key, out var container))
             {
                 var index = Messages.IndexFromContainer(container);
                 return index >= panel.FirstVisibleIndex && index <= panel.LastVisibleIndex;

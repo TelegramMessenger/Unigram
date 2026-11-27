@@ -333,12 +333,12 @@ namespace Telegram.Controls.Chats
 
             if (_owner is ChatHistoryView view)
             {
-                if (view.ItemsPanelRoot == null)
+                if (view.ItemsStackPanel == null)
                 {
                     return;
                 }
 
-                foreach (var child in view.ItemsPanelRoot.Children)
+                foreach (var child in view.ItemsStackPanel.Children)
                 {
                     if (child is ChatHistoryViewItem container && container.ContentTemplateRoot is MessageSelector { ContentTemplateRoot: MessageBubble bubble })
                     {
@@ -485,7 +485,7 @@ namespace Telegram.Controls.Chats
 
             if (_owner is ChatHistoryView view)
             {
-                if (brush.Container?.ContentTemplateRoot is not MessageSelector selector || view.ItemsPanelRoot == null)
+                if (brush.Container?.ContentTemplateRoot is not MessageSelector selector || view.ItemsStackPanel == null)
                 {
                     return null;
                 }
@@ -493,7 +493,7 @@ namespace Telegram.Controls.Chats
                 var animation = compositor.CreateExpressionAnimation("-(scroll.Translation.Y + panel.Offset.Y + reference.Offset.Y + padding + bubble.Offset.Y)");
                 animation.SetReferenceParameter("reference", ElementCompositionPreview.GetElementVisual(brush.Container));
                 animation.SetReferenceParameter("bubble", selector.ContentTemplateVisual);
-                animation.SetReferenceParameter("panel", ElementCompositionPreview.GetElementVisual(view.ItemsPanelRoot));
+                animation.SetReferenceParameter("panel", ElementCompositionPreview.GetElementVisual(view.ItemsStackPanel));
                 animation.SetReferenceParameter("scroll", view.ScrollingPropertySet);
                 animation.SetScalarParameter("padding", brush.Padding);
 

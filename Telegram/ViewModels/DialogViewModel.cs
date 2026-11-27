@@ -1271,7 +1271,7 @@ namespace Telegram.ViewModels
             var field = HistoryField;
             if (field != null)
             {
-                var panel = field.ItemsPanelRoot as ItemsStackPanel;
+                var panel = field.ItemsStackPanel;
                 if (panel != null && panel.LastVisibleIndex >= 0 && panel.LastVisibleIndex < Items.Count && Items.Count > 0)
                 {
                     // The chat's own messages only: these ids are compared with and stored next to
@@ -1304,7 +1304,7 @@ namespace Telegram.ViewModels
             var field = HistoryField;
             if (field != null)
             {
-                var panel = field.ItemsPanelRoot as ItemsStackPanel;
+                var panel = field.ItemsStackPanel;
                 if (panel != null && panel.FirstVisibleIndex >= 0 && panel.FirstVisibleIndex < Items.Count && Items.Count > 0)
                 {
                     for (int i = panel.FirstVisibleIndex; i <= panel.LastVisibleIndex; i++)
