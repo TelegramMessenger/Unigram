@@ -18,11 +18,11 @@ using Windows.UI.Xaml.Hosting;
 
 namespace Telegram.Composition
 {
+    // Numbered because the setting stores them, and 0 was the in-chat banner, since removed.
     public enum CallIndicatorStyle
     {
-        Banner,
-        Lens,
-        LayeredLens
+        Lens = 1,
+        LayeredLens = 2
     }
 
     public enum LensMotion
@@ -64,7 +64,7 @@ namespace Telegram.Composition
         private const float CalmEnergy = 0.2f;
         private const float VoiceEnergy = 0.35f;
 
-        // Normalizes the audio level, as CompositionCurveVisual's maxLevel does for the banner.
+        // The audio level that fills the lens.
         private const float MaxLevel = 1.5f;
 
         private const double ColorTransitionDuration = 0.167;
@@ -121,14 +121,14 @@ namespace Telegram.Composition
             gradient.ColorStops.Add(_startStop);
             gradient.ColorStops.Add(_endStop);
 
-            // The call colours are the banner's, and its gradient runs over twice the bar so only
-            // the first half shows. The lens shows the same half.
+            // The gradient runs over twice the lens, so only the first half of each colour pair
+            // shows: the pairs are picked for that half.
             gradient.EndPoint = new Vector2(2, 0);
 
             _visual = compositor.CreateContainerVisual();
             _visual.Size = size;
 
-            // The back layer is the larger, fainter and livelier one, as the banner's large curve is.
+            // The back layer is the larger, fainter and livelier one.
             _layers = layered
                 ? new[] { new Layer(compositor, size, gradient, 1, 0.32f, 2.1f, 0.8f), new Layer(compositor, size, gradient, 0.68f, 1, 0, 1) }
                 : new[] { new Layer(compositor, size, gradient, 1, 1, 0, 1) };

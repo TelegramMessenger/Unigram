@@ -66,8 +66,8 @@ namespace Telegram.Views
     {
         DialogViewModel ViewModel { get; }
 
-        void StartBannerAnimation(ScalarKeyFrameAnimation translate, bool title);
-        void CompleteBannerAnimation(bool title);
+        void StartBannerAnimation(ScalarKeyFrameAnimation translate);
+        void CompleteBannerAnimation();
     }
 
     public interface IProfileChatPage : IChatPage
@@ -411,47 +411,22 @@ namespace Telegram.Views
             return result;
         }
 
-        public void StartBannerAnimation(ScalarKeyFrameAnimation translate, bool title)
+        public void StartBannerAnimation(ScalarKeyFrameAnimation translate)
         {
-            if (title)
-            {
-                var footer = ElementComposition.GetElementVisual(Footer);
-                var content = ElementComposition.GetElementVisual(ContentPanel);
+            var header = ElementComposition.GetElementVisual(Header);
 
-                ElementCompositionPreview.SetIsTranslationEnabled(Footer, true);
-                ElementCompositionPreview.SetIsTranslationEnabled(ContentPanel, true);
+            ElementCompositionPreview.SetIsTranslationEnabled(Header, true);
 
-                footer.StartAnimation("Translation.Y", translate);
-                content.StartAnimation("Translation.Y", translate);
-            }
-            else
-            {
-                var header = ElementComposition.GetElementVisual(Header);
-
-                ElementCompositionPreview.SetIsTranslationEnabled(Header, true);
-
-                header.StartAnimation("Translation.Y", translate);
-                _clipperTranslation.StartAnimation("Banner", translate);
-            }
+            header.StartAnimation("Translation.Y", translate);
+            _clipperTranslation.StartAnimation("Banner", translate);
         }
 
-        public void CompleteBannerAnimation(bool title)
+        public void CompleteBannerAnimation()
         {
-            if (title)
-            {
-                var footer = ElementComposition.GetElementVisual(Footer);
-                var content = ElementComposition.GetElementVisual(ContentPanel);
+            var header = ElementComposition.GetElementVisual(Header);
 
-                footer.Properties.InsertVector3("Translation", Vector3.Zero);
-                content.Properties.InsertVector3("Translation", Vector3.Zero);
-            }
-            else
-            {
-                var header = ElementComposition.GetElementVisual(Header);
-
-                header.Properties.InsertVector3("Translation", Vector3.Zero);
-                _clipperTranslation.InsertScalar("Banner", 0);
-            }
+            header.Properties.InsertVector3("Translation", Vector3.Zero);
+            _clipperTranslation.InsertScalar("Banner", 0);
         }
 
         private void InitializeStickers()

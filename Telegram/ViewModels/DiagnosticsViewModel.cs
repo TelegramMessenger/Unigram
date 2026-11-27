@@ -344,14 +344,12 @@ namespace Telegram.ViewModels
 
         private readonly CallIndicatorStyle[] _callIndicatorIndexer = new[]
         {
-            CallIndicatorStyle.Banner,
             CallIndicatorStyle.Lens,
             CallIndicatorStyle.LayeredLens,
         };
 
         public List<SettingsOptionItem<CallIndicatorStyle>> CallIndicatorOptions { get; } = new()
         {
-            new SettingsOptionItem<CallIndicatorStyle>(CallIndicatorStyle.Banner, "Banner"),
             new SettingsOptionItem<CallIndicatorStyle>(CallIndicatorStyle.Lens, "Lens"),
             new SettingsOptionItem<CallIndicatorStyle>(CallIndicatorStyle.LayeredLens, "Lens, layered"),
         };

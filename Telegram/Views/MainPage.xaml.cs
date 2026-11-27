@@ -1108,30 +1108,13 @@ namespace Telegram.Views
             this.BeginOnUIThread(() =>
             {
                 var call = ViewModel.VoipService.ActiveCall;
-                var style = AppSettings.Diagnostics.CallIndicator;
-
-                if (call != null && style != CallIndicatorStyle.Banner)
+                if (call != null)
                 {
-                    CallBanner?.Update(null, null);
-                    ShowHideActiveCall(false);
-
-                    ShowCallIndicator(call, style);
-                }
-                else if (call != null)
-                {
-                    HideCallIndicator();
-
-                    FindName(nameof(CallBanner));
-
-                    CallBanner.Update(ViewModel.NavigationService, call);
-                    ShowHideActiveCall(true);
+                    ShowCallIndicator(call, AppSettings.Diagnostics.CallIndicator);
                 }
                 else
                 {
                     HideCallIndicator();
-
-                    CallBanner?.Update(null, null);
-                    ShowHideActiveCall(false);
                 }
             });
         }
@@ -1149,7 +1132,7 @@ namespace Telegram.Views
         {
             if (CallIndicator != null)
             {
-                CallIndicator.Update(null, null, CallIndicatorStyle.Banner);
+                CallIndicator.Update(null, null, CallIndicatorStyle.Lens);
                 UnloadObject(CallIndicator);
 
                 Stories.CaptionReserve = 0;
@@ -1181,89 +1164,6 @@ namespace Telegram.Views
         private void CallIndicator_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Stories.CaptionReserve = e.NewSize.Width > 0 ? (float)e.NewSize.Width + 16 : 0;
-        }
-
-        // No banner until UpdateActiveCall says otherwise. The one sent on load comes through the
-        // dispatcher, after a PopupClosed that colours the title bar from this, when the page is
-        // first shown by the passcode lock going away.
-        private bool _activeCallCollapsed = true;
-
-        private void ShowHideActiveCall(bool show)
-        {
-            if (_activeCallCollapsed != show)
-            {
-                return;
-            }
-
-            if (CallBanner == null)
-            {
-                _activeCallCollapsed = !show;
-                return;
-            }
-
-            _activeCallCollapsed = !show;
-            CallBanner.Visibility = Visibility.Visible;
-
-            var visual = ElementComposition.GetElementVisual(LayoutRoot);
-            var footer = ElementComposition.GetElementVisual(Footer);
-
-            ElementCompositionPreview.SetIsTranslationEnabled(LayoutRoot, true);
-            ElementCompositionPreview.SetIsTranslationEnabled(Footer, true);
-
-            var batch = visual.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-            batch.Completed += (s, args) =>
-            {
-                // Null once Dispose has run: switching or logging out the account tears this page
-                // down without waiting for the animation, and the batch still completes after it.
-                if (MasterDetail.NavigationService?.Content is IChatPage chatPage)
-                {
-                    chatPage.CompleteBannerAnimation(true);
-                }
-
-                visual.Properties.InsertVector3("Translation", Vector3.Zero);
-                footer.Properties.InsertVector3("Translation", Vector3.Zero);
-
-                LayoutRoot.Margin = new Thickness(0);
-
-                if (_activeCallCollapsed && CallBanner != null)
-                {
-                    CallBanner.Update(null, null);
-                    UnloadObject(CallBanner);
-                }
-
-                // The banner moves the title bar without resizing it, which the drag region does
-                // not follow. After a frame, so layout has put it where it ends up.
-                VisualUtilities.QueueCallbackForCompositionRendered(InvalidateTitleBar);
-            };
-
-            var translate = visual.Compositor.CreateScalarKeyFrameAnimation();
-            translate.InsertKeyFrame(show ? 0 : 1, -40);
-            translate.InsertKeyFrame(show ? 1 : 0, 0);
-            translate.Duration = Constants.FastAnimation;
-
-            var negative = visual.Compositor.CreateScalarKeyFrameAnimation();
-            negative.InsertKeyFrame(show ? 0 : 1, 0);
-            negative.InsertKeyFrame(show ? 1 : 0, -40);
-            negative.Duration = Constants.FastAnimation;
-
-            visual.StartAnimation("Translation.Y", translate);
-            footer.StartAnimation("Translation.Y", negative);
-
-            LayoutRoot.Margin = new(0, 0, 0, -40);
-
-            if (MasterDetail.NavigationService.Content is IChatPage chatPage)
-            {
-                chatPage.StartBannerAnimation(negative, true);
-            }
-
-            batch.End();
-
-            UpdateTitleBar();
-        }
-
-        private void InvalidateTitleBar()
-        {
-            NavigationService?.Window?.InvalidateTitleBar();
         }
 
         public void Handle(UpdateChatFoldersLayout update)
@@ -4014,19 +3914,7 @@ namespace Telegram.Views
                 page.PopupClosed();
             }
 
-            UpdateTitleBar();
-        }
-
-        private void UpdateTitleBar()
-        {
-            if (_activeCallCollapsed)
-            {
-                NavigationService.Window.UpdateTitleBar();
-            }
-            else
-            {
-                NavigationService.Window.SetTitleBarForeground(Colors.White);
-            }
+            NavigationService.Window.UpdateTitleBar();
         }
 
         #region Context menu
@@ -4951,7 +4839,6 @@ namespace Telegram.Views
             Photo = null;
             MasterDetail = null;
             Confetti = null;
-            CallBanner = null;
             CallIndicator = null;
             Header = null;
             Stories = null;

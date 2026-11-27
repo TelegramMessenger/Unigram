@@ -23,8 +23,8 @@ using Windows.UI.Xaml.Media;
 namespace Telegram.Controls.Calls
 {
     /// <summary>
-    /// The ongoing call, in the title bar: a lens that moves with the call's audio, its title and
-    /// how long it has run. The states and colours are <see cref="GroupCallActiveHeader"/>'s.
+    /// The ongoing call, in the title bar: a lens that moves with the call's audio, its title,
+    /// how long it has run and a mute toggle.
     /// </summary>
     public sealed partial class CallTitleBarIndicator : UserControlEx
     {
@@ -131,8 +131,7 @@ namespace Telegram.Controls.Calls
                 }
                 catch
                 {
-                    // The same race GroupCallActiveHeader guards against: the call can be torn
-                    // down while it is read.
+                    // The call can be torn down while it is read.
                 }
             }
             else if (value is VoipGroupCall newGroupCall)
@@ -182,7 +181,7 @@ namespace Telegram.Controls.Calls
                 return;
             }
 
-            // The banner's order: the first that holds decides.
+            // The first that holds decides.
             var state = !connected
                 ? "Connecting"
                 : late

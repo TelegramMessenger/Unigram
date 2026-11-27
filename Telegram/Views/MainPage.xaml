@@ -89,10 +89,6 @@
                           Grid.Column="1"
                           Grid.RowSpan="2" />
 
-        <controls:GroupCallActiveHeader x:Load="False"
-                                        x:Name="CallBanner"
-                                        Grid.ColumnSpan="2" />
-
         <Grid Height="40"
               Grid.Row="1"
               Grid.Column="1"

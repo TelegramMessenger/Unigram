@@ -561,7 +561,7 @@ namespace Telegram.Controls
             {
                 if (NavigationService?.Content is IChatPage chatPage)
                 {
-                    chatPage.CompleteBannerAnimation(false);
+                    chatPage.CompleteBannerAnimation();
                 }
 
                 detail.Properties.InsertVector3("Translation", Vector3.Zero);
@@ -598,7 +598,7 @@ namespace Telegram.Controls
 
                 if (NavigationService.Content is IChatPage chatPage)
                 {
-                    chatPage.StartBannerAnimation(translate, false);
+                    chatPage.StartBannerAnimation(translate);
                 }
                 else
                 {

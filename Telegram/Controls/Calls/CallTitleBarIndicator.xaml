@@ -10,8 +10,8 @@
                         d:DesignWidth="160">
 
     <UserControl.Resources>
-        <!-- The banner's call colours, a quarter of the way along each gradient. Fixed, as the
-             banner's are, on every theme. -->
+        <!-- The call colours, a quarter of the way along each lens gradient. Fixed on every
+             theme, as the gradients are. -->
         <SolidColorBrush x:Key="CallTitleBarUnmutedBrush"
                          Color="#26BC71" />
         <SolidColorBrush x:Key="CallTitleBarMutedBrush"
@@ -89,8 +89,8 @@
                                 Value="{StaticResource CallTitleBarLateBrush}" />
                     </VisualState.Setters>
                 </VisualState>
-                <!-- The banner paints connecting with the muted badge grey, which is too faint
-                     for the lens, so that takes NeutralInk and the grey stays in the fill. -->
+                <!-- The muted badge grey is too faint for the lens, so the lens takes NeutralInk
+                     and the grey stays in the fill. -->
                 <VisualState x:Name="Connecting">
                     <VisualState.Setters>
                         <Setter Target="Tint.Background"
