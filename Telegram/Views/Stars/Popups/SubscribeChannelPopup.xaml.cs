@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Hosting;
 
 namespace Telegram.Views.Stars.Popups
 {
-    public sealed partial class SubscribeChannelPopup : ContentPopup
+    public sealed partial class SubscribeChannelPopup : ModalPopup
     {
         private readonly IClientService _clientService;
 
@@ -94,7 +94,7 @@ namespace Telegram.Views.Stars.Popups
                 var text = Locale.Declension(Strings.R.StarsSubscriptionCompletedText, starCount, _title);
                 ToastPopup.Show(XamlRoot, string.Format("**{0}**\n{1}", Strings.StarsSubscriptionCompleted, text), ToastPopupIcon.Success);
 
-                Hide(ContentDialogResult.Primary);
+                Hide(ModalPopupResult.Primary);
                 return;
             }
             else if (response is ErrorStarsNeeded)
@@ -106,7 +106,7 @@ namespace Telegram.Views.Stars.Popups
                 ToastPopup.ShowError(XamlRoot, error);
             }
 
-            Hide(ContentDialogResult.Secondary);
+            Hide(ModalPopupResult.Secondary);
         }
 
         private void SettingsFooter_Click(object sender, TextUrlClickEventArgs e)

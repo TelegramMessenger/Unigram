@@ -530,9 +530,9 @@ namespace Telegram.Controls.Stories
             }
 
             var confirm = await ToastPopup.ShowActionAsync(XamlRoot, Strings.MessageSent, Strings.ViewInChat, ToastPopupIcon.Forward);
-            if (confirm == ContentDialogResult.Primary && _viewModel != null)
+            if (confirm == ModalPopupResult.Primary && _viewModel != null)
             {
-                TryHide(ContentDialogResult.Primary);
+                TryHide(ModalPopupResult.Primary);
                 _viewModel.SendMessage(activeStories);
             }
         }
@@ -791,7 +791,7 @@ namespace Telegram.Controls.Stories
                 return;
             }
 
-            TryHide(ContentDialogResult.None);
+            TryHide(ModalPopupResult.None);
         }
 
         private void TextArea_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -936,7 +936,7 @@ namespace Telegram.Controls.Stories
                 ActiveCard.Suspend(StoryPauseSource.Popup);
 
                 var confirm = await ViewModel.ShowPopupAsync(new StoryInteractionsPopup(), story, requestedTheme: ElementTheme.Dark);
-                if (await ContinuePopupAsync(confirm == ContentDialogResult.Primary, new PremiumStoryFeaturePermanentViewsHistory()))
+                if (await ContinuePopupAsync(confirm == ModalPopupResult.Primary, new PremiumStoryFeaturePermanentViewsHistory()))
                 {
                     ActiveCard.Resume(StoryPauseSource.Popup);
                 }
@@ -961,7 +961,7 @@ namespace Telegram.Controls.Stories
                 var popup = new Telegram.Views.Premium.Popups.FeaturesPopup(ViewModel.ClientService, null, new[] { new PremiumFeatureUpgradedStories() }, null, null, null, null, new PremiumFeatureUpgradedStories());
 
                 var confirm = await ViewModel.ShowPopupAsync(popup, requestedTheme: ElementTheme.Dark);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     await ViewModel.NavigationService.ShowPromoAsync(new PremiumSourceStoryFeature(feature), ElementTheme.Dark);
                     return false;
@@ -1395,12 +1395,12 @@ namespace Telegram.Controls.Stories
             return toast;
         }
 
-        public Task<ContentDialogResult> ShowActionAsync(FrameworkElement target, object text, ToastPlacementMode placement, ElementTheme requestedTheme = ElementTheme.Dark)
+        public Task<ModalPopupResult> ShowActionAsync(FrameworkElement target, object text, ToastPlacementMode placement, ElementTheme requestedTheme = ElementTheme.Dark)
         {
             var toast = ToastPopup.ShowImpl(XamlRoot, null as FormattedText, null, placement, requestedTheme, target: target);
             if (toast?.Content is Grid content)
             {
-                var tsc = new TaskCompletionSource<ContentDialogResult>();
+                var tsc = new TaskCompletionSource<ModalPopupResult>();
                 var undo = new Button()
                 {
                     Content = text,
@@ -1417,7 +1417,7 @@ namespace Telegram.Controls.Stories
                 {
                     Logger.Info("closed");
 
-                    tsc.TrySetResult(ContentDialogResult.Primary);
+                    tsc.TrySetResult(ModalPopupResult.Primary);
                     undo.Click -= handler;
 
                     toast.IsOpen = false;
@@ -1425,7 +1425,7 @@ namespace Telegram.Controls.Stories
 
                 void closed(ToastPopup sender, object e)
                 {
-                    tsc.TrySetResult(ContentDialogResult.None);
+                    tsc.TrySetResult(ModalPopupResult.None);
                     sender.Closed -= closed;
 
                     ActiveCard.Resume(StoryPauseSource.Toast);
@@ -1441,7 +1441,7 @@ namespace Telegram.Controls.Stories
                 return tsc.Task;
             }
 
-            return Task.FromResult(ContentDialogResult.None);
+            return Task.FromResult(ModalPopupResult.None);
         }
 
         private void Toast_Closed(ToastPopup sender, object args)
@@ -1484,7 +1484,7 @@ namespace Telegram.Controls.Stories
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            TryHide(ContentDialogResult.Primary);
+            TryHide(ModalPopupResult.Primary);
         }
 
         private bool _backGesture;
@@ -1497,7 +1497,7 @@ namespace Telegram.Controls.Stories
                 return;
             }
 
-            TryHide(ContentDialogResult.Primary);
+            TryHide(ModalPopupResult.Primary);
         }
 
         private void Layer_PointerPressed(object sender, PointerRoutedEventArgs e)

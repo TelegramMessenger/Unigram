@@ -346,10 +346,10 @@ namespace Telegram.Services
                     {
                         foreach (var popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(xamlRoot))
                         {
-                            if (popup.Child is ContentPopup toast)
+                            if (popup.Child is ModalPopup modal)
                             {
-                                toast.Tag = null;
-                                toast.Hide();
+                                modal.Tag = null;
+                                modal.Hide();
                             }
                         }
                     }

@@ -18,7 +18,7 @@ namespace Telegram.Views.Wallet.Popups
             InitializeComponent();
 
             PrimaryButtonText = Strings.WalletGotIt;
-            ButtonsLayout = ContentPopupButtonsLayout.Vertical;
+            ButtonsLayout = ModalPopupButtonsLayout.Vertical;
 
             // The option prices a million Grams, so one Gram is a millionth of it.
             var rate = clientService.Options.MillionGramToUsdRate;

@@ -1575,7 +1575,7 @@ namespace Telegram.Views
 
                 // TODO: Missing translation
                 var confirm = await ViewModel.ShowPopupAsync("Unigram has previously failed to launch because the device storage was full.\r\n\r\nMake sure there's enough storage space available and press **OK** to continue.", "Disk storage is full", Strings.OK, Strings.StorageUsage);
-                if (confirm == ContentDialogResult.Secondary)
+                if (confirm == ModalPopupResult.Secondary)
                 {
                     MasterDetail.NavigationService.Navigate(typeof(SettingsStoragePage));
                 }

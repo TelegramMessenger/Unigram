@@ -263,7 +263,7 @@ namespace Telegram.Controls
                 var popup = new SendAudiosPopup(ClientService, NavigationService);
 
                 var confirm = await popup.ShowAsync(XamlRoot);
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -352,7 +352,7 @@ namespace Telegram.Controls
 
                 // Over the popup this button may be in: one queued behind it would wait for it to close.
                 var confirm = await popup.ShowAsync(XamlRoot);
-                if (confirm == ContentDialogResult.Primary && PollMediaDraft.FromLocation(popup.Media) is PollMediaDraft draft)
+                if (confirm == ModalPopupResult.Primary && PollMediaDraft.FromLocation(popup.Media) is PollMediaDraft draft)
                 {
                     SetMedia(draft, true);
                 }
@@ -396,7 +396,7 @@ namespace Telegram.Controls
 
             popup.Validating -= LinkPopup_Validating;
 
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 SetMedia(PollMediaDraft.FromLink(popup.Text.Trim()), true);
             }

@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Collections;
 using Telegram.Common;
+using Telegram.Controls;
 using Telegram.Controls.Cells;
 using Telegram.Converters;
 using Telegram.Navigation;
@@ -159,7 +160,7 @@ namespace Telegram.ViewModels
             var text = Regex.Replace(Strings.AskAQuestionInfo, "<!\\[CDATA\\[(.*?)\\]\\]>", "$1");
 
             var confirm = await ShowPopupAsync(text, Strings.AskAQuestion, Strings.AskButton, tertiary: Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 var response = await ClientService.SendAsync(new GetSupportUser());
                 if (response is User user)

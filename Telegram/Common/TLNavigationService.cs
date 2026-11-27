@@ -332,7 +332,7 @@ namespace Telegram.Common
             var popup = new FeaturesPopup(ClientService, option?.PaymentOption, features, businessFeatures.Features, limits, animations, stickers, feature);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ShowPromo(source ?? premiumSource);
             }
@@ -532,7 +532,7 @@ namespace Telegram.Common
                     await page.ViewModel.HandlePackageAsync(package);
                 }
 
-                OverlayWindow.TryHide(XamlRoot, ContentDialogResult.None);
+                OverlayWindow.TryHide(XamlRoot, ModalPopupResult.None);
 
                 // Only once the gallery is down: the editor is an overlay too, and would be the one hidden.
                 if (state != null && state.TryGet("edit_media", out Message editMedia))
@@ -717,7 +717,7 @@ namespace Telegram.Common
                 }
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     if (popup.IsChecked is true)
                     {
@@ -734,7 +734,7 @@ namespace Telegram.Common
                 var message = LocaleService.Current.GetString("AgeVerificationText" + ClientService.AgeVerificationParameters.Country);
 
                 var confirm = await ShowPopupAsync(message, Strings.AgeVerificationTitle, Strings.AgeVerificationButton, Strings.Cancel);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     // We inline here instead of using MessageHelper.NavigateToMainWebApp to have more control over the process.
                     var response = await ClientService.SendAsync(new SearchPublicChat(ClientService.AgeVerificationParameters.VerificationBotUsername));
@@ -851,7 +851,7 @@ namespace Telegram.Common
                 var popup = new SettingsPasscodeConfirmPopup();
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     Navigate(typeof(SettingsPasscodePage));
                 }
@@ -861,7 +861,7 @@ namespace Telegram.Common
                 var popup = new SettingsPasscodePopup();
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     var viewModel = Session.Resolve<SettingsPasscodeViewModel>();
                     viewModel.NavigationService = this;
@@ -884,7 +884,7 @@ namespace Telegram.Common
                     var popup = new SettingsPasswordConfirmPopup(ClientService, passwordState);
 
                     var confirm = await ShowPopupAsync(popup);
-                    if (confirm == ContentDialogResult.Primary && !string.IsNullOrEmpty(popup.Password))
+                    if (confirm == ModalPopupResult.Primary && !string.IsNullOrEmpty(popup.Password))
                     {
                         Navigate(typeof(SettingsPasswordPage), popup.Password);
                     }
@@ -892,7 +892,7 @@ namespace Telegram.Common
                     {
                         var emailCode = new SettingsPasswordEmailCodePopup(ClientService, popup.RecoveryEmailAddressCodeInfo, SettingsPasswordEmailCodeType.Recovery);
 
-                        if (ContentDialogResult.Primary == await ShowPopupAsync(emailCode))
+                        if (ModalPopupResult.Primary == await ShowPopupAsync(emailCode))
                         {
                             ShowPopup(new SettingsPasswordDonePopup());
                         }
@@ -902,7 +902,7 @@ namespace Telegram.Common
                 {
                     var emailCode = new SettingsPasswordEmailCodePopup(ClientService, passwordState.RecoveryEmailAddressCodeInfo, SettingsPasswordEmailCodeType.Continue);
 
-                    if (ContentDialogResult.Primary == await ShowPopupAsync(emailCode))
+                    if (ModalPopupResult.Primary == await ShowPopupAsync(emailCode))
                     {
                         ShowPopup(new SettingsPasswordDonePopup());
                     }
@@ -927,7 +927,7 @@ namespace Telegram.Common
                 var intro = new SettingsPasswordIntroPopup();
 
                 var start = await ShowPopupAsync(intro);
-                if (start == ContentDialogResult.Primary)
+                if (start == ModalPopupResult.Primary)
                 {
                     break;
                 }
@@ -938,7 +938,7 @@ namespace Telegram.Common
                 }
 
                 var leave = await ShowPopupAsync(Locale.Declension(Strings.R.ForceSetPasswordAlertMessageShort, authorizationDelay), Strings.Warning, Strings.ForceSetPasswordCancel, Strings.TwoStepVerificationSetPassword, destructive: true);
-                if (leave == ContentDialogResult.Primary)
+                if (leave == ModalPopupResult.Primary)
                 {
                     return null;
                 }
@@ -946,21 +946,21 @@ namespace Telegram.Common
 
             var password = new SettingsPasswordCreatePopup();
 
-            if (ContentDialogResult.Primary != await ShowPopupAsync(password))
+            if (ModalPopupResult.Primary != await ShowPopupAsync(password))
             {
                 return null;
             }
 
             var hint = new SettingsPasswordHintPopup(null, null, password.Password);
 
-            if (ContentDialogResult.Primary != await ShowPopupAsync(hint))
+            if (ModalPopupResult.Primary != await ShowPopupAsync(hint))
             {
                 return null;
             }
 
             var emailAddress = new SettingsPasswordEmailAddressPopup(ClientService, new SetPassword(string.Empty, password.Password, hint.Hint, true, string.Empty));
 
-            if (ContentDialogResult.Primary != await ShowPopupAsync(emailAddress))
+            if (ModalPopupResult.Primary != await ShowPopupAsync(emailAddress))
             {
                 return null;
             }
@@ -971,7 +971,7 @@ namespace Telegram.Common
             {
                 var emailCode = new SettingsPasswordEmailCodePopup(ClientService, emailAddress.PasswordState?.RecoveryEmailAddressCodeInfo, SettingsPasswordEmailCodeType.New);
 
-                if (ContentDialogResult.Primary != await ShowPopupAsync(emailCode))
+                if (ModalPopupResult.Primary != await ShowPopupAsync(emailCode))
                 {
                     return null;
                 }

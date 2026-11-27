@@ -97,7 +97,7 @@ namespace Telegram.Common
             };
 
             var confirm = await navigation.ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return null;
             }
@@ -493,11 +493,11 @@ namespace Telegram.Common
 
             // Nested where something modal is already up - the wallet's own screens are popups -
             // which is the test ViewModelBase makes for the same reason.
-            var result = ContentPopup.IsAnyPopupOpen(xamlRoot)
+            var result = ModalPopup.IsAnyPopupOpen(xamlRoot)
                 ? await InputPopup.ShowNestedAsync(xamlRoot, InputPopupType.Password, Strings.PleaseEnterCurrentPasswordWithdraw, Strings.TwoStepVerification, Strings.LoginPassword, Strings.OK, Strings.Cancel)
                 : await InputPopup.ShowAsync(xamlRoot, InputPopupType.Password, Strings.PleaseEnterCurrentPasswordWithdraw, Strings.TwoStepVerification, Strings.LoginPassword, Strings.OK, Strings.Cancel);
 
-            return result.Result == ContentDialogResult.Primary ? result.Text : null;
+            return result.Result == ModalPopupResult.Primary ? result.Text : null;
         }
 
         /// <summary>
@@ -719,9 +719,9 @@ namespace Telegram.Common
             return BindOutcome.Failed;
         }
 
-        private static Task<ContentDialogResult> ShowMessageAsync(XamlRoot xamlRoot, string message, string title)
+        private static Task<ModalPopupResult> ShowMessageAsync(XamlRoot xamlRoot, string message, string title)
         {
-            return ContentPopup.IsAnyPopupOpen(xamlRoot)
+            return ModalPopup.IsAnyPopupOpen(xamlRoot)
                 ? MessagePopup.ShowNestedAsync(xamlRoot, message, title, Strings.OK)
                 : MessagePopup.ShowAsync(xamlRoot, message, title, Strings.OK);
         }

@@ -375,12 +375,12 @@ namespace Telegram.ViewModels.Supergroups
         private async void ConfirmClose(NavigatingEventArgs args)
         {
             var confirm = await ShowPopupAsync(Strings.ChannelColorUnsavedMessage, Strings.ChannelColorUnsaved, Strings.ChatThemeSaveDialogDiscard, Strings.ChatThemeSaveDialogApply, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 _confirmed = true;
                 NavigationService.GoBack(args);
             }
-            else if (confirm == ContentDialogResult.Secondary)
+            else if (confirm == ModalPopupResult.Secondary)
             {
                 Continue(args);
             }

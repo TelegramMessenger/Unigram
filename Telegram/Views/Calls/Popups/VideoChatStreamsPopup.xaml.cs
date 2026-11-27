@@ -55,7 +55,7 @@ namespace Telegram.Views.Calls.Popups
         private void Schedule_Click(object sender, RoutedEventArgs e)
         {
             IsScheduleSelected = true;
-            Hide(ContentDialogResult.Primary);
+            Hide(ModalPopupResult.Primary);
         }
 
         // The fields stay null until GetVideoChatRtmpUrl answers, and the buttons are live before that.
@@ -91,7 +91,7 @@ namespace Telegram.Views.Calls.Popups
         private async void Revoke()
         {
             var confirm = await MessagePopup.ShowNestedAsync(XamlRoot, Strings.RevokeStreamKeyAlert, Strings.RevokeStreamKey, Strings.RevokeButton, Strings.Cancel, destructive: true, requestedTheme: ElementTheme.Dark);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 StreamKeyField.Text = string.Empty;
 

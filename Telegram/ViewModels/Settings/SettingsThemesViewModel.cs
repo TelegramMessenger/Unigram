@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Collections;
 using Telegram.Common;
+using Telegram.Controls;
 using Telegram.Navigation;
 using Telegram.Navigation.Services;
 using Telegram.Services;
@@ -215,7 +216,7 @@ namespace Telegram.ViewModels.Settings
             }
 
             var confirm = await ShowPopupAsync(Strings.ResetThemeAlert, Strings.ChatResetTheme, Strings.Reset, Strings.Cancel, destructive: true);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -239,7 +240,7 @@ namespace Telegram.ViewModels.Settings
             }
 
             var confirm = await ShowPopupAsync(Strings.DeleteThemeAlert, Strings.DeleteThemeTitle, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -347,7 +348,7 @@ namespace Telegram.ViewModels.Settings
         public async void DeleteTheme(ThemeCustomInfo theme)
         {
             var confirm = await ShowPopupAsync(Strings.DeleteThemeAlert, Strings.DeleteThemeTitle, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }

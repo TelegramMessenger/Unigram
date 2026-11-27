@@ -208,7 +208,7 @@ namespace Telegram.ViewModels.Profile
             var result = await popup.ShowQueuedAsync(XamlRoot);
 
             var confirm = new InputPopupResult(result, popup.Text, popup.Value);
-            if (confirm.Result == ContentDialogResult.Primary)
+            if (confirm.Result == ModalPopupResult.Primary)
             {
                 collection.Name = confirm.Text;
                 ClientService.Send(new SetGiftCollectionName(_senderId, collection.Id, confirm.Text));
@@ -218,7 +218,7 @@ namespace Telegram.ViewModels.Profile
         public async void DeleteCollection(GiftCollectionViewModel collection)
         {
             var confirm = await ShowPopupAsync(string.Format(Strings.GiftsCollectionMenuDeleteCollectionAsk, collection.Name), Strings.GiftsCollectionMenuDeleteCollection, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -258,7 +258,7 @@ namespace Telegram.ViewModels.Profile
             var result = await popup.ShowQueuedAsync(XamlRoot);
 
             var confirm = new InputPopupResult(result, popup.Text, popup.Value);
-            if (confirm.Result == ContentDialogResult.Primary)
+            if (confirm.Result == ModalPopupResult.Primary)
             {
                 var receivedGiftIds = new MutableVector<string>();
                 if (gift != null)
@@ -284,7 +284,7 @@ namespace Telegram.ViewModels.Profile
             var popup = new ChooseGiftsPopup(this);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -1045,17 +1045,6 @@ namespace Telegram.ViewModels.Profile
             }
         }
 
-        public async Task<bool> IsPinLimitReachedAsync(ReceivedGift gift)
-        {
-            if (gift.IsPinned)
-            {
-                return false;
-            }
-
-            var pinned = await GetPinnedAsync();
-            return pinned != null && pinned.Count >= ClientService.Options.PinnedGiftCountMax;
-        }
-
         public async Task PinGiftAsync(ReceivedGift gift)
         {
             var pinned = await GetPinnedAsync();
@@ -1133,7 +1122,7 @@ namespace Telegram.ViewModels.Profile
             var popup = new ChooseGiftsPopup(ClientService, pinned);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary || popup.SelectedItem is not ReceivedGift replaced)
+            if (confirm != ModalPopupResult.Primary || popup.SelectedItem is not ReceivedGift replaced)
             {
                 return;
             }

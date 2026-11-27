@@ -1103,7 +1103,6 @@
     <Compile Include="Controls\ColorPicker.cs" />
     <Compile Include="Controls\ColorTextBox.cs" />
     <Compile Include="Controls\ConfettiView.cs" />
-    <Compile Include="Controls\ContentPopup.cs" />
     <Compile Include="Controls\CountryBox.xaml.cs">
       <DependentUpon>CountryBox.xaml</DependentUpon>
     </Compile>

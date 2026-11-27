@@ -394,7 +394,7 @@ namespace Telegram.ViewModels
         private async void ShowBirthdateLaterToast()
         {
             var confirm = await ToastPopup.ShowActionAsync(XamlRoot, Strings.BirthdaySetupLater, Strings.Settings, ToastPopupIcon.Info);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 NavigationService.Navigate(typeof(SettingsProfilePage));
             }
@@ -409,7 +409,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await ShowPopupAsync(new SettingsPasskeysIntroPopup());
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -473,7 +473,7 @@ namespace Telegram.ViewModels
             var popup = new SettingsBirthdatePopup(date: null, rule);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new HideSuggestedAction(new SuggestedActionSetBirthdate()));
 

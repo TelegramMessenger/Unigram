@@ -486,7 +486,7 @@ namespace Telegram.Controls.Stories
             popup.RequestedTheme = ElementTheme.Dark;
 
             var confirm = await popup.ShowQueuedAsync(XamlRoot);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -550,7 +550,7 @@ namespace Telegram.Controls.Stories
             popup.RequestedTheme = ElementTheme.Dark;
 
             var confirm = await popup.ShowQueuedAsync(XamlRoot);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }

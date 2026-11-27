@@ -107,7 +107,7 @@ namespace Telegram.Views.Stars.Popups
 
         }
 
-        public static Task<ContentDialogResult> ShowAsync(XamlRoot xamlRoot, IClientService clientService, INavigationService navigationService, UpgradedGift gift, UpgradedGiftValueInfo valueInfo)
+        public static Task<ModalPopupResult> ShowAsync(XamlRoot xamlRoot, IClientService clientService, INavigationService navigationService, UpgradedGift gift, UpgradedGiftValueInfo valueInfo)
         {
             var popup = new UpgradedGiftValuePopup(clientService, navigationService, gift, valueInfo)
             {

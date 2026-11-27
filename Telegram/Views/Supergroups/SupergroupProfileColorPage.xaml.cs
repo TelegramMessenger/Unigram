@@ -145,7 +145,7 @@ namespace Telegram.Views.Supergroups
             var confirm = await ViewModel.NavigationService.ShowPopupAsync(new SupergroupEditStickerSetPopup(tsc), args);
             var set = await tsc.Task as StickerSetInfo;
 
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ViewModel.SelectedCustomEmojiStickerSet = set?.Id ?? 0;
                 EmojiPackAnimated.Source = DelayedFileSource.FromStickerSetInfo(ViewModel.ClientService, set);
@@ -160,7 +160,7 @@ namespace Telegram.Views.Supergroups
             var confirm = await ViewModel.NavigationService.ShowPopupAsync(new SupergroupEditStickerSetPopup(tsc), args);
             var set = await tsc.Task as StickerSetInfo;
 
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ViewModel.SelectedStickerSet = set?.Id ?? 0;
                 StickerPackAnimated.Source = DelayedFileSource.FromStickerSetInfo(ViewModel.ClientService, set);

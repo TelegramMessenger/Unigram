@@ -296,12 +296,7 @@ namespace Telegram.Views.Stars.Popups
 
         private async void PayWithStarsInfo_Click(object sender, TextUrlClickEventArgs e)
         {
-            // BuyPopup is a ContentPopup, which does not open over this one.
-            Hide();
-
             await _navigationService.ShowPopupAsync(new BuyPopup(), new BuyStarsArgs());
-            await this.ShowQueuedAsync(XamlRoot);
-
             UpdateStarsBalance();
         }
 
@@ -386,8 +381,8 @@ namespace Telegram.Views.Stars.Popups
             {
                 _completed = true;
                 Hide(result == PayResult.Succeeded
-                    ? ContentDialogResult.Primary
-                    : ContentDialogResult.Secondary);
+                    ? ModalPopupResult.Primary
+                    : ModalPopupResult.Secondary);
 
                 if (result == PayResult.StarsNeeded)
                 {
@@ -532,7 +527,7 @@ namespace Telegram.Views.Stars.Popups
 
         private void Resale_Click(object sender, RoutedEventArgs e)
         {
-            Hide(ContentDialogResult.Primary);
+            Hide(ModalPopupResult.Primary);
             _navigationService.ShowPopup(new ResoldGiftsPopup(_clientService, _navigationService, _giftForResale, _receiverId));
         }
     }

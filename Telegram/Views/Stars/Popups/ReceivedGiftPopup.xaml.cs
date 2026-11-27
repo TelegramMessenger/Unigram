@@ -1243,7 +1243,7 @@ namespace Telegram.Views.Stars.Popups
 
                 if (upgradable is false)
                 {
-                    Hide(ContentDialogResult.Primary);
+                    Hide(ModalPopupResult.Primary);
                 }
                 else if (_page == GiftPage.Details)
                 {
@@ -1267,7 +1267,7 @@ namespace Telegram.Views.Stars.Popups
             }
             else
             {
-                Hide(ContentDialogResult.Primary);
+                Hide(ModalPopupResult.Primary);
             }
         }
 
@@ -1341,7 +1341,7 @@ namespace Telegram.Views.Stars.Popups
                     _navigationService.NavigateToChat(chat);
 
                     var confirm = await ToastPopup.ShowActionAsync(XamlRoot, text, Strings.StarsGiftUpgradeCompletedMoreButton, ToastPopupIcon.Gift);
-                    if (confirm == ContentDialogResult.Primary)
+                    if (confirm == ModalPopupResult.Primary)
                     {
                         _navigationService.NavigateToSender(receiverId, new NavigationState { { "open_gifts", true }, { "open_gifts_upgradable", true } });
                     }
@@ -1401,12 +1401,12 @@ namespace Telegram.Views.Stars.Popups
                 var message = Locale.Declension(Strings.R.Gift2ConvertText2, (long)diff.TotalDays, _clientService.GetTitle(_gift.SenderId), Locale.Declension(Strings.R.StarsCount, _gift.SellStarCount));
 
                 var confirm = await MessagePopup.ShowNestedAsync(XamlRoot, message, Strings.Gift2ConvertTitle, Strings.Gift2ConvertButton, Strings.Cancel);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     var response = await _clientService.SendAsync(new SellGift(_gift.ReceivedGiftId));
                     if (response is Ok)
                     {
-                        Hide(ContentDialogResult.Secondary);
+                        Hide(ModalPopupResult.Secondary);
 
                         _aggregator.Publish(new UpdateGiftIsSold(_gift.ReceivedGiftId));
 
@@ -1509,10 +1509,7 @@ namespace Telegram.Views.Stars.Popups
                 var response = await _clientService.SendAsync(new GetUpgradedGiftVariants(upgraded.Gift.RegularGiftId, !upgraded.Gift.IsCrafted, upgraded.Gift.IsCrafted));
                 if (response is GiftUpgradeVariants variants)
                 {
-                    Hide();
-
                     await _navigationService.ShowPopupAsync(new GiftVariantsPopup(_clientService, _navigationService, _gift, variants));
-                    await this.ShowQueuedAsync(XamlRoot);
                 }
             }
         }
@@ -1854,20 +1851,14 @@ namespace Telegram.Views.Stars.Popups
             StopRoll();
         }
 
-        private async void UpgradeCosts_Click(Hyperlink sender, HyperlinkClickEventArgs args)
+        private void UpgradeCosts_Click(Hyperlink sender, HyperlinkClickEventArgs args)
         {
             if (_preview == null)
             {
                 return;
             }
 
-            Hide();
-
-            await _navigationService.ShowPopupAsync(new GiftUpgradePricesPopup(_preview));
-            await this.ShowQueuedAsync(XamlRoot);
-
-            // Closing stopped the timer, and the price may have dropped meanwhile.
-            UpdateUpgradePrice();
+            _navigationService.ShowPopup(new GiftUpgradePricesPopup(_preview));
         }
 
         private async void InitializeValue(UpgradedGift gift)
@@ -2045,18 +2036,7 @@ namespace Telegram.Views.Stars.Popups
 
         private async void Pin()
         {
-            // Over the limit the replacement picker opens, a ContentPopup, which this one makes way for.
-            if (await _profile.IsPinLimitReachedAsync(_gift))
-            {
-                Hide();
-
-                await _profile.PinGiftAsync(_gift);
-                await this.ShowQueuedAsync(XamlRoot);
-            }
-            else
-            {
-                await _profile.PinGiftAsync(_gift);
-            }
+            await _profile.PinGiftAsync(_gift);
 
             // Pinning saves a hidden gift first.
             UpdateSavedInfo();
@@ -2065,7 +2045,7 @@ namespace Telegram.Views.Stars.Popups
         private async void Delete()
         {
             var confirm = await MessagePopup.ShowNestedAsync(XamlRoot, Strings.Gift2DeleteText, Strings.Gift2DeleteOption, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -2073,7 +2053,7 @@ namespace Telegram.Views.Stars.Popups
             var response = await _clientService.SendAsync(new DeleteGift(_gift.ReceivedGiftId));
             if (response is Ok)
             {
-                Hide(ContentDialogResult.Secondary);
+                Hide(ModalPopupResult.Secondary);
 
                 // The profile list drops a sold gift and a deleted one the same way.
                 _aggregator.Publish(new UpdateGiftIsSold(_gift.ReceivedGiftId));
@@ -2182,7 +2162,7 @@ namespace Telegram.Views.Stars.Popups
             else if (upgraded.Gift.ResaleParameters != null)
             {
                 var confirm = await _navigationService.ShowPopupAsync(Strings.Gift2UnlistText, string.Format(Strings.Gift2UnlistTitle, upgraded.Gift.ToName()), Strings.Gift2ActionUnlist, Strings.Cancel);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     var response = await _clientService.SendAsync(new SetGiftResalePrice(_gift.ReceivedGiftId, null));
                     if (response is Ok)
@@ -2240,7 +2220,7 @@ namespace Telegram.Views.Stars.Popups
             var popup = new GiftResalePricePopup(_clientService, price);
 
             var confirm = await popup.ShowAsync(XamlRoot);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -2292,7 +2272,7 @@ namespace Telegram.Views.Stars.Popups
             var popup = new GiftResalePricePopup(_clientService, listed?.GramAmount ?? 0, fixedPrice, listed != null);
 
             var confirm = await popup.ShowAsync(XamlRoot);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -2437,7 +2417,7 @@ namespace Telegram.Views.Stars.Popups
                 var unlist = gift.UsesOnChainResale && gift.ResaleParameters.CanBeManaged;
 
                 var confirm = await MessagePopup.ShowNestedAsync(XamlRoot, Strings.GiftOnchainTransferUnlistFirst, Strings.Gift2TransferOption, unlist ? Strings.Gift2ActionUnlist : Strings.OK, unlist ? Strings.Cancel : null);
-                if (confirm != ContentDialogResult.Primary || !unlist)
+                if (confirm != ModalPopupResult.Primary || !unlist)
                 {
                     return;
                 }
@@ -2578,7 +2558,7 @@ namespace Telegram.Views.Stars.Popups
                 var popup = new GiftMessagePopup(_clientService, upgraded.Gift, _sendGiftTo);
 
                 var confirm = await _navigationService.ShowPopupAsync(popup);
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     _submitted = false;
                     return;
@@ -2599,7 +2579,7 @@ namespace Telegram.Views.Stars.Popups
             else if (response is GiftResaleResultOk)
             {
                 _aggregator.Publish(new UpdateGiftIsSold(_gift.ReceivedGiftId));
-                Hide(ContentDialogResult.Primary);
+                Hide(ModalPopupResult.Primary);
 
                 if (chat != null)
                 {
@@ -2700,7 +2680,7 @@ namespace Telegram.Views.Stars.Popups
             }
 
             var confirm = await MessagePopup.ShowNestedAsync(XamlRoot, Strings.Gift2CantDoText, Strings.Gift2CantDoTitle, Strings.OpenFragment, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 MessageHelper.OpenUrl(_clientService, _navigationService, "https://fragment.com/gift/" + upgraded.Gift.Name);
             }
@@ -2753,7 +2733,8 @@ namespace Telegram.Views.Stars.Popups
             {
                 var worn = IsWorn(_clientService, upgraded.Gift);
 
-                if (await ToggleWearAsync(_clientService, _navigationService, XamlRoot, upgraded.Gift, this))
+                var toggled = await ToggleWearAsync(_clientService, _navigationService, XamlRoot, upgraded.Gift);
+                if (toggled)
                 {
                     UpdateWearButton(!worn);
                     ShowPage(GiftPage.Details);
@@ -2765,10 +2746,9 @@ namespace Telegram.Views.Stars.Popups
 
         /// <summary>
         /// Puts the gift on as its holder's emoji status, or takes it off. False when nothing
-        /// changed. <paramref name="host"/> is the popup asking, if any: it steps aside while the
-        /// boost requirement for a channel is shown, and comes back after.
+        /// changed.
         /// </summary>
-        public static async Task<bool> ToggleWearAsync(IClientService clientService, INavigationService navigationService, XamlRoot xamlRoot, UpgradedGift gift, ModalPopup host = null)
+        public static async Task<bool> ToggleWearAsync(IClientService clientService, INavigationService navigationService, XamlRoot xamlRoot, UpgradedGift gift)
         {
             var worn = IsWorn(clientService, gift);
 
@@ -2778,7 +2758,8 @@ namespace Telegram.Views.Stars.Popups
             {
                 if (HolderOf(gift) is MessageSenderChat senderChat)
                 {
-                    if (await CanSetChatEmojiStatusAsync(clientService, navigationService, xamlRoot, senderChat.ChatId, host) is false)
+                    var allowed = await CanSetChatEmojiStatusAsync(clientService, navigationService, senderChat.ChatId);
+                    if (allowed is false)
                     {
                         return false;
                     }
@@ -2816,7 +2797,7 @@ namespace Telegram.Views.Stars.Popups
             return false;
         }
 
-        private static async Task<bool> CanSetChatEmojiStatusAsync(IClientService clientService, INavigationService navigationService, XamlRoot xamlRoot, long chatId, ModalPopup host)
+        private static async Task<bool> CanSetChatEmojiStatusAsync(IClientService clientService, INavigationService navigationService, long chatId)
         {
             if (!clientService.TryGetChat(chatId, out Chat chat))
             {
@@ -2832,15 +2813,7 @@ namespace Telegram.Views.Stars.Popups
                 return true;
             }
 
-            host?.Hide();
-
             await navigationService.ShowPopupAsync(new ChatBoostFeaturesPopup(clientService, navigationService, chat, status, null, features, ChatBoostFeature.EmojiStatus, features.MinEmojiStatusBoostLevel));
-
-            if (host != null)
-            {
-                await host.ShowQueuedAsync(xamlRoot);
-            }
-
             return false;
         }
 
@@ -2939,7 +2912,7 @@ namespace Telegram.Views.Stars.Popups
         private async void UpgradedCaptionRemove_Click(object sender, RoutedEventArgs e)
         {
             var confirm = await _navigationService.ShowPopupAsync(Strings.Gift2RemoveDescriptionText, Strings.Gift2RemoveDescriptionTitle, string.Format(Strings.Gift2RemoveDescriptionButton.ReplaceStar(Icons.Premium), _gift.DropOriginalDetailsStarCount));
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 var response = await _clientService.SendPaymentAsync(_gift.DropOriginalDetailsStarCount, new DropGiftOriginalDetails(_gift.ReceivedGiftId, _gift.DropOriginalDetailsStarCount));
                 if (response is Ok)

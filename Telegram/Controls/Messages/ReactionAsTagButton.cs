@@ -181,7 +181,7 @@ namespace Telegram.Controls.Messages
             popup.SecondaryButtonText = Strings.Cancel;
 
             var confirm = await popup.ShowQueuedAsync(XamlRoot);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 _message.ClientService.Send(new SetSavedMessagesTagLabel(chosen.Type, popup.Text));
             }

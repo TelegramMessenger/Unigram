@@ -272,7 +272,7 @@ namespace Telegram.Views.Host
         private async void LogOut_Click(object sender, RoutedEventArgs e)
         {
             var confirm = await MessagePopup.ShowAsync(XamlRoot, Strings.AreYouSureLogout, Strings.AppName, Strings.LogOut, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 foreach (var client in LifetimeService.Current.ResolveAll<IClientService>())
                 {

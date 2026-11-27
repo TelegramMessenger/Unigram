@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Telegram.Views.Business.Popups
 {
-    public sealed partial class ChooseHoursPopup : ContentPopup
+    public sealed partial class ChooseHoursPopup : ModalPopup
     {
         private const int DayMinutes = 24 * 60;
 

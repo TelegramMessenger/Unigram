@@ -31,7 +31,7 @@ namespace Telegram.Common
 
             while (current != null)
             {
-                if (current is ContentPopup or ModalPopup)
+                if (current is ModalPopup)
                 {
                     return true;
                 }
@@ -281,9 +281,7 @@ namespace Telegram.Common
             }
             catch (Exception ex)
             {
-                // Swallowing this drops the callback with no trace, and callers rely on it running:
-                // ContentPopup completes the task its ShowQueuedAsync awaits from here, so a lost
-                // subscription leaves every dialog on this view awaiting forever.
+                // Swallowing this drops the callback with no trace, and callers rely on it running.
                 Logger.Error(ex.ToString());
             }
         }

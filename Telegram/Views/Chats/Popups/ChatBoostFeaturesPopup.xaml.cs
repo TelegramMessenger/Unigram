@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Telegram.Views.Chats.Popups
 {
-    public sealed partial class ChatBoostFeaturesPopup : ContentPopup
+    public sealed partial class ChatBoostFeaturesPopup : ModalPopup
     {
         private readonly bool _channel;
         private readonly IClientService _clientService;
@@ -156,7 +156,7 @@ namespace Telegram.Views.Chats.Popups
             Opened += OnOpened;
         }
 
-        private void OnOpened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+        private void OnOpened(ModalPopup sender, ModalPopupOpenedEventArgs args)
         {
             Progress.Animate(_status.BoostCount);
         }
@@ -181,7 +181,7 @@ namespace Telegram.Views.Chats.Popups
         private bool _submitted;
         private bool _completed;
 
-        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void OnPrimaryButtonClick(ModalPopup sender, ModalPopupButtonClickEventArgs args)
         {
             args.Cancel = !_completed;
 
@@ -234,7 +234,7 @@ namespace Telegram.Views.Chats.Popups
                         : string.Format(Strings.BoostingGetMoreBoostByGifting, _chat.Title);
 
                     var confirm = await MessagePopup.ShowNestedAsync(XamlRoot, message, Strings.BoostingMoreBoostsNeeded, Strings.GiftPremium, Strings.Close);
-                    if (confirm == ContentDialogResult.Primary)
+                    if (confirm == ModalPopupResult.Primary)
                     {
                         _completed = true;
                         Hide();
@@ -244,7 +244,7 @@ namespace Telegram.Views.Chats.Popups
             else
             {
                 var confirm = await MessagePopup.ShowNestedAsync(XamlRoot, _channel ? Strings.PremiumNeededForBoosting : Strings.PremiumNeededForBoostingGroup, Strings.PremiumNeeded, Strings.CheckPhoneNumberYes, Strings.Cancel);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     _completed = true;
                     Hide();

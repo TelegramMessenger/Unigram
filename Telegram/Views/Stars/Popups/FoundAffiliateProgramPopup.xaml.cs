@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Hosting;
 
 namespace Telegram.Views.Stars.Popups
 {
-    public sealed partial class FoundAffiliateProgramPopup : ContentPopup
+    public sealed partial class FoundAffiliateProgramPopup : ModalPopup
     {
         private readonly IClientService _clientService;
         private readonly INavigationService _navigationService;

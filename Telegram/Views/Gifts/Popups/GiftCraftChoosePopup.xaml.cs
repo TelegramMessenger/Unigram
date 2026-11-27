@@ -77,7 +77,7 @@ namespace Telegram.Views.Gifts.Popups
         public GiftForResaleOrder Order => _order;
     }
 
-    public sealed partial class GiftCraftChoosePopup : ContentPopup, IResoldGiftsPopup
+    public sealed partial class GiftCraftChoosePopup : ModalPopup, IResoldGiftsPopup
     {
         private readonly IClientService _clientService;
         private readonly INavigationService _navigationService;
@@ -134,7 +134,7 @@ namespace Telegram.Views.Gifts.Popups
 
         public ReceivedGift SelectedGift { get; private set; }
 
-        private void OnOpened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+        private void OnOpened(ModalPopup sender, ModalPopupOpenedEventArgs args)
         {
             ShowHideSkeleton();
         }
@@ -210,7 +210,7 @@ namespace Telegram.Views.Gifts.Popups
                 {
                     //_aggregator.Publish(new UpdateGiftIsSold(_gift.ReceivedGiftId));
                     SelectedGift = new ReceivedGift(ok.ReceivedGiftId, null, null, 0, false, false, false, false, false, false, false, 0, new SentGiftUpgraded(giftForResale.Gift), Array.Empty<int>(), 0, 0, false, 0, 0, 0, 0, 0, string.Empty, 0); ;
-                    Hide(ContentDialogResult.Primary);
+                    Hide(ModalPopupResult.Primary);
 
                     //if (chat != null)
                     //{
@@ -231,22 +231,11 @@ namespace Telegram.Views.Gifts.Popups
                     Hide();
                     await _navigationService.ShowPopupAsync(new BuyPopup(), BuyStarsArgs.ForChannel(giftForResale.Gift.ResaleParameters.StarCount, 0));
                 }
-
-                //Hide(ContentDialogResult.Primary);
-
-                //var receivedGift = new ReceivedGift(giftForResale.ReceivedGiftId, null, null, 0, false, false, false, false, false, false, 0, new SentGiftUpgraded(giftForResale.Gift), Array.Empty<int>(), 0, 0, false, 0, 0, 0, 0, 0, string.Empty, 0);
-
-                //var confirm = await _navigationService.ShowPopupAsync(new ReceivedGiftPopup(_clientService, _navigationService, receivedGift, giftForResale.Gift.OwnerId, _receiverId));
-                //if (confirm == ContentDialogResult.Primary && _receiverId == null)
-                //{
-                //    _gifts.Remove(giftForResale);
-                //    await this.ShowQueuedAsync(XamlRoot);
-                //}
             }
             else if (e.ClickedItem is ReceivedGift receivedGift)
             {
                 SelectedGift = receivedGift;
-                Hide(ContentDialogResult.Primary);
+                Hide(ModalPopupResult.Primary);
             }
         }
 

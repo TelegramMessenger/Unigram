@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Common;
+using Telegram.Controls;
 using Telegram.Native.Calls;
 using Telegram.Navigation;
 using Telegram.Navigation.Services;
@@ -617,7 +618,7 @@ namespace Telegram.Services.Calls
                 popup.RequestedTheme = ElementTheme.Dark;
 
                 var confirm = await popup.ShowQueuedAsync(xamlRoot);
-                if (confirm == ContentDialogResult.Primary && (IsJoined || NeedRejoin))
+                if (confirm == ModalPopupResult.Primary && (IsJoined || NeedRejoin))
                 {
                     Rejoin(popup.SelectedSender);
                 }

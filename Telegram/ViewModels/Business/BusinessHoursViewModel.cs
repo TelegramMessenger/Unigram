@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Common;
+using Telegram.Controls;
 using Telegram.Converters;
 using Telegram.Navigation.Services;
 using Telegram.Services;
@@ -409,7 +410,7 @@ namespace Telegram.ViewModels.Business
             var popup = new ChooseHoursPopup(day, min, max, GetMaxPeriodsCount());
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 day.Ranges.Clear();
                 day.Ranges.AddRange(popup.Ranges);
@@ -485,7 +486,7 @@ namespace Telegram.ViewModels.Business
                 var popup = new ChooseTimeZonePopup(zones, TimeZone);
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     TimeZone = popup.SelectedItem;
                 }

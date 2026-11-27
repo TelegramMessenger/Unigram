@@ -496,7 +496,7 @@ namespace Telegram.ViewModels
             var popup = new SendAudiosPopup(ClientService, NavigationService);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -672,7 +672,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await popup.OpenAsync(XamlRoot);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 if (formattedText != null)
                 {
@@ -978,7 +978,7 @@ namespace Telegram.ViewModels
         //    {
         //        var dialog = new SupergroupEditRestrictedUntilView(DateTime.Now.ToTimestamp());
         //        var confirm = await ShowPopupAsync(dialog);
-        //        if (confirm != ContentDialogResult.Primary)
+        //        if (confirm != ModalPopupResult.Primary)
         //        {
         //            return null;
         //        }
@@ -1120,7 +1120,7 @@ namespace Telegram.ViewModels
             var popup = new SendLocationPopup(Session);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 var plan = await PrepareSendAsync(composer, 1, SchedulingState.Auto, null, false, 0);
                 if (plan == null)
@@ -1148,7 +1148,7 @@ namespace Telegram.ViewModels
             var popup = new CreatePollPopup(ClientService, NavigationService, title, forceQuiz, forceRegular, channel);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 SetFormattedText(title);
                 return;
@@ -1174,7 +1174,7 @@ namespace Telegram.ViewModels
                 var popup = new CreateChecklistPopup(ClientService, title);
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     SetFormattedText(title);
                     return;

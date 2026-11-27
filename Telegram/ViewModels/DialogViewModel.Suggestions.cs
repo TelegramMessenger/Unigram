@@ -39,7 +39,7 @@ namespace Telegram.ViewModels
             }
 
             var now = DateTime.Now.ToUnixTimeSeconds();
-            if (Math.Abs(now - Settings.BroadcastGroupSuggestionDate) < BroadcastGroupSuggestionInterval || ContentPopup.IsAnyPopupOpen(XamlRoot))
+            if (Math.Abs(now - Settings.BroadcastGroupSuggestionDate) < BroadcastGroupSuggestionInterval || ModalPopup.IsAnyPopupOpen(XamlRoot))
             {
                 return;
             }
@@ -51,26 +51,26 @@ namespace Telegram.ViewModels
         private async void SuggestBroadcastGroup(long supergroupId)
         {
             var learnMore = await ShowPopupAsync(Strings.GigagroupAlertText, Strings.GigagroupAlertTitle, Strings.GigagroupAlertLearnMore, Strings.Cancel);
-            if (learnMore != ContentDialogResult.Primary)
+            if (learnMore != ModalPopupResult.Primary)
             {
                 ShowToast(Strings.GigagroupConvertCancelHint, ToastPopupIcon.Info);
                 return;
             }
 
             var convert = await ShowPopupAsync(new SupergroupBroadcastGroupPopup());
-            if (convert == ContentDialogResult.Secondary)
+            if (convert == ModalPopupResult.Secondary)
             {
                 ShowToast(Strings.GigagroupConvertCancelHint, ToastPopupIcon.Info);
                 ClientService.Send(new HideSuggestedAction(new SuggestedActionConvertToBroadcastGroup(supergroupId)));
                 return;
             }
-            else if (convert != ContentDialogResult.Primary)
+            else if (convert != ModalPopupResult.Primary)
             {
                 return;
             }
 
             var confirm = await ShowPopupAsync(Strings.GigagroupConvertAlertText, Strings.GigagroupConvertAlertTitle, Strings.GigagroupConvertAlertConver, Strings.Cancel, destructive: true);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }

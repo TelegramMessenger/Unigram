@@ -501,7 +501,7 @@ namespace Telegram.Views.Stories.Popups
             var chatId = _chatId;
 
             var confirm = await _navigationService.ShowPopupAsync(popup, requestedTheme: ElementTheme.Dark);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -921,7 +921,7 @@ namespace Telegram.Views.Stories.Popups
                     var users = string.Join(", ", restricted.Take(2));
                     var confirm = await _navigationService.ShowPopupAsync(string.Format(Strings.StoryRestrictionsInfo, users), Strings.StoryRestrictions, Strings.Proceed, Strings.Cancel, requestedTheme: ElementTheme.Dark);
 
-                    if (confirm != ContentDialogResult.Primary)
+                    if (confirm != ModalPopupResult.Primary)
                     {
                         _accepting = false;
                         return;
@@ -943,7 +943,7 @@ namespace Telegram.Views.Stories.Popups
             _settings.Period = _period;
 
             _accepting = false;
-            Hide(ContentDialogResult.Primary);
+            Hide(ModalPopupResult.Primary);
         }
 
         // The people mentioned in the caption whom the chosen privacy keeps from seeing the story,

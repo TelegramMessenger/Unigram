@@ -445,7 +445,7 @@ namespace Telegram.Common
         public static async Task<bool> ExplainChangePriceAsync(IClientService clientService, INavigationService navigation, UpgradedGift gift)
         {
             var confirm = await navigation.ShowPopupAsync(Strings.GiftOnchainChangePriceText, Strings.Gift2ChangePrice, Strings.Gift2ActionUnlist, Strings.Cancel);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return false;
             }
@@ -501,7 +501,7 @@ namespace Telegram.Common
             var offer = new GiftOfferPopup(clientService, navigation, gift, ownerName, (long)state.BalanceNanograms);
 
             var confirm = await navigation.ShowPopupAsync(offer);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return false;
             }
@@ -760,7 +760,7 @@ namespace Telegram.Common
             {
                 ToastPopup.Show(xamlRoot, Strings.GiftOnchainOfferStatusExpired, ToastPopupIcon.Info);
             }
-            else if (confirm == ContentDialogResult.Secondary)
+            else if (confirm == ModalPopupResult.Secondary)
             {
                 DeclineOffer(clientService, navigation, messageId, offer);
             }
@@ -821,7 +821,7 @@ namespace Telegram.Common
             var text = string.Format(Strings.GiftOnchainOfferDeclineText, GiftHelper.FormatGrams(offer.GramAmount), GiftHelper.NoBreak(offer.Gift.ToName()));
 
             var confirm = await navigation.ShowPopupAsync(ClientEx.ParseMarkdown(text), Strings.GiftOnchainOfferDeclineTitle, Strings.GiftOnchainOfferDecline, Strings.Cancel, destructive: true);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -1164,7 +1164,7 @@ namespace Telegram.Common
             var text = isFixed ? Strings.GiftOnchainErrorWalletUnavailableFixed : Strings.GiftOnchainErrorWalletUnavailable;
 
             var confirm = await MessagePopup.ShowNestedAsync(xamlRoot, text, Strings.GiftOnchainWalletTitle, Strings.GiftOnchainOpenWallet, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 navigation.NavigateToWallet();
             }
@@ -1177,7 +1177,7 @@ namespace Telegram.Common
                 : string.Empty;
 
             var confirm = await MessagePopup.ShowNestedAsync(xamlRoot, message, Strings.WalletNotEnoughGram, Strings.WalletTopUp, Strings.WalletNotNow);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 navigation.NavigateToWallet();
             }

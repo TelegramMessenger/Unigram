@@ -357,7 +357,7 @@ namespace Telegram.Views.Premium.Popups
 
         private async void OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ContentDialogResult confirm = ContentDialogResult.None;
+            ModalPopupResult confirm = ModalPopupResult.None;
 
             if (e.ClickedItem is ReceivedGift receivedGift)
             {
@@ -419,7 +419,7 @@ namespace Telegram.Views.Premium.Popups
                 confirm = await _navigationService.ShowPopupAsync(new SendGiftPopup(_clientService, _navigationService, option, user.UserId));
             }
 
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 Hide();
             }

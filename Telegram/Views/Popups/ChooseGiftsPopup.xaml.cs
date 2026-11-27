@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Telegram.Views.Popups
 {
-    public sealed partial class ChooseGiftsPopup : ContentPopup
+    public sealed partial class ChooseGiftsPopup : ModalPopup
     {
         private readonly IClientService _clientService;
         private readonly ProfileGiftsTabViewModel _viewModel;

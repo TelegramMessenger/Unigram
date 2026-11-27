@@ -634,7 +634,7 @@ namespace Telegram.ViewModels
             if (_configuration != null)
             {
                 var confirm = await _configuration.ConfirmSelectionAsync(this, SelectedItems);
-                return confirm == ContentDialogResult.Primary;
+                return confirm == ModalPopupResult.Primary;
             }
 
             return true;
@@ -868,7 +868,7 @@ namespace Telegram.ViewModels
                 if (verification?.BotUserId == verifyChat.BotUserId)
                 {
                     var confirm = await VerifyChatPopup.ShowAsync(XamlRoot, ClientService, chat, true, false);
-                    if (confirm.Result == ContentDialogResult.Primary)
+                    if (confirm.Result == ModalPopupResult.Primary)
                     {
                         NavigationService.HidePopup(typeof(ChooseChatsPopup));
 
@@ -886,7 +886,7 @@ namespace Telegram.ViewModels
                 else
                 {
                     var confirm = await VerifyChatPopup.ShowAsync(XamlRoot, ClientService, chat, false, verifyChatFullInfo.BotInfo.VerificationParameters?.CanSetCustomDescription ?? false);
-                    if (confirm.Result == ContentDialogResult.Primary)
+                    if (confirm.Result == ModalPopupResult.Primary)
                     {
                         NavigationService.HidePopup(typeof(ChooseChatsPopup));
 

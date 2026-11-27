@@ -553,7 +553,7 @@ namespace Telegram.Controls.Stories
             var parent = this.GetParent<StoriesWindow>();
             if (parent != null)
             {
-                parent.TryHide(ContentDialogResult.Primary);
+                parent.TryHide(ModalPopupResult.Primary);
                 ViewModel.NavigationService.NavigateToSender(sender);
             }
         }
@@ -563,7 +563,7 @@ namespace Telegram.Controls.Stories
             var parent = this.GetParent<StoriesWindow>();
             if (parent != null)
             {
-                parent.TryHide(ContentDialogResult.Primary);
+                parent.TryHide(ModalPopupResult.Primary);
                 ViewModel.NavigationService.NavigateToChat(post.ChatId, message: post.MessageId);
             }
         }
@@ -805,7 +805,7 @@ namespace Telegram.Controls.Stories
                     var window = element.GetParent<StoriesWindow>();
                     var result = await window?.ShowActionAsync(target, text, ToastPlacementMode.Top);
 
-                    if (result == ContentDialogResult.Primary)
+                    if (result == ModalPopupResult.Primary)
                     {
                         try
                         {
@@ -836,7 +836,7 @@ namespace Telegram.Controls.Stories
                     var window = element.GetParent<StoriesWindow>();
                     var result = await window?.ShowActionAsync(target, text, ToastPlacementMode.Top);
 
-                    if (result == ContentDialogResult.Primary)
+                    if (result == ModalPopupResult.Primary)
                     {
                         ViewModel.NavigationService.NavigateToChat(typeMessage.ChatId, message: typeMessage.MessageId);
                     }
@@ -861,7 +861,7 @@ namespace Telegram.Controls.Stories
                     var window = element.GetParent<StoriesWindow>();
                     var result = await window?.ShowActionAsync(target, text, ToastPlacementMode.Top);
 
-                    if (result == ContentDialogResult.Primary)
+                    if (result == ModalPopupResult.Primary)
                     {
                         MessageHelper.OpenUrl(ViewModel.ClientService, ViewModel.NavigationService, typeLink.Url);
                     }
@@ -878,7 +878,7 @@ namespace Telegram.Controls.Stories
                     var window = element.GetParent<StoriesWindow>();
                     var result = await window?.ShowActionAsync(target, text, ToastPlacementMode.Top);
 
-                    if (result == ContentDialogResult.Primary)
+                    if (result == ModalPopupResult.Primary)
                     {
                         MessageHelper.OpenTelegramUrl(ViewModel.ClientService, ViewModel.NavigationService, new InternalLinkTypeUpgradedGift(typeUpgradedGift.GiftName));
                     }
@@ -1248,7 +1248,7 @@ namespace Telegram.Controls.Stories
             var parent = this.GetParent<StoriesWindow>();
             if (parent != null)
             {
-                parent.TryHide(ContentDialogResult.Primary);
+                parent.TryHide(ModalPopupResult.Primary);
                 parent.ViewModel.OpenPoster(ViewModel);
             }
         }
@@ -2316,7 +2316,7 @@ namespace Telegram.Controls.Stories
 
                     if (parent != null && navigationService != null)
                     {
-                        parent.TryHide(ContentDialogResult.Primary);
+                        parent.TryHide(ModalPopupResult.Primary);
                         StoriesWindow.ShowStory(navigationService, source, StoryOpenOrigin.Card, Windows.Foundation.Rect.Empty, null);
                     }
                 }
@@ -2617,7 +2617,7 @@ namespace Telegram.Controls.Stories
             popup.RequestedTheme = ElementTheme.Dark;
 
             var confirm = await ViewModel.ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 if (popup.DeleteAllMessages.Any())
                 {

@@ -277,7 +277,7 @@ namespace Telegram.Controls.Messages.Content
             if (response is StickerSet stickerSet)
             {
                 var confirm = await ToastPopup.ShowActionAsync(XamlRoot, string.Format("**{0}**\n{1}", stickerSet.Title, Strings.PremiumStickerTooltip), Strings.ViewAction, new DelayedFileSource(message.ClientService, sticker));
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     message.Delegate.OpenSticker(sticker);
                 }

@@ -55,15 +55,13 @@ namespace Telegram.Navigation.Services
 
         Task<WindowContext> OpenAsync(ViewServiceOptions parameters);
         Task<WindowContext> OpenAsync(Type page, object parameter = null, string title = null, Size size = default);
-        Task<ContentDialogResult> ShowPopupAsync(ContentPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default);
-        void ShowPopup(ContentPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default);
-        Task<ContentDialogResult> ShowPopupAsync(ModalPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default);
+        Task<ModalPopupResult> ShowPopupAsync(ModalPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default);
         void ShowPopup(ModalPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default);
 
-        Task<ContentDialogResult> ShowPopupAsync(string message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
-        //Task<ContentDialogResult> ShowPopupAsync(FrameworkElement target, string message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
-        Task<ContentDialogResult> ShowPopupAsync(FormattedText message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
-        ////Task<ContentDialogResult> ShowPopupAsync(FrameworkElement target, FormattedText message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
+        Task<ModalPopupResult> ShowPopupAsync(string message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
+        //Task<ModalPopupResult> ShowPopupAsync(FrameworkElement target, string message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
+        Task<ModalPopupResult> ShowPopupAsync(FormattedText message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
+        ////Task<ModalPopupResult> ShowPopupAsync(FrameworkElement target, FormattedText message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
         void ShowPopup(string message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
         void ShowPopup(FormattedText message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
         Task<InputPopupResult> ShowInputAsync(InputPopupType type, string message, string title = null, string placeholderText = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default);
@@ -589,7 +587,7 @@ namespace Telegram.Navigation.Services
             UpdateStacks(previous, entry, e, replace);
 
             Navigated?.Invoke(this, e);
-            OverlayWindow.TryHide(XamlRoot, ContentDialogResult.None);
+            OverlayWindow.TryHide(XamlRoot, ModalPopupResult.None);
 
             if (e.Content.DataContext is INavigable dataContext)
             {
@@ -781,55 +779,12 @@ namespace Telegram.Navigation.Services
             return viewService.OpenAsync(Session, page, parameter, title, size);
         }
 
-        public void ShowPopup(ContentPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default)
-        {
-            _ = ShowPopupAsync(popup, parameter, requestedTheme);
-        }
-
-        public Task<ContentDialogResult> ShowPopupAsync(ContentPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default)
-        {
-            if (requestedTheme != ElementTheme.Default)
-            {
-                popup.RequestedTheme = requestedTheme;
-            }
-
-            var viewModel = BootStrapper.Current.ViewModelForPage(popup, Session);
-            if (viewModel != null)
-            {
-                viewModel.NavigationService = this;
-                viewModel.Dispatcher = Dispatcher;
-
-                void OnOpened(ContentDialog sender, ContentDialogOpenedEventArgs args)
-                {
-                    popup.Opened -= OnOpened;
-                }
-
-                void OnClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
-                {
-                    if (popup.IsFinalized)
-                    {
-                        viewModel.NavigatedFrom(null, false);
-                        popup.OnNavigatedFrom();
-                        popup.Closed -= OnClosed;
-                    }
-                }
-
-                popup.DataContext = viewModel;
-
-                _ = viewModel.NavigatedToAsync(parameter, NavigationMode.New, null);
-                popup.OnNavigatedTo(parameter);
-                popup.Closed += OnClosed;
-            }
-
-            return popup.ShowQueuedAsync(XamlRoot);
-        }
-
         public void ShowPopup(ModalPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default)
         {
             _ = ShowPopupAsync(popup, parameter, requestedTheme);
         }
 
-        public Task<ContentDialogResult> ShowPopupAsync(ModalPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default)
+        public Task<ModalPopupResult> ShowPopupAsync(ModalPopup popup, object parameter = null, ElementTheme requestedTheme = ElementTheme.Default)
         {
             if (requestedTheme != ElementTheme.Default)
             {
@@ -844,12 +799,9 @@ namespace Telegram.Navigation.Services
 
                 void OnClosed(ModalPopup sender, ModalPopupClosedEventArgs args)
                 {
-                    if (popup.IsFinalized)
-                    {
-                        viewModel.NavigatedFrom(null, false);
-                        popup.OnNavigatedFrom();
-                        popup.Closed -= OnClosed;
-                    }
+                    viewModel.NavigatedFrom(null, false);
+                    popup.OnNavigatedFrom();
+                    popup.Closed -= OnClosed;
                 }
 
                 popup.DataContext = viewModel;
@@ -862,36 +814,36 @@ namespace Telegram.Navigation.Services
             return popup.ShowAsync(XamlRoot);
         }
 
-        public Task<ContentDialogResult> ShowPopupAsync(string message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
+        public Task<ModalPopupResult> ShowPopupAsync(string message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         {
-            if (ContentPopup.IsAnyPopupOpen(XamlRoot))
+            if (ModalPopup.IsAnyPopupOpen(XamlRoot))
             {
-                return MessagePopup.ShowNestedAsync(XamlRoot, message, title, primary, secondary ?? tertiary, destructive, requestedTheme);
+                return MessagePopup.ShowNestedAsync(XamlRoot, message, title, primary, secondary, tertiary, destructive, requestedTheme);
             }
 
             return MessagePopup.ShowAsync(XamlRoot, message, title, primary, secondary, tertiary, destructive, requestedTheme);
         }
 
-        //public Task<ContentDialogResult> ShowPopupAsync(FrameworkElement target, string message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
+        //public Task<ModalPopupResult> ShowPopupAsync(FrameworkElement target, string message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         //{
         //    return MessagePopup.ShowAsync(target, message, title, primary, secondary, destructive, requestedTheme);
         //}
 
-        public Task<ContentDialogResult> ShowPopupAsync(FormattedText message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
+        public Task<ModalPopupResult> ShowPopupAsync(FormattedText message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         {
             return MessagePopup.ShowAsync(XamlRoot, message, title, primary, secondary, tertiary, destructive, requestedTheme);
         }
 
-        ////public Task<ContentDialogResult> ShowPopupAsync(FrameworkElement target, FormattedText message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
+        ////public Task<ModalPopupResult> ShowPopupAsync(FrameworkElement target, FormattedText message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         ////{
         ////    return MessagePopup.ShowAsync(target, message, title, primary, secondary, destructive, requestedTheme);
         ////}
 
         public void ShowPopup(string message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         {
-            if (ContentPopup.IsAnyPopupOpen(XamlRoot))
+            if (ModalPopup.IsAnyPopupOpen(XamlRoot))
             {
-                _ = MessagePopup.ShowNestedAsync(XamlRoot, message, title, primary, secondary ?? tertiary, destructive, requestedTheme);
+                _ = MessagePopup.ShowNestedAsync(XamlRoot, message, title, primary, secondary, tertiary, destructive, requestedTheme);
                 return;
             }
 
@@ -900,9 +852,9 @@ namespace Telegram.Navigation.Services
 
         public void ShowPopup(FormattedText message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         {
-            if (ContentPopup.IsAnyPopupOpen(XamlRoot))
+            if (ModalPopup.IsAnyPopupOpen(XamlRoot))
             {
-                _ = MessagePopup.ShowNestedAsync(XamlRoot, message, title, primary, secondary ?? tertiary, destructive, requestedTheme);
+                _ = MessagePopup.ShowNestedAsync(XamlRoot, message, title, primary, secondary, tertiary, destructive, requestedTheme);
                 return;
             }
 
@@ -923,11 +875,7 @@ namespace Telegram.Navigation.Services
         {
             foreach (var popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(XamlRoot))
             {
-                if (popup.Child is ContentPopup dialog && type == dialog.GetType())
-                {
-                    dialog.Hide();
-                }
-                else if (popup.Child is ModalPopup modal && type == modal.GetType())
+                if (popup.Child is ModalPopup modal && type == modal.GetType())
                 {
                     modal.Hide();
                 }

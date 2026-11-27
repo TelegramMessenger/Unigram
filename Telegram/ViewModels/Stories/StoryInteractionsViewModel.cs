@@ -151,7 +151,7 @@ namespace Telegram.ViewModels
                     Strings.Cancel,
                     true);
 
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     interaction.BlockList = new BlockListMain();
                     ClientService.Send(new SetMessageSenderBlockList(interaction.ActorId, new BlockListMain()));
@@ -170,7 +170,7 @@ namespace Telegram.ViewModels
                     Strings.Cancel,
                     true);
 
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     ClientService.Send(new RemoveContacts(new[] { user.Id }));
                 }

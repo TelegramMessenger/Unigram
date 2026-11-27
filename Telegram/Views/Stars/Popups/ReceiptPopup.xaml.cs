@@ -25,7 +25,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Telegram.Views.Stars.Popups
 {
-    public sealed partial class ReceiptPopup : ContentPopup
+    public sealed partial class ReceiptPopup : ModalPopup
     {
         private readonly IClientService _clientService;
         private readonly INavigationService _navigationService;
@@ -343,7 +343,7 @@ namespace Telegram.Views.Stars.Popups
 
         private void Purchase_Click(object sender, RoutedEventArgs e)
         {
-            Hide(ContentDialogResult.Primary);
+            Hide(ModalPopupResult.Primary);
         }
 
         private void SettingsFooter_Click(object sender, TextUrlClickEventArgs e)

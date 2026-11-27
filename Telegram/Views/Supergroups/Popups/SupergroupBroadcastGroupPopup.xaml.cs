@@ -17,7 +17,7 @@ namespace Telegram.Views.Supergroups.Popups
 
             PrimaryButtonText = Strings.GigagroupConvertProcessButton;
             SecondaryButtonText = Strings.GigagroupConvertCancelButton;
-            ButtonsLayout = ContentPopupButtonsLayout.Vertical;
+            ButtonsLayout = ModalPopupButtonsLayout.Vertical;
         }
     }
 }

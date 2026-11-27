@@ -433,12 +433,12 @@ namespace Telegram.Views.Popups
                 return;
             }
 
-            SetResult(ContentDialogResult.Primary);
+            SetResult(ModalPopupResult.Primary);
         }
 
         private void OnSecondaryButtonClick(ModalPopup sender, ModalPopupButtonClickEventArgs args)
         {
-            SetResult(ContentDialogResult.Secondary);
+            SetResult(ModalPopupResult.Secondary);
         }
 
         private void Autocomplete_ItemClick(object sender, ItemClickEventArgs e)
@@ -762,7 +762,7 @@ namespace Telegram.Views.Popups
             }
 
             Caption = CaptionInput.GetFormattedText();
-            Hide(ContentDialogResult.Primary);
+            Hide(ModalPopupResult.Primary);
         }
 
         private void CaptionInput_Submitted(object sender, EventArgs e)
@@ -1489,7 +1489,7 @@ namespace Telegram.Views.Popups
             var popup = new EditMediaPopup(XamlRoot, ViewModel.ClientService, media);
 
             var confirm = await popup.ShowAsync();
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 _thumbnails.Invalidate(media);
 
@@ -1543,19 +1543,19 @@ namespace Telegram.Views.Popups
         private void SendWithoutGrouping()
         {
             IsAlbum = false;
-            Hide(ContentDialogResult.Primary);
+            Hide(ModalPopupResult.Primary);
         }
 
         private void SendWithoutSound()
         {
             Silent = true;
-            Hide(ContentDialogResult.Primary);
+            Hide(ModalPopupResult.Primary);
         }
 
         private void SendScheduled()
         {
             Schedule = SchedulingState.Schedule;
-            Hide(ContentDialogResult.Primary);
+            Hide(ModalPopupResult.Primary);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -1778,7 +1778,7 @@ namespace Telegram.Views.Popups
             //};
 
             var confirm = await popup.ShowAsync(XamlRoot);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }

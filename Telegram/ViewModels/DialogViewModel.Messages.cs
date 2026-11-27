@@ -213,7 +213,7 @@ namespace Telegram.ViewModels
                 ClearComposer();
 
                 var confirm = await ShowPopupAsync(new ChooseChatsPopup(), new ChooseChatsConfigurationReplyToMessage(message));
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     ComposerHeader = header;
                     SetFormattedText(text);
@@ -276,7 +276,7 @@ namespace Telegram.ViewModels
                 var input = quote.RichTexts.Count > 0 ? null : quote.ToInput();
 
                 var confirm = await ShowPopupAsync(new ChooseChatsPopup(), new ChooseChatsConfigurationReplyToMessage(message, input));
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     ComposerHeader = header;
                     SetFormattedText(text);
@@ -335,7 +335,7 @@ namespace Telegram.ViewModels
                 ClearComposer();
 
                 var confirm = await ShowPopupAsync(new ChooseChatsPopup(), new ChooseChatsConfigurationReplyToMessage(message, checklistTaskId: checklistTask.Task.Id));
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     ComposerHeader = header;
                     SetFormattedText(text);
@@ -394,7 +394,7 @@ namespace Telegram.ViewModels
                 ClearComposer();
 
                 var confirm = await ShowPopupAsync(new ChooseChatsPopup(), new ChooseChatsConfigurationReplyToMessage(message, pollOptionId: pollOption.Option.Id));
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     ComposerHeader = header;
                     SetFormattedText(text);
@@ -550,7 +550,7 @@ namespace Telegram.ViewModels
             var popup = new DeleteMessagesPopup(ClientService, chat, TopicId, updated, properties);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -1376,7 +1376,7 @@ namespace Telegram.ViewModels
             if (message.IsPinned)
             {
                 var confirm = await ShowPopupAsync(Strings.UnpinMessageAlert, Strings.AppName, Strings.OK, Strings.Cancel);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     ClientService.Send(new UnpinChatMessage(chat.Id, message.Id));
                 }
@@ -1423,7 +1423,7 @@ namespace Telegram.ViewModels
                 }
 
                 var confirm = await ShowPopupAsync(dialog);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     var disableNotification = false;
                     var onlyForSelf = false;
@@ -1467,7 +1467,7 @@ namespace Telegram.ViewModels
             var popup = new FactCheckPopup(message.FactCheck?.Text, ClientService.Options.FactCheckLengthMax);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new SetMessageFactCheck(message.ChatId, message.Id, popup.Text));
                 ShowToast(string.IsNullOrEmpty(popup.Text?.Text) ? Strings.FactCheckDeleted : Strings.FactCheckEdited, ToastPopupIcon.Info);
@@ -1496,7 +1496,7 @@ namespace Telegram.ViewModels
             if (message.SchedulingState is MessageSchedulingStateSendWhenVideoProcessed)
             {
                 var confirm = await ShowPopupAsync(Strings.VideoConversionNowText, Strings.VideoConversionNowTitle, Strings.VideoConversionNowSend, Strings.Cancel);
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -1724,7 +1724,7 @@ namespace Telegram.ViewModels
             var popup = new CreateChecklistPopup(ClientService, checklist, properties.CanBeEdited, addTask, taskToEdit);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -1765,7 +1765,7 @@ namespace Telegram.ViewModels
 
             //var popup = new RichTextWindow(ClientService, NavigationService, richMessage.Message);
             //var confirm = await ShowPopupAsync(popup);
-            //if (confirm != ContentDialogResult.Primary || popup.Input == null)
+            //if (confirm != ModalPopupResult.Primary || popup.Input == null)
             //{
             //    return;
             //}
@@ -1812,7 +1812,7 @@ namespace Telegram.ViewModels
                     var popup = new LoginUrlInfoPopup(ClientService, requestConfirmation);
 
                     var confirm = await ShowPopupAsync(popup);
-                    if (confirm != ContentDialogResult.Primary)
+                    if (confirm != ModalPopupResult.Primary)
                     {
                         return;
                     }
@@ -1894,7 +1894,7 @@ namespace Telegram.ViewModels
                 };
 
                 var result = await ShowPopupAsync(popup);
-                if (result != ContentDialogResult.Primary)
+                if (result != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -1922,7 +1922,7 @@ namespace Telegram.ViewModels
                         }
 
                         var confirm = await ShowPopupAsync(builder.ToString(), Strings.EditAdminTransferAlertTitle, primary, Strings.Cancel);
-                        if (confirm == ContentDialogResult.Primary && error.Message.Equals("PASSWORD_MISSING"))
+                        if (confirm == ModalPopupResult.Primary && error.Message.Equals("PASSWORD_MISSING"))
                         {
                             NavigationService.NavigateToPasswordSetup();
                         }
@@ -1972,7 +1972,7 @@ namespace Telegram.ViewModels
         private async void DeclineSuggestedPost(MessageViewModel message)
         {
             var confirm = await ShowInputAsync(InputPopupType.Text, string.Format(Strings.SuggestedMessageDeclineInfo, ClientService.GetTitle(message.SenderId)), Strings.SuggestedMessageDecline, Strings.SuggestedMessageDeclineReasonHint, Strings.Decline, Strings.Cancel, destructive: true);
-            if (confirm.Result == ContentDialogResult.Primary)
+            if (confirm.Result == ModalPopupResult.Primary)
             {
                 ClientService.Send(new DeclineSuggestedPost(message.ChatId, message.Id, confirm.Text));
             }
@@ -2021,7 +2021,7 @@ namespace Telegram.ViewModels
 
             disclaimer?.IsOpen = false;
 
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -2040,7 +2040,7 @@ namespace Telegram.ViewModels
 
                 confirm = await ShowPopupAsync(popup);
 
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -2078,7 +2078,7 @@ namespace Telegram.ViewModels
                     }
 
                     var confirm = await ShowPopupAsync(content, Strings.ShareYouPhoneNumberTitle, Strings.OK, Strings.Cancel);
-                    if (confirm == ContentDialogResult.Primary)
+                    if (confirm == ModalPopupResult.Primary)
                     {
                         await SendContactAsync(new Contact(cached.PhoneNumber, cached.FirstName, cached.LastName, string.Empty, cached.Id), null);
                     }
@@ -2087,7 +2087,7 @@ namespace Telegram.ViewModels
             else if (keyboardButton.Type is KeyboardButtonTypeRequestLocation)
             {
                 var confirm = await ShowPopupAsync(Strings.ShareYouLocationInfo, Strings.ShareYouLocationTitle, Strings.OK, Strings.Cancel);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     var location = await _locationService.GetPositionAsync(NavigationService);
                     if (location != null)
@@ -2174,7 +2174,7 @@ namespace Telegram.ViewModels
         public async void RemoveMiniApp(AttachmentMenuBot bot)
         {
             var confirm = await ShowPopupAsync(string.Format(Strings.BotRemoveFromMenu, bot.Name), Strings.BotRemoveFromMenuTitle, Strings.OK, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new ToggleBotIsAddedToAttachmentMenu(bot.BotUserId, false, false));
             }
@@ -2188,7 +2188,7 @@ namespace Telegram.ViewModels
                 return;
             }
 
-            if (ContentDialogResult.Primary != await ShowPopupAsync(string.Format(Strings.BotOpenPageMessage, chat.Title), Strings.BotOpenPageTitle, Strings.OK, Strings.Cancel))
+            if (ModalPopupResult.Primary != await ShowPopupAsync(string.Format(Strings.BotOpenPageMessage, chat.Title), Strings.BotOpenPageTitle, Strings.OK, Strings.Cancel))
             {
                 return;
             }
@@ -2401,7 +2401,7 @@ namespace Telegram.ViewModels
                 dialog.MaxDate = DateTimeOffset.Now.Date;
 
                 var confirm = await ShowPopupAsync(dialog);
-                if (confirm == ContentDialogResult.Primary && dialog.SelectedDates.Count > 0)
+                if (confirm == ModalPopupResult.Primary && dialog.SelectedDates.Count > 0)
                 {
                     var first = dialog.SelectedDates.FirstOrDefault();
                     var offset = first.Date.ToUnixTimeSeconds();
@@ -2513,7 +2513,7 @@ namespace Telegram.ViewModels
                     var popup = new EditMediaPopup(XamlRoot, ClientService, media, ImageCropperMask.Ellipse);
 
                     var confirm = await popup.ShowAsync();
-                    if (confirm == ContentDialogResult.Primary)
+                    if (confirm == ModalPopupResult.Primary)
                     {
                         await EditPhotoAsync(media);
                     }
@@ -2524,7 +2524,7 @@ namespace Telegram.ViewModels
                 var popup = new SettingsBirthdatePopup(suggestBirthdate.Birthdate, suggested: true);
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     ClientService.Send(new SetBirthdate(popup.Value));
 
@@ -2549,7 +2549,7 @@ namespace Telegram.ViewModels
                     if (sameBackground && (userFull == null || userFull.SetChatBackground))
                     {
                         var confirm = await ShowPopupAsync(Strings.RemoveWallpaperMessage, Strings.RemoveWallpaperTitle, Strings.RemoveWallpaperAction, Strings.Cancel, destructive: true);
-                        if (confirm == ContentDialogResult.Primary)
+                        if (confirm == ModalPopupResult.Primary)
                         {
                             ClientService.Send(new DeleteChatBackground(message.ChatId, true));
                         }
@@ -2698,7 +2698,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await ShowPopupAsync(Strings.StopPollAlertText, Strings.StopPollAlertTitle, Strings.Stop, Strings.Cancel);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }

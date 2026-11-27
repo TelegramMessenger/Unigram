@@ -6,6 +6,7 @@
 //
 
 using Telegram.Common;
+using Telegram.Controls;
 using Telegram.Td;
 using Telegram.Td.Api;
 using Telegram.Views.Settings;
@@ -124,7 +125,7 @@ namespace Telegram.ViewModels
             var popup = new SettingsPasswordConfirmPopup(ClientService, passwordState);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary && !string.IsNullOrEmpty(popup.Password))
+            if (confirm == ModalPopupResult.Primary && !string.IsNullOrEmpty(popup.Password))
             {
                 ClientService.Send(new HideSuggestedAction(new SuggestedActionCheckPassword()));
                 ShowPopup(Strings.CheckPasswordPerfectInfo, Strings.CheckPasswordPerfect, Strings.CheckPasswordBackToSettings);
@@ -133,7 +134,7 @@ namespace Telegram.ViewModels
             {
                 var emailCode = new SettingsPasswordEmailCodePopup(ClientService, popup.RecoveryEmailAddressCodeInfo, SettingsPasswordEmailCodeType.Recovery);
 
-                if (ContentDialogResult.Primary == await ShowPopupAsync(emailCode))
+                if (ModalPopupResult.Primary == await ShowPopupAsync(emailCode))
                 {
                     ShowPopup(new SettingsPasswordDonePopup());
                 }

@@ -234,9 +234,9 @@ namespace Telegram.Views.Stories.Popups
             var confirm = await _navigationService.ShowPopupAsync(_postOptions, requestedTheme: ElementTheme.Dark);
             _accepting = false;
 
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
-                Hide(ContentDialogResult.Primary);
+                Hide(ModalPopupResult.Primary);
             }
             else if (playing)
             {
@@ -261,13 +261,13 @@ namespace Telegram.Views.Stories.Popups
 
                 _confirming = false;
 
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
             }
 
-            Hide(ContentDialogResult.Secondary);
+            Hide(ModalPopupResult.Secondary);
         }
 
         // The edit as Next writes it, from what the layers last saved.

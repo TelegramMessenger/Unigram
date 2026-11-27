@@ -253,7 +253,7 @@ namespace Telegram.Views.Stars.Popups
             if (e.Key == Windows.System.VirtualKey.Enter && IsPrimaryButtonEnabled)
             {
                 e.Handled = true;
-                Hide(ContentDialogResult.Primary);
+                Hide(ModalPopupResult.Primary);
             }
         }
 
@@ -282,7 +282,7 @@ namespace Telegram.Views.Stars.Popups
             var popup = new GiftOfferPopup(clientService, gift, ownerName);
 
             var confirm = await navigationService.ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return null;
             }
@@ -305,7 +305,7 @@ namespace Telegram.Views.Stars.Popups
             var summary = new GiftOfferConfirmPopup(gift, ownerName, popup.IsGram, popup.Value, fee, popup.Duration);
 
             confirm = await navigationService.ShowPopupAsync(summary);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return null;
             }

@@ -68,12 +68,12 @@ namespace Telegram.ViewModels
                 var address = new SettingsLoginEmailAddressPopup(ClientService, action.CanBeHidden);
 
                 var confirm = await ShowPopupAsync(address);
-                if (confirm == ContentDialogResult.Primary && address.CodeInfo != null)
+                if (confirm == ModalPopupResult.Primary && address.CodeInfo != null)
                 {
                     var code = new SettingsLoginEmailCodePopup(ClientService, address.CodeInfo);
 
                     var verified = await ShowPopupAsync(code);
-                    if (verified == ContentDialogResult.Primary)
+                    if (verified == ModalPopupResult.Primary)
                     {
                         ShowToast(Strings.YourLoginEmailChangedSuccess, ToastPopupIcon.Success);
                         return;
@@ -99,7 +99,7 @@ namespace Telegram.ViewModels
         private async Task EnableArchiveAndMuteNewChatsAsync(SuggestedActionEnableArchiveAndMuteNewChats action)
         {
             var confirm = await ShowPopupAsync(Strings.HideNewChatsAlertText, Strings.HideNewChatsAlertTitle, Strings.GoToSettings, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 // The setting is in the archive settings, which open from the privacy page.
                 NavigationService.Navigate(typeof(SettingsPrivacyAndSecurityPage));

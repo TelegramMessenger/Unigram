@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Telegram.Views.Stars.Popups
 {
-    public sealed partial class ConnectedAffiliateProgramPopup : ContentPopup
+    public sealed partial class ConnectedAffiliateProgramPopup : ModalPopup
     {
         private readonly IClientService _clientService;
         private readonly INavigationService _navigationService;

@@ -696,15 +696,23 @@ namespace Telegram.Views.Stars.Popups
         {
             if (e.ClickedItem is GiftForResale gift)
             {
-                Hide(ContentDialogResult.Primary);
-
                 var receivedGift = new ReceivedGift(gift.ReceivedGiftId, null, null, 0, false, false, false, false, false, false, false, 0, new SentGiftUpgraded(gift.Gift), Array.Empty<int>(), 0, 0, false, 0, 0, 0, 0, 0, string.Empty, 0);
 
                 var confirm = await _navigationService.ShowPopupAsync(new ReceivedGiftPopup(_clientService, _navigationService, receivedGift, gift.Gift.OwnerId, _receiverId));
-                if (confirm == ContentDialogResult.Primary && _receiverId == null)
+                if (confirm != ModalPopupResult.Primary)
+                {
+                    return;
+                }
+
+                // A gift bought for someone else is sent, and the list is done with; one bought
+                // for yourself only leaves the list.
+                if (_receiverId != null)
+                {
+                    Hide(ModalPopupResult.Primary);
+                }
+                else
                 {
                     _gifts.Remove(gift);
-                    await this.ShowQueuedAsync(XamlRoot);
                 }
             }
         }

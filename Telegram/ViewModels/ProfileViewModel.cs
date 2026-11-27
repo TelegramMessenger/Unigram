@@ -774,7 +774,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await ShowPopupAsync(Strings.AreYouSureBlockContact, Strings.AppName, Strings.OK, Strings.Cancel);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -791,7 +791,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await ShowPopupAsync(Strings.AreYouSureUnblockContact, Strings.AppName, Strings.OK, Strings.Cancel);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -1004,7 +1004,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await ShowPopupAsync(Strings.AreYouSureSecretChat, Strings.AreYouSureSecretChatTitle, Strings.Start, Strings.Cancel);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -1032,7 +1032,7 @@ namespace Telegram.ViewModels
             if (!protectedContent && (Constants.DEBUG || !IsPremium || AppSettings.ToolTip.Required("DisableSharing")))
             {
                 var confirm = await ShowPopupAsync(new DisableSharingPopup(ClientService));
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -1179,12 +1179,12 @@ namespace Telegram.ViewModels
                 var popup = new ChangePrivacyPopup(user, ChangePrivacyType.LastSeen, IsPremium, IsPremiumAvailable);
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     ClientService.Send(new SetUserPrivacySettingRules(new UserPrivacySettingShowStatus(), new UserPrivacySettingRules(new UserPrivacySettingRule[] { new UserPrivacySettingRuleAllowAll() })));
                     ShowToast(Strings.PremiumLastSeenSet, ToastPopupIcon.Info);
                 }
-                else if (confirm == ContentDialogResult.Secondary && IsPremiumAvailable && !IsPremium)
+                else if (confirm == ModalPopupResult.Secondary && IsPremiumAvailable && !IsPremium)
                 {
                     NavigationService.ShowPromo(new PremiumSourceFeature(new PremiumFeatureAdvancedChatManagement()));
                 }
@@ -1286,7 +1286,7 @@ namespace Telegram.ViewModels
                 var popup = new SupergroupTopicPopup(ClientService, _forumTopic.Info);
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     ClientService.Send(new EditForumTopic(chat.Id, _forumTopic.Info.ForumTopicId, popup.SelectedName, true, popup.SelectedIcon.CustomEmojiId));
                 }
@@ -1407,7 +1407,7 @@ namespace Telegram.ViewModels
             var dialog = new DeleteChatPopup(ClientService, updated, null, false);
 
             var confirm = await ShowPopupAsync(dialog);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 var check = dialog.IsChecked == true;
 
@@ -1456,7 +1456,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await ShowPopupAsync(message, Strings.AppName, Strings.OK, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 if (chat.Type is ChatTypePrivate privata)
                 {
@@ -1484,7 +1484,7 @@ namespace Telegram.ViewModels
             //}
 
             //var confirm = await ShowPopupAsync(Strings.AreYouSureDeleteContact, Strings.AppName, Strings.OK, Strings.Cancel);
-            //if (confirm != ContentDialogResult.Primary)
+            //if (confirm != ModalPopupResult.Primary)
             //{
             //    return;
             //}
@@ -1542,7 +1542,7 @@ namespace Telegram.ViewModels
                 var popup = new ChatMutePopup(mutedFor);
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -1588,7 +1588,7 @@ namespace Telegram.ViewModels
                 dialog.Value = chat.MessageAutoDeleteTime;
 
                 var confirm = await ShowPopupAsync(dialog);
-                if (confirm != ContentDialogResult.Primary || chat.MessageAutoDeleteTime == dialog.Value)
+                if (confirm != ModalPopupResult.Primary || chat.MessageAutoDeleteTime == dialog.Value)
                 {
                     return;
                 }
@@ -1628,7 +1628,7 @@ namespace Telegram.ViewModels
             };
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 DeleteReactions = null;
                 Delegate?.UpdateChat(Chat);
@@ -1659,7 +1659,7 @@ namespace Telegram.ViewModels
             };
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ReportReactions = null;
                 Delegate?.UpdateChat(Chat);

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Common;
+using Telegram.Controls;
 using Telegram.Entities;
 using Telegram.Services;
 using Telegram.Services.Factories;
@@ -398,7 +399,7 @@ namespace Telegram.ViewModels
 
             TextField?.FocusInput(FocusState.Programmatic);
 
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 TextField?.SetText(formattedText);
                 return;

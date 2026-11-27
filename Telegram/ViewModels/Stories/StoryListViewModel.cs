@@ -311,7 +311,7 @@ namespace Telegram.ViewModels.Stories
             var title = Strings.DeleteStoryTitle;
 
             var confirm = await ShowPopupAsync(message, title, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new DeleteStory(story.PosterChatId, story.Id));
             }
@@ -380,7 +380,7 @@ namespace Telegram.ViewModels.Stories
 
                     var editor = new EditStoryPopup(NavigationService, ClientService, media, options);
                     var confirm = await editor.ShowAsync();
-                    if (confirm != ContentDialogResult.Primary)
+                    if (confirm != ModalPopupResult.Primary)
                     {
                         return;
                     }

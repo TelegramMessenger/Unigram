@@ -636,7 +636,7 @@ namespace Telegram.Controls.Chats
 
             offer.Cancellation.Dispose();
 
-            if (confirm != ContentDialogResult.Primary || _viewModel != viewModel)
+            if (confirm != ModalPopupResult.Primary || _viewModel != viewModel)
             {
                 return;
             }

@@ -231,7 +231,7 @@ namespace Telegram.Views.Host
             if (_closeNeedConfirmation)
             {
                 var confirm = await MessagePopup.ShowAsync(XamlRoot, Strings.BotWebViewChangesMayNotBeSaved, _botUser.FirstName, Strings.BotWebViewCloseAnyway, Strings.Cancel, destructive: true);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     _closeNeedConfirmation = false;
                     CloseImpl();
@@ -266,7 +266,7 @@ namespace Telegram.Views.Host
                 var deferral = e.GetDeferral();
 
                 var confirm = await MessagePopup.ShowAsync(XamlRoot, Strings.BotWebViewChangesMayNotBeSaved, _botUser.FirstName, Strings.BotWebViewCloseAnyway, Strings.Cancel, destructive: true);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     _closeNeedConfirmation = false;
                 }
@@ -398,7 +398,7 @@ namespace Telegram.Views.Host
                 };
 
                 var confirm = await popup.ShowQueuedAsync(XamlRoot);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     args.ResultText = popup.Text;
                     args.Accept();
@@ -407,7 +407,7 @@ namespace Telegram.Views.Host
             else
             {
                 var confirm = await MessagePopup.ShowAsync(XamlRoot, args.Message, _botUser.FirstName, Strings.OK, args.Kind == WebViewerScriptDialogKind.Confirm ? Strings.Cancel : string.Empty);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     args.Accept();
                 }
@@ -830,7 +830,7 @@ namespace Telegram.Views.Host
             var popup = new WebAppRestorePopup(_clientService, _botUser, storages);
 
             var confirm = await popup.ShowQueuedAsync(XamlRoot);
-            if (confirm != ContentDialogResult.Primary || popup.SelectedItem == null)
+            if (confirm != ModalPopupResult.Primary || popup.SelectedItem == null)
             {
                 PostEvent(eventFail, "req_id", req_id, "error", "RESTORE_CANCELLED");
                 return;
@@ -893,14 +893,14 @@ namespace Telegram.Views.Host
                 }
 
                 var confirm2 = await _navigationService.ShowPopupAsync(new SendPreparedMessagePopup(_clientService, _navigationService, message, _botUser));
-                if (confirm2 != ContentDialogResult.Primary)
+                if (confirm2 != ModalPopupResult.Primary)
                 {
                     PostEvent("prepared_message_failed", "error", "USER_DECLINED");
                     return;
                 }
 
                 var confirm = await _navigationService.ShowPopupAsync(new ChooseChatsPopup(), new ChooseChatsConfigurationSwitchInline(prepared, _botUser));
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     PostEvent("prepared_message_sent");
                 }
@@ -963,11 +963,11 @@ namespace Telegram.Views.Host
             var popup = new EmojiStatusPopup(_clientService, _navigationService, _botUser.Id, stickers.StickersValue[0], expirationDate);
 
             var confirm = await popup.ShowQueuedAsync(XamlRoot);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 PostEvent("emoji_status_set");
             }
-            else if (confirm == ContentDialogResult.Secondary)
+            else if (confirm == ModalPopupResult.Secondary)
             {
                 PostEvent("emoji_status_failed", "error", "SERVER_ERROR");
             }
@@ -1175,7 +1175,7 @@ namespace Telegram.Views.Host
             _blockingAction = true;
 
             var confirm = await MessagePopup.ShowAsync(XamlRoot, string.Format(Strings.AreYouSureShareMyContactInfoWebapp, _botUser.FullName()), Strings.ShareYouPhoneNumberTitle, Strings.OK, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary && _clientService.TryGetUser(_clientService.Options.MyId, out User user))
+            if (confirm == ModalPopupResult.Primary && _clientService.TryGetUser(_clientService.Options.MyId, out User user))
             {
                 var chat = await _clientService.SendAsync(new CreatePrivateChat(_botUser.Id, false)) as Chat;
                 if (chat == null)
@@ -1223,7 +1223,7 @@ namespace Telegram.Views.Host
             }
 
             var confirm = await MessagePopup.ShowAsync(XamlRoot, Strings.BotWebViewRequestWriteMessage, Strings.BotWebViewRequestWriteTitle, Strings.BotWebViewRequestAllow, Strings.BotWebViewRequestDontAllow);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 await _clientService.SendAsync(new AllowBotToSendMessages(_botUser.Id));
 
@@ -1271,7 +1271,7 @@ namespace Telegram.Views.Host
             panel.RowDefinitions.Add(1, GridUnitType.Auto);
             panel.Children.Add(label);
 
-            var popup = new ContentPopup
+            var popup = new ModalPopup
             {
                 Title = title,
                 Content = panel,
@@ -2007,7 +2007,7 @@ namespace Telegram.Views.Host
             if (target.Types.AllowBotChats || target.Types.AllowUserChats || target.Types.AllowGroupChats || target.Types.AllowChannelChats)
             {
                 var confirm = await _navigationService.ShowPopupAsync(new ChooseChatsPopup(), new ChooseChatsConfigurationSwitchInline(query, target, _botUser));
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -2279,7 +2279,7 @@ namespace Telegram.Views.Host
         private async void MenuItemDeleteBot()
         {
             var confirm = await MessagePopup.ShowAsync(XamlRoot, string.Format(Strings.BotRemoveFromMenu, _menuBot.Name), Strings.BotRemoveFromMenuTitle, Strings.OK, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 _menuBot.IsAdded = false;
                 _clientService.Send(new ToggleBotIsAddedToAttachmentMenu(_menuBot.BotUserId, false, false));

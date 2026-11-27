@@ -1317,7 +1317,7 @@ namespace Telegram.Views
                 popup.MaxDate = DateTimeOffset.Now.Date;
 
                 var confirm = await ViewModel.ShowPopupAsync(popup);
-                if (confirm == ContentDialogResult.Primary && popup.SelectedDates.Count > 0)
+                if (confirm == ModalPopupResult.Primary && popup.SelectedDates.Count > 0)
                 {
                     var first = popup.SelectedDates.FirstOrDefault();
                     var offset = first.Date.ToUnixTimeSeconds();

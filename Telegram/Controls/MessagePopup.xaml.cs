@@ -30,7 +30,7 @@ namespace Telegram.Controls
             {
                 Theme.AddCheckBoxPalette(this, Windows.UI.Color.FromArgb(0xFF, 0xD1, 0x34, 0x38));
 
-                DefaultButton = ContentDialogButton.None;
+                DefaultButton = ModalPopupButton.None;
                 PrimaryButtonStyle = BootStrapper.Current.Resources["DangerButtonStyle"] as Style;
             }
         }
@@ -107,7 +107,7 @@ namespace Telegram.Controls
             IsPrimaryButtonEnabled = !_isCheckedRequired || CheckBox.IsChecked is true;
         }
 
-        public static Task<ContentDialogResult> ShowAsync(XamlRoot xamlRoot, string message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
+        public static Task<ModalPopupResult> ShowAsync(XamlRoot xamlRoot, string message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         {
             var popup = Create(title, primary, secondary, tertiary, destructive, requestedTheme);
             popup.Message = message;
@@ -115,7 +115,7 @@ namespace Telegram.Controls
             return popup.ShowQueuedAsync(xamlRoot);
         }
 
-        public static Task<ContentDialogResult> ShowAsync(XamlRoot xamlRoot, FormattedText message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
+        public static Task<ModalPopupResult> ShowAsync(XamlRoot xamlRoot, FormattedText message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         {
             var popup = Create(title, primary, secondary, tertiary, destructive, requestedTheme);
             popup.FormattedMessage = message;
@@ -123,20 +123,19 @@ namespace Telegram.Controls
             return popup.ShowQueuedAsync(xamlRoot);
         }
 
-        // Nested: a ContentDialog cannot open over another one, so an alert raised while a popup
-        // is already up is a ModalPopup instead. It used to be told apart by a FrameworkElement
-        // target that every caller passed as null, and that the tip then pointed at nothing.
-        public static Task<ContentDialogResult> ShowNestedAsync(XamlRoot xamlRoot, string message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
+        // Nested: not queued, so an alert raised from a popup shown with ShowQueuedAsync opens
+        // over it rather than waiting for it to close.
+        public static Task<ModalPopupResult> ShowNestedAsync(XamlRoot xamlRoot, string message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         {
-            var popup = Create(title, primary, secondary, null, destructive, requestedTheme);
+            var popup = Create(title, primary, secondary, tertiary, destructive, requestedTheme);
             popup.Message = message;
 
             return popup.ShowAsync(xamlRoot);
         }
 
-        public static Task<ContentDialogResult> ShowNestedAsync(XamlRoot xamlRoot, FormattedText message, string title = null, string primary = null, string secondary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
+        public static Task<ModalPopupResult> ShowNestedAsync(XamlRoot xamlRoot, FormattedText message, string title = null, string primary = null, string secondary = null, string tertiary = null, bool destructive = false, ElementTheme requestedTheme = ElementTheme.Default)
         {
-            var popup = Create(title, primary, secondary, null, destructive, requestedTheme);
+            var popup = Create(title, primary, secondary, tertiary, destructive, requestedTheme);
             popup.FormattedMessage = message;
 
             return popup.ShowAsync(xamlRoot);

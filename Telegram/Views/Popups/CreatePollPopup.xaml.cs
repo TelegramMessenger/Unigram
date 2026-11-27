@@ -221,7 +221,7 @@ namespace Telegram.Views.Popups
                 Strings.Cancel,
                 destructive: true);
 
-            return confirm == ContentDialogResult.Primary;
+            return confirm == ModalPopupResult.Primary;
         }
 
         private void OnPrimaryButtonClick(ModalPopup sender, ModalPopupButtonClickEventArgs args)
@@ -598,7 +598,7 @@ namespace Telegram.Views.Popups
             var popup = new ChooseCountriesPopup(_viewModel.ClientService, _countryCodes.Select(x => x.CountryCode));
 
             var confirm = await _viewModel.ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 _countryCodes = popup.SelectedItems;
                 CountryCodes.Badge = _countryCodes.Count > 1

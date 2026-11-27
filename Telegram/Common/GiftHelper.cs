@@ -11,6 +11,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Collections;
+using Telegram.Controls;
 using Telegram.Controls.Cells;
 using Telegram.Converters;
 using Telegram.Navigation;
@@ -143,7 +144,7 @@ namespace Telegram.Common
             };
 
             var confirm = await popup.PickAsync(navigationService.XamlRoot, Array.Empty<long>(), options, ListViewSelectionMode.None);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -178,7 +179,7 @@ namespace Telegram.Common
             public void OnClick(object sender, RoutedEventArgs e)
             {
                 _popup.ViewModel.SelectedItems = new RangeObservableCollection<Chat> { _chat };
-                _popup.Hide(ContentDialogResult.Primary);
+                _popup.Hide(ModalPopupResult.Primary);
             }
         }
 
@@ -215,7 +216,7 @@ namespace Telegram.Common
                 var popup = new MoveGiftToWalletPopup(clientService.TonWalletState?.Address);
 
                 var confirm = await navigation.ShowPopupAsync(popup);
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -225,7 +226,7 @@ namespace Telegram.Common
             else
             {
                 var confirm = await navigation.ShowPopupAsync(string.Format(Strings.Gift2ExportTONFragmentText, name), Strings.Gift2ExportTONFragmentTitle, Strings.OpenFragment, Strings.Cancel);
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -295,7 +296,7 @@ namespace Telegram.Common
                 : passwordState.PasswordHint;
 
             var result = await navigation.ShowInputAsync(InputPopupType.Password, message, Strings.TwoStepVerification, placeholder, Strings.OK, Strings.Cancel);
-            if (result.Result != ContentDialogResult.Primary)
+            if (result.Result != ModalPopupResult.Primary)
             {
                 return false;
             }
@@ -335,7 +336,7 @@ namespace Telegram.Common
             if (passwordMissing)
             {
                 var confirm = await navigation.ShowPopupAsync(builder.ToString(), Strings.Gift2TransferToTONAlertTitle, Strings.EditAdminTransferSetPassword, Strings.Cancel);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     navigation.NavigateToPasswordSetup();
                 }

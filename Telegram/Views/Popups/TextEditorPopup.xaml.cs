@@ -322,7 +322,7 @@ namespace Telegram.Views.Popups
             var popup = new TranslateToPopup();
 
             var confirm = await _navigationService.ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary && popup.SelectedItem != null)
+            if (confirm == ModalPopupResult.Primary && popup.SelectedItem != null)
             {
                 UpdateTranslateLanguage(popup.SelectedItem);
             }
@@ -416,7 +416,7 @@ namespace Telegram.Views.Popups
             if (style.IsCreator)
             {
                 var confirm = await _navigationService.ShowPopupAsync(Strings.AIEditorDeleteStyleText, Strings.AIEditorDeleteStyle, Strings.Delete, Strings.Cancel, destructive: true);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     _clientService.Send(new DeleteTextCompositionStyle(style.Name));
                 }

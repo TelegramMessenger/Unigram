@@ -1100,7 +1100,7 @@ namespace Telegram.Controls.Messages
                     var popup = new ReactPopup(message.ClientService, message);
 
                     var confirm = await popup.ShowQueuedAsync(XamlRoot);
-                    if (confirm != ContentDialogResult.Primary)
+                    if (confirm != ModalPopupResult.Primary)
                     {
                         return;
                     }

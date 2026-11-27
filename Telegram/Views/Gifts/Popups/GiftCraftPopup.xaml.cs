@@ -37,7 +37,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Telegram.Views.Gifts.Popups
 {
-    public sealed partial class GiftCraftPopup : ContentPopup
+    public sealed partial class GiftCraftPopup : ModalPopup
     {
         private readonly IClientService _clientService;
         private readonly INavigationService _navigationService;
@@ -428,18 +428,14 @@ namespace Telegram.Views.Gifts.Popups
                 return;
             }
 
-            Hide();
-
             var popup = new GiftCraftChoosePopup(_clientService, _navigationService, _reference, _crafting);
 
             var confirm = await _navigationService.ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary && popup.SelectedGift != null)
+            if (confirm == ModalPopupResult.Primary && popup.SelectedGift != null)
             {
                 UpdateContent(target, index, popup.SelectedGift);
                 UpdateSelection();
             }
-
-            await this.ShowQueuedAsync(XamlRoot);
         }
 
         private void UpdateContent(Button target, int index, ReceivedGift gift)

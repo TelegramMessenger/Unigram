@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Telegram.Collections;
 using Telegram.Common;
+using Telegram.Controls;
 using Telegram.Navigation;
 using Telegram.Services;
 using Telegram.Td.Api;
@@ -345,7 +346,7 @@ namespace Telegram.ViewModels.Profile
             var popup = new DeleteMessagesPopup(ClientService, chat, Topic, updated, properties);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }

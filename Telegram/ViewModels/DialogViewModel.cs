@@ -4012,7 +4012,7 @@ namespace Telegram.ViewModels
             var popup = new SuggestPostPopup(ClientService, ComposerHeader?.SuggestedPostInfo);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ComposerHeader = new MessageComposerHeader(ClientService)
                 {
@@ -4119,7 +4119,7 @@ namespace Telegram.ViewModels
                 return;
             }
 
-            var popup = new ContentPopup();
+            var popup = new ModalPopup();
             var content = new StackPanel();
             var reportSpam = new CheckBox { Content = Strings.DeleteReportSpam, IsChecked = true, Margin = new Thickness(0, 16, 0, 0) };
             var deleteChat = new CheckBox { Content = Strings.DeleteThisChat, IsChecked = true, Margin = new Thickness(0, 0, 0, -4) };
@@ -4141,7 +4141,7 @@ namespace Telegram.ViewModels
             popup.SecondaryButtonText = Strings.Cancel;
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
                 return;
             }
@@ -4192,7 +4192,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await ShowPopupAsync(message, title, Strings.OK, Strings.Cancel);
-            if (confirm != ContentDialogResult.Primary)
+            if (confirm != ModalPopupResult.Primary)
             {
 
                 return;
@@ -4221,7 +4221,7 @@ namespace Telegram.ViewModels
         public async void DeleteDraft()
         {
             var confirm = await ShowPopupAsync(Strings.ArticleDeleteDraftMessage, Strings.ArticleDeleteDraftTitle, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new SetChatDraftMessage(_chat.Id, OutgoingTopicId, null));
             }
@@ -4236,7 +4236,7 @@ namespace Telegram.ViewModels
 
             TextField?.FocusInput(FocusState.Keyboard);
 
-            if (confirm == ContentDialogResult.Primary && popup.Result != null)
+            if (confirm == ModalPopupResult.Primary && popup.Result != null)
             {
                 SetFormattedText(popup.Result);
                 return popup.TurnedOnAlwaysUse;
@@ -4338,7 +4338,7 @@ namespace Telegram.ViewModels
             var dialog = new DeleteChatPopup(ClientService, updated, null, false);
 
             var confirm = await ShowPopupAsync(dialog);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 var check = dialog.IsChecked == true;
 
@@ -4401,7 +4401,7 @@ namespace Telegram.ViewModels
             var popup = new SupergroupTopicPopup(ClientService, null);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 var response = await ClientService.SendAsync(new CreateForumTopic(chat.Id, popup.SelectedName, false, popup.SelectedIcon));
                 if (response is ForumTopicInfo info)
@@ -4486,7 +4486,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await ShowPopupAsync(message, title, primary, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 NavigationService.GoBack();
                 ClientService.Send(new DeleteSavedMessagesTopicHistory(topic.Id));
@@ -4499,7 +4499,7 @@ namespace Telegram.ViewModels
             var title = Strings.ClearHistory;
 
             var confirm = await ShowPopupAsync(message, title, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 NavigationService.GoBack();
                 ClientService.Send(new DeleteDirectMessagesChatTopicHistory(ChatId, topic.Id));
@@ -4524,7 +4524,7 @@ namespace Telegram.ViewModels
             var dialog = new DeleteChatPopup(ClientService, updated, null, true);
 
             var confirm = await ShowPopupAsync(dialog);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new DeleteChatHistory(updated.Id, false, dialog.IsChecked));
             }
@@ -4561,7 +4561,7 @@ namespace Telegram.ViewModels
                 else
                 {
                     var confirm = await ShowPopupAsync(string.Format(Strings.CallForbiddenInviteLinkText, chat.Title), Strings.CallForbiddenInviteLinkTitle, Strings.CallForbiddenInviteLinkButton, Strings.Cancel);
-                    if (confirm == ContentDialogResult.Primary)
+                    if (confirm == ModalPopupResult.Primary)
                     {
                         var response = await ClientService.SendAsync(new CreateGroupCall(null));
                         if (response is GroupCallInfo info && ClientService.TryGetGroupCall(info.GroupCallId, out GroupCall groupCall))
@@ -4599,7 +4599,7 @@ namespace Telegram.ViewModels
             if (chat.CanPinMessages(ClientService))
             {
                 var confirm = await ShowPopupAsync(Strings.UnpinMessageAlert, Strings.AppName, Strings.OK, Strings.Cancel);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     if (DirectMessagesChatTopic != null)
                     {
@@ -4731,7 +4731,7 @@ namespace Telegram.ViewModels
             else
             {
                 var confirm = await ShowPopupAsync(Strings.AreYouSureUnblockContact, Strings.AppName, Strings.OK, Strings.Cancel);
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -4919,12 +4919,12 @@ namespace Telegram.ViewModels
                 var popup = new ChangePrivacyPopup(user, ChangePrivacyType.ReadDate, IsPremium, IsPremiumAvailable);
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     ClientService.Send(new SetReadDatePrivacySettings(new ReadDatePrivacySettings(true)));
                     ShowToast(Strings.PremiumReadSet, ToastPopupIcon.Info);
                 }
-                else if (confirm == ContentDialogResult.Secondary && IsPremiumAvailable && !IsPremium)
+                else if (confirm == ModalPopupResult.Secondary && IsPremiumAvailable && !IsPremium)
                 {
                     NavigationService.ShowPromo(new PremiumSourceFeature(new PremiumFeatureAdvancedChatManagement()));
                 }
@@ -4959,7 +4959,7 @@ namespace Telegram.ViewModels
             //dialog.SelectedDates.Add(BindConvert.Current.DateTime(message.Date));
 
             var confirm = await ShowPopupAsync(dialog);
-            if (confirm == ContentDialogResult.Primary && dialog.SelectedDates.Count > 0)
+            if (confirm == ModalPopupResult.Primary && dialog.SelectedDates.Count > 0)
             {
                 var first = dialog.SelectedDates.FirstOrDefault();
                 var offset = first.Date.ToUnixTimeSeconds();
@@ -5098,7 +5098,7 @@ namespace Telegram.ViewModels
                 var popup = new ChatMutePopup(muteFor);
 
                 var confirm = await ShowPopupAsync(popup);
-                if (confirm != ContentDialogResult.Primary)
+                if (confirm != ModalPopupResult.Primary)
                 {
                     return;
                 }
@@ -5182,7 +5182,7 @@ namespace Telegram.ViewModels
             dialog.Value = chat.MessageAutoDeleteTime;
 
             var confirm = await ShowPopupAsync(dialog);
-            if (confirm != ContentDialogResult.Primary || chat.MessageAutoDeleteTime == dialog.Value)
+            if (confirm != ModalPopupResult.Primary || chat.MessageAutoDeleteTime == dialog.Value)
             {
                 return;
             }
@@ -5229,7 +5229,7 @@ namespace Telegram.ViewModels
             if (chat.CanPinMessages(ClientService))
             {
                 var confirm = await ShowPopupAsync(Strings.UnpinMessageAlert, Strings.AppName, Strings.OK, Strings.Cancel);
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     if (DirectMessagesChatTopic != null)
                     {

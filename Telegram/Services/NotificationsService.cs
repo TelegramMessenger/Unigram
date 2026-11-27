@@ -184,14 +184,14 @@ namespace Telegram.Services
                 async void DeleteAccount(XamlRoot xamlRoot)
                 {
                     var decline = await MessagePopup.ShowAsync(xamlRoot, Strings.TosUpdateDecline, Strings.TermsOfService, Strings.DeclineDeactivate, Strings.Back);
-                    if (decline != ContentDialogResult.Primary)
+                    if (decline != ModalPopupResult.Primary)
                     {
                         Handle(update);
                         return;
                     }
 
                     var delete = await MessagePopup.ShowAsync(xamlRoot, Strings.TosDeclineDeleteAccount, Strings.AppName, Strings.Deactivate, Strings.Cancel);
-                    if (delete != ContentDialogResult.Primary)
+                    if (delete != ModalPopupResult.Primary)
                     {
                         Handle(update);
                         return;
@@ -214,7 +214,7 @@ namespace Telegram.Services
                     }
 
                     var confirm = await MessagePopup.ShowAsync(xamlRoot, update.TermsOfService.Text, Strings.PrivacyPolicyAndTerms, Strings.Agree, Strings.Cancel);
-                    if (confirm != ContentDialogResult.Primary)
+                    if (confirm != ModalPopupResult.Primary)
                     {
                         DeleteAccount(xamlRoot);
                         return;
@@ -223,7 +223,7 @@ namespace Telegram.Services
                     if (update.TermsOfService.MinUserAge > 0)
                     {
                         var age = await MessagePopup.ShowAsync(xamlRoot, string.Format(Strings.TosAgeText, update.TermsOfService.MinUserAge), Strings.TosAgeTitle, Strings.Agree, Strings.Cancel);
-                        if (age != ContentDialogResult.Primary)
+                        if (age != ModalPopupResult.Primary)
                         {
                             DeleteAccount(xamlRoot);
                             return;
@@ -277,12 +277,12 @@ namespace Telegram.Services
                 if (update.Type.StartsWith("AUTH_KEY_DROP_"))
                 {
                     var confirm = await MessagePopup.ShowAsync(xamlRoot, text, Strings.AppName, Strings.LogOut, Strings.Cancel);
-                    if (confirm == ContentDialogResult.Primary)
+                    if (confirm == ModalPopupResult.Primary)
                     {
                         _clientService.Send(new Destroy());
                     }
                 }
-                else if (ContentPopup.IsAnyPopupOpen(xamlRoot))
+                else if (ModalPopup.IsAnyPopupOpen(xamlRoot))
                 {
                     await MessagePopup.ShowNestedAsync(xamlRoot, text, Strings.AppName, Strings.OK);
                 }

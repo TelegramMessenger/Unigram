@@ -310,7 +310,7 @@ namespace Telegram.Views.Stars.Popups
             if (e.Key == Windows.System.VirtualKey.Enter && IsPrimaryButtonEnabled)
             {
                 e.Handled = true;
-                Hide(ContentDialogResult.Primary);
+                Hide(ModalPopupResult.Primary);
             }
         }
 

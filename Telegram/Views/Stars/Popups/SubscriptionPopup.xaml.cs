@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Telegram.Views.Stars.Popups
 {
-    public sealed partial class SubscriptionPopup : ContentPopup
+    public sealed partial class SubscriptionPopup : ModalPopup
     {
         private readonly IClientService _clientService;
         private readonly INavigationService _navigationService;

@@ -234,7 +234,7 @@ namespace Telegram.ViewModels.Chats
             var result = await popup.ShowQueuedAsync(XamlRoot);
 
             var confirm = new InputPopupResult(result, popup.Text, popup.Value);
-            if (confirm.Result == ContentDialogResult.Primary)
+            if (confirm.Result == ModalPopupResult.Primary)
             {
                 album.Name = confirm.Text;
                 ClientService.Send(new SetStoryAlbumName(Chat.Id, album.Id, confirm.Text));
@@ -244,7 +244,7 @@ namespace Telegram.ViewModels.Chats
         public async void DeleteAlbum(StoryAlbumViewModel album)
         {
             var confirm = await ShowPopupAsync(string.Format(Strings.StoriesAlbumMenuDeleteAlbumAsk, album.Name), Strings.StoriesAlbumMenuDeleteAlbum, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new DeleteStoryAlbum(Chat.Id, album.Id));
 
@@ -270,7 +270,7 @@ namespace Telegram.ViewModels.Chats
             var result = await popup.ShowQueuedAsync(XamlRoot);
 
             var confirm = new InputPopupResult(result, popup.Text, popup.Value);
-            if (confirm.Result == ContentDialogResult.Primary)
+            if (confirm.Result == ModalPopupResult.Primary)
             {
                 var storyIds = new MutableVector<int>();
                 if (story != null)
@@ -296,7 +296,7 @@ namespace Telegram.ViewModels.Chats
             var popup = new ChooseStoriesPopup(this);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 var storyIds = new MutableVector<int>();
 
@@ -419,7 +419,7 @@ namespace Telegram.ViewModels.Chats
             var title = Strings.DeleteStoryTitle;
 
             var confirm = await ShowPopupAsync(message, title, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new DeleteStory(story.PosterChatId, story.Id));
                 RemoveStory(story.Id);
@@ -432,7 +432,7 @@ namespace Telegram.ViewModels.Chats
             var title = SelectedItems.Count == 1 ? Strings.DeleteStoryTitle : Strings.DeleteStoriesTitle;
 
             var confirm = await ShowPopupAsync(message, title, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 var selection = SelectedItems.ToArray();
 

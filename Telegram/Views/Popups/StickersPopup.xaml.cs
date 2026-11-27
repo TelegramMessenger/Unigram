@@ -80,32 +80,32 @@ namespace Telegram.Views.Popups
 
         #region Show
 
-        public static Task<ContentDialogResult> ShowAsync(INavigationService navigation, StickerSet parameter)
+        public static Task<ModalPopupResult> ShowAsync(INavigationService navigation, StickerSet parameter)
         {
             return ShowAsyncInternal(navigation, parameter);
         }
 
-        public static Task<ContentDialogResult> ShowAsync(INavigationService navigation, HashSet<long> parameter)
+        public static Task<ModalPopupResult> ShowAsync(INavigationService navigation, HashSet<long> parameter)
         {
             return ShowAsyncInternal(navigation, parameter);
         }
 
-        public static Task<ContentDialogResult> ShowAsync(INavigationService navigation, long parameter)
+        public static Task<ModalPopupResult> ShowAsync(INavigationService navigation, long parameter)
         {
             return ShowAsyncInternal(navigation, parameter);
         }
 
-        public static Task<ContentDialogResult> ShowAsync(INavigationService navigation, InputFileId parameter)
+        public static Task<ModalPopupResult> ShowAsync(INavigationService navigation, InputFileId parameter)
         {
             return ShowAsyncInternal(navigation, parameter);
         }
 
-        public static Task<ContentDialogResult> ShowAsync(INavigationService navigation, string parameter)
+        public static Task<ModalPopupResult> ShowAsync(INavigationService navigation, string parameter)
         {
             return ShowAsyncInternal(navigation, parameter);
         }
 
-        private static Task<ContentDialogResult> ShowAsyncInternal(INavigationService navigation, object parameter)
+        private static Task<ModalPopupResult> ShowAsyncInternal(INavigationService navigation, object parameter)
         {
             var popup = new StickersPopup(navigation);
 

@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Collections;
 using Telegram.Common;
+using Telegram.Controls;
 using Telegram.Navigation;
 using Telegram.Services;
 using Telegram.Td.Api;
@@ -291,7 +292,7 @@ namespace Telegram.ViewModels
             var title = Locale.Declension(Strings.R.DeleteTopics, 1);
 
             var confirm = await ShowPopupAsync(message, title, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 // TODO: Handle the case where topics can't be deleted because user isn't admin
                 ClientService.Send(new DeleteForumTopic(Chat.Id, topic.Info.ForumTopicId));
@@ -320,7 +321,7 @@ namespace Telegram.ViewModels
             }
 
             var confirm = await ShowPopupAsync(message, title, primary, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new DeleteSavedMessagesTopicHistory(topic.Id));
             }
@@ -336,7 +337,7 @@ namespace Telegram.ViewModels
             //var chats = SelectedItems.ToList();
 
             //var confirm = await ShowPopupAsync(Strings.AreYouSureDeleteFewChats, Locale.Declension("ChatsSelected", chats.Count), Strings.Delete, Strings.Cancel);
-            //if (confirm == ContentDialogResult.Primary)
+            //if (confirm == ModalPopupResult.Primary)
             //{
             //    foreach (var chat in chats)
             //    {
@@ -383,7 +384,7 @@ namespace Telegram.ViewModels
             //var dialog = new DeleteChatPopup(ClientService, updated, Items.ChatList, true);
 
             //var confirm = await ShowPopupAsync(dialog);
-            //if (confirm == ContentDialogResult.Primary)
+            //if (confirm == ModalPopupResult.Primary)
             //{
             //    Delegate?.ShowChatsUndo(new[] { chat }, UndoType.Clear, items =>
             //    {
@@ -411,7 +412,7 @@ namespace Telegram.ViewModels
             var title = Strings.ClearHistory;
 
             var confirm = await ShowPopupAsync(message, title, Strings.Delete, Strings.Cancel, destructive: true);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new DeleteDirectMessagesChatTopicHistory(ChatId, topic.Id));
             }
@@ -461,7 +462,7 @@ namespace Telegram.ViewModels
             //var chats = SelectedItems.ToList();
 
             //var confirm = await ShowPopupAsync(Strings.AreYouSureClearHistoryFewChats, Locale.Declension("ChatsSelected", chats.Count), Strings.ClearHistory, Strings.Cancel);
-            //if (confirm == ContentDialogResult.Primary)
+            //if (confirm == ModalPopupResult.Primary)
             //{
             //    Delegate?.ShowChatsUndo(chats, UndoType.Clear, items =>
             //    {
@@ -752,7 +753,7 @@ namespace Telegram.ViewModels
             var popup = new SupergroupTopicPopup(ClientService, null);
 
             var confirm = await ShowPopupAsync(popup);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 var response = await ClientService.SendAsync(new CreateForumTopic(chat.Id, popup.SelectedName, false, popup.SelectedIcon));
                 if (response is ForumTopicInfo info)

@@ -108,7 +108,7 @@ namespace Telegram.Views.Stars.Popups
         }
     }
 
-    public sealed partial class BuyPopup : ContentPopup
+    public sealed partial class BuyPopup : ModalPopup
     {
         public BuyViewModel ViewModel => DataContext as BuyViewModel;
 

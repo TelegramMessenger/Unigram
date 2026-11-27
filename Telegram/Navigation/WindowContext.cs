@@ -517,10 +517,9 @@ namespace Telegram.Navigation
             _context.Close();
         }
 
-        // Counted rather than a flag, because popups nest: MessagePopup.ShowNestedAsync opens a
-        // ModalPopup over a ContentPopup that is still up - that is the whole reason the nested
-        // variants exist - and the inner one closing must not tell the window, or the page under
-        // it, that there is no popup any more. Only the outermost open and close are forwarded.
+        // Counted rather than a flag, because popups nest: one opens over another that is still
+        // up, and the inner one closing must not tell the window, or the page under it, that there
+        // is no popup any more. Only the outermost open and close are forwarded.
         private int _popupDepth;
 
         public void PopupOpened()
@@ -1243,14 +1242,14 @@ namespace Telegram.Navigation
         /// </summary>
         private void RaiseClosed()
         {
-            // We forcefully close any ContentDialog still open.
+            // We forcefully close any popup still open.
             if (_xamlRoot != null)
             {
                 foreach (var popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(_xamlRoot))
                 {
-                    if (popup.Child is ContentDialog dialog)
+                    if (popup.Child is ModalPopup modal)
                     {
-                        dialog.Hide();
+                        modal.Hide();
                     }
                 }
             }
@@ -1917,11 +1916,6 @@ namespace Telegram.Navigation
                         return;
                     }
                 }
-                else if (popup.Child is ContentDialog dialog)
-                {
-                    dialog.Hide();
-                    return;
-                }
                 else if (popup.Child is ToolTip toolTip)
                 {
                     toolTip.IsOpen = false;
@@ -1932,8 +1926,8 @@ namespace Telegram.Navigation
                 }
                 else if (popup.Child is ModalPopup modal)
                 {
-                    // Escape reaches a ContentDialog on its own, but a ModalPopup lives in a
-                    // popup of its own that no accelerator scope covers, so the window routes it.
+                    // A ModalPopup lives in a popup of its own that no accelerator scope covers,
+                    // so the window routes Escape to it.
                     if (modal.CancelRequested())
                     {
                         handled = args.Handled = true;

@@ -1741,7 +1741,7 @@ namespace Telegram.Controls
             async void Remove()
             {
                 var confirm = await ViewModel.ShowPopupAsync(Strings.ProfileNotesRemoveText, Strings.ProfileNotesRemoveTitle, Strings.Delete, Strings.Cancel, destructive: true);
-                if (confirm == ContentDialogResult.Primary && ViewModel.ClientService.TryGetUser(ViewModel.Chat, out User user))
+                if (confirm == ModalPopupResult.Primary && ViewModel.ClientService.TryGetUser(ViewModel.Chat, out User user))
                 {
                     ViewModel.ClientService.Send(new SetUserNote(user.Id, string.Empty.AsFormattedText()));
                 }
@@ -2364,7 +2364,7 @@ namespace Telegram.Controls
                 && fullInfo.TonWalletCard != null)
             {
                 var confirm = await ViewModel.ShowPopupAsync(new WalletBalancePopup(clientService, user, fullInfo.TonWalletCard, UserBalanceRoot));
-                if (confirm == ContentDialogResult.Primary)
+                if (confirm == ModalPopupResult.Primary)
                 {
                     ViewModel.SendMoney();
                 }

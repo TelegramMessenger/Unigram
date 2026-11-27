@@ -5599,7 +5599,7 @@ namespace Telegram.Views
                 dialog.MaxDate = DateTimeOffset.Now.Date;
 
                 var confirm = await dialog.ShowQueuedAsync(XamlRoot);
-                if (confirm == ContentDialogResult.Primary && dialog.SelectedDates.Count > 0)
+                if (confirm == ModalPopupResult.Primary && dialog.SelectedDates.Count > 0)
                 {
                     var first = dialog.SelectedDates.FirstOrDefault();
                     var offset = first.Date.ToUnixTimeSeconds();

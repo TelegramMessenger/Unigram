@@ -108,7 +108,7 @@ namespace Telegram.Views.Host
             chooseChats.Closed -= OnClosed;
             chooseChats.AccountClick -= OnAccountClick;
 
-            if (args.Result != ContentDialogResult.Primary && chooseChats.ViewModel.Configuration is ChooseChatsConfigurationShareOperation shareOperation)
+            if (args.Result != ModalPopupResult.Primary && chooseChats.ViewModel.Configuration is ChooseChatsConfigurationShareOperation shareOperation)
             {
                 shareOperation.ShareOperation.TryReportCompleted();
             }

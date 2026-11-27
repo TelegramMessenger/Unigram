@@ -529,7 +529,7 @@ namespace Telegram.ViewModels
         public async void RemoveMiniApp(AttachmentMenuBot bot)
         {
             var confirm = await ShowPopupAsync(string.Format(Strings.BotRemoveFromMenu, bot.Name), Strings.BotRemoveFromMenuTitle, Strings.OK, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new ToggleBotIsAddedToAttachmentMenu(bot.BotUserId, false, false));
             }
@@ -565,7 +565,7 @@ namespace Telegram.ViewModels
         public async void MarkFolderAsRead(ChatFolderViewModel folder)
         {
             var confirm = await ShowPopupAsync(Strings.AreYouSure, Strings.MarkAllAsRead, Strings.OK, Strings.Cancel);
-            if (confirm == ContentDialogResult.Primary)
+            if (confirm == ModalPopupResult.Primary)
             {
                 ClientService.Send(new ReadChatList(folder.ChatList));
             }
