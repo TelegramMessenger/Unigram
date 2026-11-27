@@ -1582,13 +1582,29 @@ namespace Telegram.Navigation
             }
             else if (args is IProtocolActivatedEventArgs protocol)
             {
+                // The projection converts the URI to System.Uri on read, and that rejects some
+                // links Windows activated us with (an unparsable host, for one).
+                string uri;
+                try
+                {
+                    uri = protocol.Uri.ToString();
+                }
+                catch (UriFormatException ex)
+                {
+                    Logger.Error(ex);
+                    uri = null;
+                }
+
                 if (service?.Frame?.Content is MainPage page)
                 {
-                    page.Activate(protocol.Uri.ToString());
+                    if (uri != null)
+                    {
+                        page.Activate(uri);
+                    }
                 }
                 else
                 {
-                    service.NavigateToMain(protocol.Uri.ToString());
+                    service.NavigateToMain(uri ?? string.Empty);
                 }
             }
             else if (args is FileActivatedEventArgs file)
