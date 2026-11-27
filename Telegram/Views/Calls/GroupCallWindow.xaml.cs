@@ -102,6 +102,12 @@ namespace Telegram.Views.Calls
             };
 
             _call = call;
+
+            // Before the subscriptions: they are raised on other threads, and OnJoinedStateChanged
+            // binds _participants.Load there, while this constructor may still be running.
+            _participants = new GroupCallParticipantsCollection(_call.Participants, _dispatcherQueue);
+            _participants.ParticipantChanged += OnParticipantChanged;
+
             _call.NetworkStateChanged += OnNetworkStateChanged;
             _call.JoinedStateChanged += OnJoinedStateChanged;
             _call.VerificationStateChanged += OnVerificationStateChanged;
@@ -109,9 +115,6 @@ namespace Telegram.Views.Calls
             _call.AudioLevelsUpdated += OnAudioLevelsUpdated;
             _call.MutedChanged += OnMutedChanged;
             _call.Changed += OnChanged;
-
-            _participants = new GroupCallParticipantsCollection(_call.Participants, _dispatcherQueue);
-            _participants.ParticipantChanged += OnParticipantChanged;
 
             ScrollingHost.ItemsSource = _participants;
 
