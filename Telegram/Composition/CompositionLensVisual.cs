@@ -406,7 +406,10 @@ namespace Telegram.Composition
                 geometry = CanvasGeometry.CreatePath(builder);
             }
 
-            return new CompositionPath(geometry);
+            using (geometry)
+            {
+                return new CompositionPath(geometry);
+            }
         }
 
         private static void AddSegment(CanvasPathBuilder builder, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)

@@ -2243,14 +2243,15 @@ namespace Telegram.Views.Host
                 if (photo != null && photo.Small.Local.IsDownloadingCompleted)
                 {
                     var device = ElementComposition.GetSharedDevice();
-                    var bitmap = await CanvasBitmap.LoadAsync(device, _botUser.ProfilePhoto.Small.Local.Path, 96, CanvasAlphaMode.Premultiplied);
+                    using var bitmap = await CanvasBitmap.LoadAsync(device, _botUser.ProfilePhoto.Small.Local.Path, 96, CanvasAlphaMode.Premultiplied);
 
-                    var target = new CanvasRenderTarget(bitmap, bitmap.Size);
+                    using var target = new CanvasRenderTarget(bitmap, bitmap.Size);
                     var half = (float)bitmap.Size.Width / 2;
 
                     using (var session = target.CreateDrawingSession())
+                    using (var clip = CanvasGeometry.CreateEllipse(device, half, half, half, half))
                     {
-                        using (var layer = session.CreateLayer(1, CanvasGeometry.CreateEllipse(device, half, half, half, half)))
+                        using (var layer = session.CreateLayer(1, clip))
                         {
                             session.DrawImage(bitmap);
                         }

@@ -11,6 +11,7 @@ using Microsoft.Graphics.Canvas.UI.Composition;
 using System;
 using System.Numerics;
 using Telegram.Common;
+using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
@@ -84,6 +85,24 @@ namespace Telegram.Composition
 {
     public static class CompositionExtensions
     {
+        /// <summary>
+        /// The figure <c>AddGeometry(CanvasGeometry.CreateRectangle(...))</c> streams, clockwise
+        /// from the top left, without a geometry to make and dispose for each rectangle.
+        /// </summary>
+        public static void AddRectangle(this CanvasPathBuilder builder, float x, float y, float width, float height)
+        {
+            builder.BeginFigure(x, y);
+            builder.AddLine(x + width, y);
+            builder.AddLine(x + width, y + height);
+            builder.AddLine(x, y + height);
+            builder.EndFigure(CanvasFigureLoop.Closed);
+        }
+
+        public static void AddRectangle(this CanvasPathBuilder builder, Rect rect)
+        {
+            builder.AddRectangle((float)rect.X, (float)rect.Y, (float)rect.Width, (float)rect.Height);
+        }
+
         /// <summary>
         /// Resolves the private <see cref="ICompositionVisualSurfacePartner"/> on a visual surface,
         /// or returns false where the interface does not exist.
@@ -366,7 +385,11 @@ namespace Telegram.Composition
                 builder.EndFigure(CanvasFigureLoop.Closed);
                 result = CanvasGeometry.CreatePath(builder);
             }
-            return new CompositionPath(result);
+
+            using (result)
+            {
+                return new CompositionPath(result);
+            }
         }
 
         private static float Distance(Vector2 fromPoint, Vector2 toPoint)
