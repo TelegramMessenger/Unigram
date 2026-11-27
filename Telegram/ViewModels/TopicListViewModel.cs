@@ -509,10 +509,17 @@ namespace Telegram.ViewModels
                 }
                 else
                 {
-                    Aggregator.Subscribe<UpdateDirectMessagesChatTopicReadInbox>(this, Handle)
+                    var subscription = Aggregator.Subscribe<UpdateDirectMessagesChatTopicReadInbox>(this, Handle)
                         .Subscribe<UpdateDirectMessagesChatTopicReadOutbox>(Handle)
                         .Subscribe<UpdateDirectMessagesChatTopicUnreadMentionCount>(Handle)
-                        .Subscribe<UpdateDirectMessagesChatTopicUnreadReactionCount>(Handle);
+                        .Subscribe<UpdateDirectMessagesChatTopicUnreadReactionCount>(Handle)
+                        .Subscribe<UpdateChatAction>(Handle);
+
+                    if (!_chatList)
+                    {
+                        subscription.Subscribe<UpdateChatLastMessage>(Handle)
+                            .Subscribe<UpdateChatReadOutbox>(Handle);
+                    }
                 }
             }
             else if (chat == null)
@@ -530,9 +537,18 @@ namespace Telegram.ViewModels
 
         private void Handle(UpdateChatAction update)
         {
-            if (update.ChatId == Chat?.Id && update.TopicId is MessageTopicForum topicForum)
+            if (update.ChatId != Chat?.Id)
+            {
+                return;
+            }
+
+            if (update.TopicId is MessageTopicForum topicForum)
             {
                 BeginOnUIThread(() => Delegate?.HandleForumTopic(topicForum.ForumTopicId, (cell, topic) => cell.UpdateForumTopicActions(topic, ClientService.GetChatActions(update.ChatId, update.TopicId))));
+            }
+            else if (update.TopicId is MessageTopicDirectMessages topicDirectMessages)
+            {
+                BeginOnUIThread(() => Delegate?.HandleDirectMessagesChatTopic(topicDirectMessages.DirectMessagesChatTopicId, (cell, topic) => cell.UpdateDirectMessagesChatTopicActions(topic, ClientService.GetChatActions(update.ChatId, update.TopicId))));
             }
         }
 
@@ -547,6 +563,10 @@ namespace Telegram.ViewModels
             {
                 BeginOnUIThread(() => Delegate?.HandleSavedMessagesTopic(0, (cell, topic) => cell.UpdateSavedMessagesTopicLastMessage(topic)));
             }
+            else if (_type == TopicListType.DirectMessages)
+            {
+                BeginOnUIThread(() => Delegate?.HandleDirectMessagesChatTopic(0, (cell, topic) => cell.UpdateDirectMessagesChatTopicLastMessage(topic)));
+            }
             else
             {
                 BeginOnUIThread(() => Delegate?.HandleForumTopic(0, (cell, topic) => cell.UpdateForumTopicLastMessage(topic)));
@@ -560,7 +580,16 @@ namespace Telegram.ViewModels
 
         private void Handle(UpdateChatReadOutbox update)
         {
-            if (update.ChatId == Chat?.Id)
+            if (update.ChatId != Chat?.Id)
+            {
+                return;
+            }
+
+            if (_type == TopicListType.DirectMessages)
+            {
+                BeginOnUIThread(() => Delegate?.HandleDirectMessagesChatTopic(0, (cell, topic) => cell.UpdateDirectMessagesChatTopicReadOutbox(topic)));
+            }
+            else
             {
                 BeginOnUIThread(() => Delegate?.HandleForumTopic(0, (cell, topic) => cell.UpdateForumTopicReadOutbox(topic)));
             }

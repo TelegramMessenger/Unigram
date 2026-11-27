@@ -4429,7 +4429,7 @@ namespace Telegram.Td.Api
                 if (supergroup.IsDirectMessagesGroup)
                 {
                     type = TopicListType.DirectMessages;
-                    return supergroup.IsAdministeredDirectMessagesGroup ? ForumLayout.Tabs : ForumLayout.None;
+                    return supergroup.IsAdministeredDirectMessagesGroup ? ForumLayout.Sidebar : ForumLayout.None;
                 }
             }
             else if (clientService.IsSavedMessages(chat))

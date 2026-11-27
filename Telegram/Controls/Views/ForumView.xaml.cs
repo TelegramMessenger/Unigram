@@ -237,7 +237,11 @@ namespace Telegram.Controls.Views
             UpdateChatTitle(chat);
             UpdateChatEmojiStatus(chat);
 
-            if (ViewModel.ClientService.TryGetSupergroupFull(chat, out SupergroupFullInfo fullInfo))
+            if (ViewModel.Type == TopicListType.DirectMessages)
+            {
+                Subtitle.Text = Strings.TopicsPanelDirectMessages;
+            }
+            else if (ViewModel.ClientService.TryGetSupergroupFull(chat, out SupergroupFullInfo fullInfo))
             {
                 Subtitle.Text = Locale.Declension(Strings.R.Members, fullInfo.MemberCount);
             }
