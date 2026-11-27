@@ -387,13 +387,15 @@ namespace Telegram.Common
             }
         }
 
+        // Chat pages only: pages such as SupergroupEditPage read their parameter as a long, and handing
+        // them a topic is an InvalidCastException when the user goes back to one.
         public static void ReplaceChatInBackStack(this INavigationService service, long oldChatId, ChatMessageTopic newChatId)
         {
             for (int i = service.BackStack.Count - 1; i >= 0; i--)
             {
                 var item = service.BackStack[i];
 
-                if (service.TryGetChatFromParameter(item.Parameter, out ChatMessageTopic chatId) && chatId.ChatId == oldChatId)
+                if (item.SourcePageType == typeof(ChatPage) && service.TryGetChatFromParameter(item.Parameter, out ChatMessageTopic chatId) && chatId.ChatId == oldChatId)
                 {
                     item.Parameter = newChatId;
                 }
