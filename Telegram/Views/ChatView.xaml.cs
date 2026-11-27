@@ -9050,13 +9050,30 @@ namespace Telegram.Views
             ViewModel.SuggestPost();
         }
 
-        private void ContinueLastThread_Click(object sender, RoutedEventArgs e)
+        private async void ContinueLastThread_Click(object sender, RoutedEventArgs e)
         {
-            var items = _forumViewModel.Items as TopicListViewModel.ForumTopicsCollection;
-            var topic = items?.FirstOrDefault(x => x.Info.ForumTopicId != 0);
-            if (topic != null)
+            var chat = ViewModel?.Chat;
+            if (chat == null)
             {
-                NavigateToMessageTopic(_forumViewModel.Chat, new MessageTopicForum(topic.Info.ForumTopicId));
+                return;
+            }
+
+            if (_forumViewModel?.ChatId == chat.Id && _forumViewModel.Items is TopicListViewModel.ForumTopicsCollection items)
+            {
+                var topic = items.FirstOrDefault(x => x.Info.ForumTopicId != 0);
+                if (topic != null)
+                {
+                    NavigateToMessageTopic(chat, new MessageTopicForum(topic.Info.ForumTopicId));
+                    return;
+                }
+            }
+
+            // The topic list exists only while the chat shows it: a sidebar layout with the sidebar
+            // closed never builds one.
+            var response = await ViewModel.ClientService.SendAsync(new GetForumTopics(chat.Id, string.Empty, 0, false, false, 0, 0, 0, 1));
+            if (response is ForumTopics topics && topics.Topics.Count > 0 && topics.Topics[0].Info.ForumTopicId != 0 && ViewModel?.Chat?.Id == chat.Id)
+            {
+                NavigateToMessageTopic(chat, new MessageTopicForum(topics.Topics[0].Info.ForumTopicId));
             }
         }
 
