@@ -5392,8 +5392,8 @@
     <string name="PremiumStickers">Premium Stickers</string>
     <string name="CaptionsLimitTitle">Captions</string>
     <string name="CaptionsLimitSubtitle">Use longer descriptions for your photos and videos</string>
-    <string name="CaptionPremiumTitle">Maximum Length Reach</string>
-    <string name="CaptionPremiumSubtitle_other">Increase this limit **{0}** times to **{1}** symbols by subscribing to __Telegram Premium.__</string>
+    <string name="CaptionPremiumTitle">Maximum Length Reached</string>
+    <string name="CaptionPremiumSubtitle_other">Increase this limit **{0}x** to **{1}** characters by subscribing to __Telegram Premium__.</string>
 
 
 
@@ -6138,9 +6138,9 @@
     <string name="StoryPrivacyAlertTitle">Share story</string>
     <string name="StoryPrivacyWhoCanView">Who can view your story</string>
     <string name="StoryPrivacyOptionEveryone">Everyone</string>
-    <string name="StoryPrivacyOptionContacts">Contacts</string>
+    <string name="StoryPrivacyOptionContacts">My Contacts</string>
     <string name="StoryPrivacyOptionCloseFriends">Close Friends</string>
-    <string name="StoryPrivacyOptionSelectedContacts">Selected Contacts</string>
+    <string name="StoryPrivacyOptionSelectedContacts">Selected Users</string>
     <string name="StoryPrivacyOptionPeople_one">{0} person</string>
     <string name="StoryPrivacyOptionPeople_other">{0} people</string>
     <string name="StoryPrivacyOptionContactsDetail">exclude people</string>
@@ -6156,9 +6156,9 @@
     <string name="StoryPrivacyAlertCloseFriendsTitle">Close Friends</string>
     <string name="StoryPrivacyAlertSelectContactsTitle">Select Contacts</string>
     <string name="StoryAllowScreenshots">Allow Screenshots</string>
-    <string name="StoryKeep">Keep on My Page</string>
-    <string name="StoryKeepInfo_one">Keep this story on your page even after it expires in {0} hour. Privacy settings will apply.</string>
-    <string name="StoryKeepInfo_other">Keep this story on your page even after it expires in {0} hours. Privacy settings will apply.</string>
+    <string name="StoryKeep">Post to My Profile</string>
+    <string name="StoryKeepInfo_one">Keep this story on your profile even after it expires in {0} hour. Privacy settings will apply.</string>
+    <string name="StoryKeepInfo_other">Keep this story on your profile even after it expires in {0} hours. Privacy settings will apply.</string>
     <string name="StoryKeepChannel">Post to Channel Page</string>
     <string name="StoryKeepGroup">Post to Group Page</string>
     <string name="StoryKeepChannelInfo_one">Keep this story on the channel page even after it expires in {0} hour.</string>
@@ -6186,7 +6186,7 @@
     <string name="StoryError">Couldn’t upload</string>
     <string name="TryAgain">Try Again</string>
     <string name="StoryCancelTooLate">This story has finished uploading and will be posted.</string>
-    <string name="StoryReactionsWidgetLimit2_other">You can’t add up more than {0} reactions tags to a story.</string>
+    <string name="StoryReactionsWidgetLimit2_other">You can’t add more than {0} reaction stickers to a story.</string>
     <string name="StoryWidgetLink">Link</string>
     <string name="StoryWidgetLocation">Location</string>
     <string name="StoryWidgetPhoto">Photo</string>
@@ -6197,7 +6197,7 @@
     <string name="StoryLinkNameHeader">Customize Link Text</string>
     <string name="StoryLinkNamePlaceholder">Link Text</string>
     <string name="StoryLinkPremium">Subscribe to **Telegram Premium** to add links to stories.</string>
-    <string name="StoryPremiumFormatting">Subscribe to **Telegram Premium** to add links and text formatting to your stories.</string>
+    <string name="StoryPremiumFormatting">Subscribe to **Telegram Premium** to add links and formatting to your story captions.</string>
     <string name="StoryLinkLimitMessage_other">You can’t add more than {0} links to a story.</string>
     <string name="LimitReachedStoriesCount2First_one">You can post **{0}** story in **24** hours.</string>
     <string name="LimitReachedStoriesCount2First_other">You can post **{0}** stories in **24** hours.</string>
@@ -6205,12 +6205,12 @@
     <string name="LimitReachedStoriesCount2Second_other">Subscribe to **Telegram Premium** to increase this limit to **{0}**.</string>
     <string name="LimitReachedStoriesCount2Premium_one">Sorry, you can’t post more than **{0}** story in **24** hours.</string>
     <string name="LimitReachedStoriesCount2Premium_other">Sorry, you can’t post more than **{0}** stories in **24** hours.</string>
-    <string name="LimitReachedStoriesWeekly">You can post **{0}** stories in a week.\nSubscribe to **Telegram Premium** to increase this limit to **{1}**.</string>
-    <string name="LimitReachedStoriesWeeklyPremium">Sorry, you can’t post more than **{0}** stories in a week.</string>
-    <string name="LimitReachedStoriesMonthly">You can post **{0}** stories in a month.\nSubscribe to **Telegram Premium** to increase this limit to **{1}**.</string>
-    <string name="LimitReachedStoriesMonthlyPremium">Sorry, you can’t post more than **{0}** stories in a month.</string>
+    <string name="LimitReachedStoriesWeekly">You can post **{0}** stories per week.\nSubscribe to **Telegram Premium** to increase this limit to **{1}**.</string>
+    <string name="LimitReachedStoriesWeeklyPremium">Sorry, you can\'t post more than **{0}** stories per week.</string>
+    <string name="LimitReachedStoriesMonthly">You can post **{0}** stories per month.\nSubscribe to **Telegram Premium** to increase this limit to **{1}**.</string>
+    <string name="LimitReachedStoriesMonthlyPremium">Sorry, you can\'t post more than **{0}** stories per month.</string>
     <string name="LiveStoryAlreadyStreamingTitle">Already Live</string>
-    <string name="LiveStoryAlreadyStreaming">You have already live stream running.</string>
+    <string name="LiveStoryAlreadyStreaming">You already have an active live stream.</string>
 
 
 
@@ -6297,7 +6297,7 @@
     <string name="SaveVideo">Save Video</string>
     <string name="SaveToProfile">Post to Profile</string>
     <string name="ArchiveStory">Remove from Profile</string>
-    <string name="SaveToPosts">Save to Posts</string>
+    <string name="SaveToPosts">Post to Profile</string>
     <string name="RemoveFromPosts">Remove from Posts</string>
     <string name="ArchiveStories_one">Archive Story</string>
     <string name="ArchiveStories_other">Archive Stories</string>
@@ -6404,7 +6404,7 @@
     <string name="NoReactionsStub">No one has reacted to this story so far.</string>
     <string name="NoContactsViewed">None of your contacts viewed this story.</string>
     <string name="ServerErrorViewersTitle">Oops</string>
-    <string name="ServerErrorViewers">Information about the viewers wasn\'t recorded.</string>
+    <string name="ServerErrorViewers">Information about viewers wasn\'t recorded.</string>
     <string name="ServerErrorViewersFull">Information about the other viewers wasn\'t recorded.</string>
     <string name="ArchivedStories">Archived Stories</string>
 
@@ -8426,23 +8426,11 @@
     <!-- new from translations.telegram.org -->
 
 
-    <string name="AccDescrMentionCount_zero">{0} mentions</string>
-    <string name="AccDescrMentionCount_two">{0} mentions</string>
-    <string name="AccDescrMentionCount_few">{0} mentions</string>
-    <string name="AccDescrMentionCount_many">{0} mentions</string>
-
-    <string name="AccDescrNumberOfPeopleReactions_zero">{0} people reacted with {1}</string>
-    <string name="AccDescrNumberOfPeopleReactions_two">{0} people reacted with {1}</string>
-    <string name="AccDescrNumberOfPeopleReactions_few">{0} people reacted with {1}</string>
-    <string name="AccDescrNumberOfPeopleReactions_many">{0} people reacted with {1}</string>
 
 
 
 
-    <string name="AccDescrNumberOfViews_zero">Viewed {0} times</string>
-    <string name="AccDescrNumberOfViews_two">Viewed {0} times</string>
-    <string name="AccDescrNumberOfViews_few">Viewed {0} times</string>
-    <string name="AccDescrNumberOfViews_many">Viewed {0} times</string>
+
     <string name="AccDescrPasscodeUnlock">Unlock application</string>
 
 
@@ -8478,10 +8466,6 @@
 
 
 
-    <string name="ActionGiftStarsTitle_zero">{0} Stars</string>
-    <string name="ActionGiftStarsTitle_two">{0} Stars</string>
-    <string name="ActionGiftStarsTitle_few">{0} Stars</string>
-    <string name="ActionGiftStarsTitle_many">{0} Stars</string>
     <string name="ActionGroupCallEnded">Video chat ended ({0})</string>
 
     <string name="ActionRequestedPeerChannel">You shared a channel with un2</string>
@@ -8500,10 +8484,6 @@
 
 
     <string name="ActionRevokedInviteLink">un1 revoked invite link {0}</string>
-    <string name="ActionStarGiveawayPrize_zero">You won a prize in a giveaway organized by **un1**.\n\nYour prize is **{0} Stars**.</string>
-    <string name="ActionStarGiveawayPrize_two">You won a prize in a giveaway organized by **un1**.\n\nYour prize is **{0} Stars**.</string>
-    <string name="ActionStarGiveawayPrize_few">You won a prize in a giveaway organized by **un1**.\n\nYour prize is **{0} Stars**.</string>
-    <string name="ActionStarGiveawayPrize_many">You won a prize in a giveaway organized by **un1**.\n\nYour prize is **{0} Stars**.</string>
 
 
 
@@ -8521,14 +8501,6 @@
 
 
 
-    <string name="AddManyMembersAlertNamesText_zero">Are you sure you want to add {0} members to **{1}**?</string>
-    <string name="AddManyMembersAlertNamesText_two">Are you sure you want to add {0} members to **{1}**?</string>
-    <string name="AddManyMembersAlertNamesText_few">Are you sure you want to add {0} members to **{1}**?</string>
-    <string name="AddManyMembersAlertNamesText_many">Are you sure you want to add {0} members to **{1}**?</string>
-    <string name="AddManyMembersAlertTitle_zero">Add {0} members</string>
-    <string name="AddManyMembersAlertTitle_two">Add {0} members</string>
-    <string name="AddManyMembersAlertTitle_few">Add {0} members</string>
-    <string name="AddManyMembersAlertTitle_many">Add {0} members</string>
 
 
 
@@ -8567,10 +8539,6 @@
 
 
 
-    <string name="AndMoreTyping_zero">and {0} more are typing</string>
-    <string name="AndMoreTyping_two">and {0} more are typing</string>
-    <string name="AndMoreTyping_few">and {0} more are typing</string>
-    <string name="AndMoreTyping_many">and {0} more are typing</string>
 
 
 
@@ -8580,16 +8548,8 @@
 
 
 
-    <string name="Answer_zero">{0} answers</string>
-    <string name="Answer_two">{0} answers</string>
-    <string name="Answer_few">{0} answers</string>
-    <string name="Answer_many">{0} answers</string>
     <string name="Appearance">Appearance</string>
     <string name="ApplyBackgroundForThisChat">Apply For This Chat</string>
-    <string name="ArchiveStories_zero">Archive Stories</string>
-    <string name="ArchiveStories_two">Archive Stories</string>
-    <string name="ArchiveStories_few">Archive Stories</string>
-    <string name="ArchiveStories_many">Archive Stories</string>
 
     <string name="AreYouSureBlockContact">Are you sure you want to block this contact?</string>
 
@@ -8622,10 +8582,6 @@
 
 
 
-    <string name="Bans_zero">{0} restrictions</string>
-    <string name="Bans_two">{0} restrictions</string>
-    <string name="Bans_few">{0} restrictions</string>
-    <string name="Bans_many">{0} restrictions</string>
 
 
 
@@ -8637,55 +8593,15 @@
 
 
 
-    <string name="BoldMonths_zero">**{0}** months</string>
-    <string name="BoldMonths_two">**{0}** months</string>
-    <string name="BoldMonths_few">**{0}** months</string>
-    <string name="BoldMonths_many">**{0}** months</string>
-    <string name="BoldYears_zero">**{0}** years</string>
-    <string name="BoldYears_two">**{0}** years</string>
-    <string name="BoldYears_few">**{0}** years</string>
-    <string name="BoldYears_many">**{0}** years</string>
-    <string name="BoostFeatureBackground_zero">{0} Channel Backgrounds</string>
-    <string name="BoostFeatureBackground_two">{0} Channel Backgrounds</string>
-    <string name="BoostFeatureBackground_few">{0} Channel Backgrounds</string>
-    <string name="BoostFeatureBackground_many">{0} Channel Backgrounds</string>
-    <string name="BoostFeatureBackgroundGroup_zero">{0} Group Backgrounds</string>
-    <string name="BoostFeatureBackgroundGroup_two">{0} Group Backgrounds</string>
-    <string name="BoostFeatureBackgroundGroup_few">{0} Group Backgrounds</string>
-    <string name="BoostFeatureBackgroundGroup_many">{0} Group Backgrounds</string>
-    <string name="BoostFeatureCustomReaction_zero">{0} Custom Reactions</string>
-    <string name="BoostFeatureCustomReaction_two">{0} Custom Reactions</string>
-    <string name="BoostFeatureCustomReaction_few">{0} Custom Reactions</string>
-    <string name="BoostFeatureCustomReaction_many">{0} Custom Reactions</string>
-    <string name="BoostFeatureNameColor_zero">{0} Channel Name Colors</string>
     <string name="BoostFeatureNameColor_one"></string>
-    <string name="BoostFeatureNameColor_two">{0} Channel Name Colors</string>
-    <string name="BoostFeatureNameColor_few">{0} Channel Name Colors</string>
-    <string name="BoostFeatureNameColor_many">{0} Channel Name Colors</string>
 
 
 
 
 
-    <string name="BoostFeatureProfileColor_zero">{0} Colors for Channel Cover</string>
     <string name="BoostFeatureProfileColor_one"></string>
-    <string name="BoostFeatureProfileColor_two">{0} Colors for Channel Cover</string>
-    <string name="BoostFeatureProfileColor_few">{0} Colors for Channel Cover</string>
-    <string name="BoostFeatureProfileColor_many">{0} Colors for Channel Cover</string>
-    <string name="BoostFeatureProfileColorGroup_zero">{0} Colors for Group Cover</string>
     <string name="BoostFeatureProfileColorGroup_one"></string>
-    <string name="BoostFeatureProfileColorGroup_two">{0} Colors for Group Cover</string>
-    <string name="BoostFeatureProfileColorGroup_few">{0} Colors for Group Cover</string>
-    <string name="BoostFeatureProfileColorGroup_many">{0} Colors for Group Cover</string>
     <string name="BoostFeatureRealTimeTranslations">Real-Time Translations</string>
-    <string name="BoostFeatureReplyColor_zero">{0} Styles for Links and Quotes</string>
-    <string name="BoostFeatureReplyColor_two">{0} Styles for Links and Quotes</string>
-    <string name="BoostFeatureReplyColor_few">{0} Styles for Links and Quotes</string>
-    <string name="BoostFeatureReplyColor_many">{0} Styles for Links and Quotes</string>
-    <string name="BoostFeatureStoriesPerDay_zero">{0} Stories Per Day</string>
-    <string name="BoostFeatureStoriesPerDay_two">{0} Stories Per Day</string>
-    <string name="BoostFeatureStoriesPerDay_few">{0} Stories Per Day</string>
-    <string name="BoostFeatureStoriesPerDay_many">{0} Stories Per Day</string>
 
 
 
@@ -8710,10 +8626,6 @@
 
 
 
-    <string name="BoostStories_zero">**{0}**&#160;stories</string>
-    <string name="BoostStories_two">**{0}**&#160;stories</string>
-    <string name="BoostStories_few">**{0}**&#160;stories</string>
-    <string name="BoostStories_many">**{0}**&#160;stories</string>
 
 
 
@@ -8737,11 +8649,7 @@
 
 
 
-    <string name="BoostingBoostsGroupByUserServiceMsgCount_zero">{1} boosted the group {0} times</string>
     <string name="BoostingBoostsGroupByUserServiceMsgCount_one"></string>
-    <string name="BoostingBoostsGroupByUserServiceMsgCount_two">{1} boosted the group {0} times</string>
-    <string name="BoostingBoostsGroupByUserServiceMsgCount_few">{1} boosted the group {0} times</string>
-    <string name="BoostingBoostsGroupByUserServiceMsgCount_many">{1} boosted the group {0} times</string>
 
 
 
@@ -8770,10 +8678,6 @@
 
 
 
-    <string name="BoostingGetMoreBoostByGiftingCount_zero">To boost **{1}**, get **{0}** more boosts by gifting **Telegram Premium** to a friend.</string>
-    <string name="BoostingGetMoreBoostByGiftingCount_two">To boost **{1}**, get **{0}** more boosts by gifting **Telegram Premium** to a friend.</string>
-    <string name="BoostingGetMoreBoostByGiftingCount_few">To boost **{1}**, get **{0}** more boosts by gifting **Telegram Premium** to a friend.</string>
-    <string name="BoostingGetMoreBoostByGiftingCount_many">To boost **{1}**, get **{0}** more boosts by gifting **Telegram Premium** to a friend.</string>
 
 
 
@@ -8786,99 +8690,35 @@
 
 
 
-    <string name="BoostingGiveawayHowItWorksIncludeText_zero">**{1}** also included **{0}** **{2}** with the prizes. The channel admins are responsible for delivering these prizes.</string>
-    <string name="BoostingGiveawayHowItWorksIncludeText_two">**{1}** also included **{0}** **{2}** with the prizes. The channel admins are responsible for delivering these prizes.</string>
-    <string name="BoostingGiveawayHowItWorksIncludeText_few">**{1}** also included **{0}** **{2}** with the prizes. The channel admins are responsible for delivering these prizes.</string>
-    <string name="BoostingGiveawayHowItWorksIncludeText_many">**{1}** also included **{0}** **{2}** with the prizes. The channel admins are responsible for delivering these prizes.</string>
-    <string name="BoostingGiveawayHowItWorksSubText_zero">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubText_two">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubText_few">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubText_many">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDate_zero">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** after **{4}** on **{5}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDate_two">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** after **{4}** on **{5}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDate_few">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** after **{4}** on **{5}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDate_many">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** after **{4}** on **{5}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateEnd_zero">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** after **{4}** on **{5}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateEnd_two">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** after **{4}** on **{5}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateEnd_few">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** after **{4}** on **{5}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateEnd_many">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** after **{4}** on **{5}**.</string>
 
 
 
 
 
 
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveral1_zero">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveral1_two">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveral1_few">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveral1_many">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveral2_zero">and **{0}** other listed channels after **{1}** on **{2}**</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveral2_two">and **{0}** other listed channels after **{1}** on **{2}**</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveral2_few">and **{0}** other listed channels after **{1}** on **{2}**</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveral2_many">and **{0}** other listed channels after **{1}** on **{2}**</string>
 
 
 
 
 
 
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveralEnd1_zero">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveralEnd1_two">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveralEnd1_few">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextDateSeveralEnd1_many">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextEnd_zero">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextEnd_two">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextEnd_few">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}**.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextEnd_many">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}**.</string>
 
 
 
 
 
 
-    <string name="BoostingGiveawayHowItWorksSubTextSeveral1_zero">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveral1_two">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveral1_few">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveral1_many">On **{1}**, Telegram will automatically select **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveral2_zero">and **{0}** other listed channels</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveral2_two">and **{0}** other listed channels</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveral2_few">and **{0}** other listed channels</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveral2_many">and **{0}** other listed channels</string>
 
 
 
 
 
 
-    <string name="BoostingGiveawayHowItWorksSubTextSeveralEnd1_zero">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveralEnd1_two">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveralEnd1_few">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksSubTextSeveralEnd1_many">On **{1}**, Telegram automatically selected **{2}** random users that joined **{3}** {4}.</string>
-    <string name="BoostingGiveawayHowItWorksText_zero">This giveaway is sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its followers.</string>
-    <string name="BoostingGiveawayHowItWorksText_two">This giveaway is sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its followers.</string>
-    <string name="BoostingGiveawayHowItWorksText_few">This giveaway is sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its followers.</string>
-    <string name="BoostingGiveawayHowItWorksText_many">This giveaway is sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its followers.</string>
-    <string name="BoostingGiveawayHowItWorksTextEnd_zero">This giveaway was sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its followers.</string>
-    <string name="BoostingGiveawayHowItWorksTextEnd_two">This giveaway was sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its followers.</string>
-    <string name="BoostingGiveawayHowItWorksTextEnd_few">This giveaway was sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its followers.</string>
-    <string name="BoostingGiveawayHowItWorksTextEnd_many">This giveaway was sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its followers.</string>
-    <string name="BoostingGiveawayHowItWorksTextEndGroup_zero">This giveaway was sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its members.</string>
-    <string name="BoostingGiveawayHowItWorksTextEndGroup_two">This giveaway was sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its members.</string>
-    <string name="BoostingGiveawayHowItWorksTextEndGroup_few">This giveaway was sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its members.</string>
-    <string name="BoostingGiveawayHowItWorksTextEndGroup_many">This giveaway was sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its members.</string>
-    <string name="BoostingGiveawayHowItWorksTextGroup_zero">This giveaway is sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its members.</string>
-    <string name="BoostingGiveawayHowItWorksTextGroup_two">This giveaway is sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its members.</string>
-    <string name="BoostingGiveawayHowItWorksTextGroup_few">This giveaway is sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its members.</string>
-    <string name="BoostingGiveawayHowItWorksTextGroup_many">This giveaway is sponsored by the admins of **{1}**, who acquired **{2} Telegram Premium** subscriptions for {3} for its members.</string>
 
 
 
 
 
-    <string name="BoostingGiveawayMsgAllSubsPlural_zero">All subscribers of the channels:</string>
-    <string name="BoostingGiveawayMsgAllSubsPlural_two">All subscribers of the channels:</string>
-    <string name="BoostingGiveawayMsgAllSubsPlural_few">All subscribers of the channels:</string>
-    <string name="BoostingGiveawayMsgAllSubsPlural_many">All subscribers of the channels:</string>
     <string name="BoostingGiveawayMsgInfo">**{0}** Telegram Premium\nSubscription for {1}.</string>
 
 
@@ -8893,19 +8733,11 @@
 
 
 
-    <string name="BoostingGiveawayMsgNewSubsPlural_zero">All users who joined the channels\nbelow after this announcement:</string>
-    <string name="BoostingGiveawayMsgNewSubsPlural_two">All users who joined the channels\nbelow after this announcement:</string>
-    <string name="BoostingGiveawayMsgNewSubsPlural_few">All users who joined the channels\nbelow after this announcement:</string>
-    <string name="BoostingGiveawayMsgNewSubsPlural_many">All users who joined the channels\nbelow after this announcement:</string>
 
 
 
 
 
-    <string name="BoostingGiveawayParticipantMultiPlural_zero">You are participating in this giveaway because you joined the channel **{1}** (and **{0}** other listed channels).</string>
-    <string name="BoostingGiveawayParticipantMultiPlural_two">You are participating in this giveaway because you joined the channel **{1}** (and **{0}** other listed channels).</string>
-    <string name="BoostingGiveawayParticipantMultiPlural_few">You are participating in this giveaway because you joined the channel **{1}** (and **{0}** other listed channels).</string>
-    <string name="BoostingGiveawayParticipantMultiPlural_many">You are participating in this giveaway because you joined the channel **{1}** (and **{0}** other listed channels).</string>
 
 
 
@@ -8918,28 +8750,12 @@
 
 
 
-    <string name="BoostingGiveawayServiceUndistributed_zero">{0} undistributed links codes were forwarded to channel administrators.</string>
-    <string name="BoostingGiveawayServiceUndistributed_two">{0} undistributed links codes were forwarded to channel administrators.</string>
-    <string name="BoostingGiveawayServiceUndistributed_few">{0} undistributed links codes were forwarded to channel administrators.</string>
-    <string name="BoostingGiveawayServiceUndistributed_many">{0} undistributed links codes were forwarded to channel administrators.</string>
 
 
 
 
-    <string name="BoostingGiveawayServiceWinnersSelected_zero">{0} winners of the giveaway were randomly selected by Telegram and received their gift links in private messages.</string>
-    <string name="BoostingGiveawayServiceWinnersSelected_two">{0} winners of the giveaway were randomly selected by Telegram and received their gift links in private messages.</string>
-    <string name="BoostingGiveawayServiceWinnersSelected_few">{0} winners of the giveaway were randomly selected by Telegram and received their gift links in private messages.</string>
-    <string name="BoostingGiveawayServiceWinnersSelected_many">{0} winners of the giveaway were randomly selected by Telegram and received their gift links in private messages.</string>
 
-    <string name="BoostingGiveawayTakePartMultiPlural_zero">To take part in this giveaway please join channel **{1}** (and **{0}** other listed channels) before **{2}**.</string>
-    <string name="BoostingGiveawayTakePartMultiPlural_two">To take part in this giveaway please join channel **{1}** (and **{0}** other listed channels) before **{2}**.</string>
-    <string name="BoostingGiveawayTakePartMultiPlural_few">To take part in this giveaway please join channel **{1}** (and **{0}** other listed channels) before **{2}**.</string>
-    <string name="BoostingGiveawayTakePartMultiPlural_many">To take part in this giveaway please join channel **{1}** (and **{0}** other listed channels) before **{2}**.</string>
 
-    <string name="BoostingGiveawayUsedLinksPlural_zero">**{0}** of the winners already used their gift links.</string>
-    <string name="BoostingGiveawayUsedLinksPlural_two">**{0}** of the winners already used their gift links.</string>
-    <string name="BoostingGiveawayUsedLinksPlural_few">**{0}** of the winners already used their gift links.</string>
-    <string name="BoostingGiveawayUsedLinksPlural_many">**{0}** of the winners already used their gift links.</string>
 
 
 
@@ -8965,10 +8781,6 @@
 
 
 
-    <string name="BoostingReassignBoostTextPluralWithLink_zero">To boost **{1}**, reassign a previous boost or {2} to a friend to get **{0}** additional boosts.</string>
-    <string name="BoostingReassignBoostTextPluralWithLink_two">To boost **{1}**, reassign a previous boost or {2} to a friend to get **{0}** additional boosts.</string>
-    <string name="BoostingReassignBoostTextPluralWithLink_few">To boost **{1}**, reassign a previous boost or {2} to a friend to get **{0}** additional boosts.</string>
-    <string name="BoostingReassignBoostTextPluralWithLink_many">To boost **{1}**, reassign a previous boost or {2} to a friend to get **{0}** additional boosts.</string>
 
 
 
@@ -9024,10 +8836,6 @@
 
 
 
-    <string name="BoostingShowMoreBoosts_zero">Show {0} More Boosts</string>
-    <string name="BoostingShowMoreBoosts_two">Show {0} More Boosts</string>
-    <string name="BoostingShowMoreBoosts_few">Show {0} More Boosts</string>
-    <string name="BoostingShowMoreBoosts_many">Show {0} More Boosts</string>
 
 
 
@@ -9052,50 +8860,6 @@
 
 
 
-    <string name="BoostingStarsGiveawayAdditionPrizeCountHint_zero">All prizes: **{0} Stars**.</string>
-    <string name="BoostingStarsGiveawayAdditionPrizeCountHint_two">All prizes: **{0} Stars**.</string>
-    <string name="BoostingStarsGiveawayAdditionPrizeCountHint_few">All prizes: **{0} Stars**.</string>
-    <string name="BoostingStarsGiveawayAdditionPrizeCountHint_many">All prizes: **{0} Stars**.</string>
-    <string name="BoostingStarsGiveawayAdditionPrizeCountNameHint_zero">All prizes: **{1}** {2} with **{0} Stars**.</string>
-    <string name="BoostingStarsGiveawayAdditionPrizeCountNameHint_two">All prizes: **{1}** {2} with **{0} Stars**.</string>
-    <string name="BoostingStarsGiveawayAdditionPrizeCountNameHint_few">All prizes: **{1}** {2} with **{0} Stars**.</string>
-    <string name="BoostingStarsGiveawayAdditionPrizeCountNameHint_many">All prizes: **{1}** {2} with **{0} Stars**.</string>
-    <string name="BoostingStarsGiveawayHowItWorksText_zero">This giveaway is sponsored by the admins of **{1}**, who acquired **{0} Stars** for its followers.</string>
-    <string name="BoostingStarsGiveawayHowItWorksText_two">This giveaway is sponsored by the admins of **{1}**, who acquired **{0} Stars** for its followers.</string>
-    <string name="BoostingStarsGiveawayHowItWorksText_few">This giveaway is sponsored by the admins of **{1}**, who acquired **{0} Stars** for its followers.</string>
-    <string name="BoostingStarsGiveawayHowItWorksText_many">This giveaway is sponsored by the admins of **{1}**, who acquired **{0} Stars** for its followers.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextEnd_zero">This giveaway was sponsored by the admins of **{1}**, who acquired **{0} Stars** for its followers.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextEnd_two">This giveaway was sponsored by the admins of **{1}**, who acquired **{0} Stars** for its followers.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextEnd_few">This giveaway was sponsored by the admins of **{1}**, who acquired **{0} Stars** for its followers.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextEnd_many">This giveaway was sponsored by the admins of **{1}**, who acquired **{0} Stars** for its followers.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextEndGroup_zero">This giveaway was sponsored by the admins of **{1}**, who acquired **{0} Stars** for its members.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextEndGroup_two">This giveaway was sponsored by the admins of **{1}**, who acquired **{0} Stars** for its members.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextEndGroup_few">This giveaway was sponsored by the admins of **{1}**, who acquired **{0} Stars** for its members.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextEndGroup_many">This giveaway was sponsored by the admins of **{1}**, who acquired **{0} Stars** for its members.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextGroup_zero">This giveaway is sponsored by the admins of **{1}**, who acquired **{0} Stars** for its members.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextGroup_two">This giveaway is sponsored by the admins of **{1}**, who acquired **{0} Stars** for its members.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextGroup_few">This giveaway is sponsored by the admins of **{1}**, who acquired **{0} Stars** for its members.</string>
-    <string name="BoostingStarsGiveawayHowItWorksTextGroup_many">This giveaway is sponsored by the admins of **{1}**, who acquired **{0} Stars** for its members.</string>
-    <string name="BoostingStarsGiveawayJustStarted_zero">{1} just started a giveaway of {0} Stars to its followers.</string>
-    <string name="BoostingStarsGiveawayJustStarted_two">{1} just started a giveaway of {0} Stars to its followers.</string>
-    <string name="BoostingStarsGiveawayJustStarted_few">{1} just started a giveaway of {0} Stars to its followers.</string>
-    <string name="BoostingStarsGiveawayJustStarted_many">{1} just started a giveaway of {0} Stars to its followers.</string>
-    <string name="BoostingStarsGiveawayJustStartedGroup_zero">{1} just started a giveaway of {0} Stars to its members.</string>
-    <string name="BoostingStarsGiveawayJustStartedGroup_two">{1} just started a giveaway of {0} Stars to its members.</string>
-    <string name="BoostingStarsGiveawayJustStartedGroup_few">{1} just started a giveaway of {0} Stars to its members.</string>
-    <string name="BoostingStarsGiveawayJustStartedGroup_many">{1} just started a giveaway of {0} Stars to its members.</string>
-    <string name="BoostingStarsGiveawayMsgInfoPlural1_zero">**{0} Stars** will be distributed</string>
-    <string name="BoostingStarsGiveawayMsgInfoPlural1_two">**{0} Stars** will be distributed</string>
-    <string name="BoostingStarsGiveawayMsgInfoPlural1_few">**{0} Stars** will be distributed</string>
-    <string name="BoostingStarsGiveawayMsgInfoPlural1_many">**{0} Stars** will be distributed</string>
-    <string name="BoostingStarsGiveawayMsgInfoPlural2_zero">among **{0}** winners.</string>
-    <string name="BoostingStarsGiveawayMsgInfoPlural2_two">among **{0}** winners.</string>
-    <string name="BoostingStarsGiveawayMsgInfoPlural2_few">among **{0}** winners.</string>
-    <string name="BoostingStarsGiveawayMsgInfoPlural2_many">among **{0}** winners.</string>
-    <string name="BoostingStarsGiveawayResultsMsgAllWinnersReceivedLinks_zero">All winners received a total of {0} Stars.</string>
-    <string name="BoostingStarsGiveawayResultsMsgAllWinnersReceivedLinks_two">All winners received a total of {0} Stars.</string>
-    <string name="BoostingStarsGiveawayResultsMsgAllWinnersReceivedLinks_few">All winners received a total of {0} Stars.</string>
-    <string name="BoostingStarsGiveawayResultsMsgAllWinnersReceivedLinks_many">All winners received a total of {0} Stars.</string>
 
 
 
@@ -9141,31 +8905,19 @@
 
 
 
-    <string name="BotMultiContactsSelectorLimit_zero">You can select maximum {0} users.</string>
-    <string name="BotMultiContactsSelectorLimit_two">You can select maximum {0} users.</string>
-    <string name="BotMultiContactsSelectorLimit_few">You can select maximum {0} users.</string>
-    <string name="BotMultiContactsSelectorLimit_many">You can select maximum {0} users.</string>
     <string name="BotOpenPageMessage">**{0}** would like to open its web app to proceed.\n\nIt will be able to access your **IP address** and basic device info.</string>
     <string name="BotOpenPageTitle">Open page</string>
 
 
 
 
-    <string name="BotStarsButtonWithdraw_zero">Withdraw &#11088;&#65039;{0} via Fragment</string>
-    <string name="BotStarsButtonWithdraw_two">Withdraw &#11088;&#65039;{0} via Fragment</string>
-    <string name="BotStarsButtonWithdraw_few">Withdraw &#11088;&#65039;{0} via Fragment</string>
-    <string name="BotStarsButtonWithdraw_many">Withdraw &#11088;&#65039;{0} via Fragment</string>
     <string name="BotStarsButtonWithdrawAll">Withdraw all via Fragment</string>
 
 
 
 
     <string name="BotStarsButtonWithdrawUntil">Withdraw via Fragment</string>
-    <string name="BotStarsWithdrawMinLimit_zero">You cannot withdraw less than **{0} stars**.</string>
     <string name="BotStarsWithdrawMinLimit_one">You cannot withdraw less than **{0} star**.</string>
-    <string name="BotStarsWithdrawMinLimit_two">You cannot withdraw less than **{0} stars**.</string>
-    <string name="BotStarsWithdrawMinLimit_few">You cannot withdraw less than **{0} stars**.</string>
-    <string name="BotStarsWithdrawMinLimit_many">You cannot withdraw less than **{0} stars**.</string>
 
 
     <string name="BotStop">Block Bot</string>
@@ -9182,39 +8934,11 @@
     <string name="BuiltInThemes">Built-in themes</string>
     <string name="BusinessBotRemove">Remove Bot</string>
     <string name="BusinessHoursProfileInYourTime">{0} in your time</string>
-    <string name="BusinessHoursProfileOpensInDays_zero">opens in {0} days</string>
-    <string name="BusinessHoursProfileOpensInDays_two">opens in {0} days</string>
-    <string name="BusinessHoursProfileOpensInDays_few">opens in {0} days</string>
-    <string name="BusinessHoursProfileOpensInDays_many">opens in {0} days</string>
-    <string name="BusinessHoursProfileOpensInHours_zero">opens in {0} hours</string>
-    <string name="BusinessHoursProfileOpensInHours_two">opens in {0} hours</string>
-    <string name="BusinessHoursProfileOpensInHours_few">opens in {0} hours</string>
-    <string name="BusinessHoursProfileOpensInHours_many">opens in {0} hours</string>
-    <string name="BusinessHoursProfileOpensInMinutes_zero">opens in {0} minutes</string>
-    <string name="BusinessHoursProfileOpensInMinutes_two">opens in {0} minutes</string>
-    <string name="BusinessHoursProfileOpensInMinutes_few">opens in {0} minutes</string>
-    <string name="BusinessHoursProfileOpensInMinutes_many">opens in {0} minutes</string>
     <string name="BusinessHoursProfileTheirTime">it\'s now {0} there</string>
     <string name="BusinessHoursUnsavedChanges">You have changed the business working hours. Apply changes?</string>
     <string name="BusinessLinkShareTitle">Share link to chat</string>
-    <string name="BusinessRepliesDeleteMessage_zero">Are you sure you want to remove {0} quick replies?</string>
-    <string name="BusinessRepliesDeleteMessage_two">Are you sure you want to remove {0} quick replies?</string>
-    <string name="BusinessRepliesDeleteMessage_few">Are you sure you want to remove {0} quick replies?</string>
-    <string name="BusinessRepliesDeleteMessage_many">Are you sure you want to remove {0} quick replies?</string>
-    <string name="BusinessRepliesDeleteTitle_zero">Remove quick replies</string>
-    <string name="BusinessRepliesDeleteTitle_two">Remove quick replies</string>
-    <string name="BusinessRepliesDeleteTitle_few">Remove quick replies</string>
-    <string name="BusinessRepliesDeleteTitle_many">Remove quick replies</string>
-    <string name="BusinessRepliesLimit_zero">Limit of **{0}** messages reached.</string>
     <string name="BusinessRepliesLimit_one"></string>
-    <string name="BusinessRepliesLimit_two">Limit of **{0}** messages reached.</string>
-    <string name="BusinessRepliesLimit_few">Limit of **{0}** messages reached.</string>
-    <string name="BusinessRepliesLimit_many">Limit of **{0}** messages reached.</string>
-    <string name="BusinessRepliesMore_zero">+{0} more</string>
     <string name="BusinessRepliesMore_one">+{0} more</string>
-    <string name="BusinessRepliesMore_two">+{0} more</string>
-    <string name="BusinessRepliesMore_few">+{0} more</string>
-    <string name="BusinessRepliesMore_many">+{0} more</string>
     <string name="BusinessRepliesNameReserved">This shortcut name is reserved.</string>
 
 
@@ -9223,10 +8947,6 @@
 
 
 
-    <string name="CanJoin_zero">{0} can join</string>
-    <string name="CanJoin_two">{0} can join</string>
-    <string name="CanJoin_few">{0} can join</string>
-    <string name="CanJoin_many">{0} can join</string>
 
 
 
@@ -9270,32 +8990,16 @@
 
 
 
-    <string name="Channels_zero">{0} channels</string>
-    <string name="Channels_two">{0} channels</string>
-    <string name="Channels_few">{0} channels</string>
-    <string name="Channels_many">{0} channels</string>
-    <string name="Characters_zero">{0} characters</string>
-    <string name="Characters_two">{0} characters</string>
-    <string name="Characters_few">{0} characters</string>
-    <string name="Characters_many">{0} characters</string>
     <string name="ChatCamera">Camera</string>
 
 
 
     <string name="ChatVideo">Video</string>
-    <string name="Chats_zero">{0} chats</string>
-    <string name="Chats_two">{0} chats</string>
-    <string name="Chats_few">{0} chats</string>
-    <string name="Chats_many">{0} chats</string>
 
 
 
 
     <string name="ChatsNearbyHeader">Groups nearby</string>
-    <string name="ChatsSelected_zero">{0} chats</string>
-    <string name="ChatsSelected_two">{0} chats</string>
-    <string name="ChatsSelected_few">{0} chats</string>
-    <string name="ChatsSelected_many">{0} chats</string>
 
 
 
@@ -9313,38 +9017,22 @@
 
 
 
-    <string name="ClearHistoryMessageMultiple_zero">Are you sure you want to unsave messages from {0} chats?</string>
     <string name="ClearHistoryMessageMultiple_one"></string>
-    <string name="ClearHistoryMessageMultiple_two">Are you sure you want to unsave messages from {0} chats?</string>
-    <string name="ClearHistoryMessageMultiple_few">Are you sure you want to unsave messages from {0} chats?</string>
-    <string name="ClearHistoryMessageMultiple_many">Are you sure you want to unsave messages from {0} chats?</string>
 
 
-    <string name="ClearHistoryTitleMultiple_zero">Unsave messages from {0} chats</string>
     <string name="ClearHistoryTitleMultiple_one"></string>
-    <string name="ClearHistoryTitleMultiple_two">Unsave messages from {0} chats</string>
-    <string name="ClearHistoryTitleMultiple_few">Unsave messages from {0} chats</string>
-    <string name="ClearHistoryTitleMultiple_many">Unsave messages from {0} chats</string>
     <string name="ClearHistoryTitleSingle">Unsave messages from {0}</string>
     <string name="ClearRecentEmoji">Clear recent emoji?</string>
 
 
 
 
-    <string name="Clicks_zero">{0} clicks</string>
-    <string name="Clicks_two">{0} clicks</string>
-    <string name="Clicks_few">{0} clicks</string>
-    <string name="Clicks_many">{0} clicks</string>
 
 
 
 
 
     <string name="ColorThemes">Color Themes</string>
-    <string name="Comments_zero">{0} Comments</string>
-    <string name="Comments_two">{0} Comments</string>
-    <string name="Comments_few">{0} Comments</string>
-    <string name="Comments_many">{0} Comments</string>
 
 
 
@@ -9383,18 +9071,6 @@
 
     <string name="CustomThemes">Custom themes</string>
 
-    <string name="Days_zero">{0} days</string>
-    <string name="Days_two">{0} days</string>
-    <string name="Days_few">{0} days</string>
-    <string name="Days_many">{0} days</string>
-
-
-
-
-    <string name="DaysLeft_zero">{0} days left</string>
-    <string name="DaysLeft_two">{0} days left</string>
-    <string name="DaysLeft_few">{0} days left</string>
-    <string name="DaysLeft_many">{0} days left</string>
 
 
 
@@ -9410,10 +9086,10 @@
 
 
 
-    <string name="DeleteBackground_zero">Delete {0} wallpapers</string>
-    <string name="DeleteBackground_two">Delete {0} wallpapers</string>
-    <string name="DeleteBackground_few">Delete {0} wallpapers</string>
-    <string name="DeleteBackground_many">Delete {0} wallpapers</string>
+
+
+
+
     <string name="DeleteBanUser">Ban user</string>
 
 
@@ -9433,10 +9109,6 @@
 
 
 
-    <string name="DeleteStoriesSubtitle_zero">Are you sure you want to delete {0} stories?</string>
-    <string name="DeleteStoriesSubtitle_two">Are you sure you want to delete {0} stories?</string>
-    <string name="DeleteStoriesSubtitle_few">Are you sure you want to delete {0} stories?</string>
-    <string name="DeleteStoriesSubtitle_many">Are you sure you want to delete {0} stories?</string>
 
 
 
@@ -9450,10 +9122,6 @@
 
 
 
-    <string name="Deletions_zero">{0} deletions</string>
-    <string name="Deletions_two">{0} deletions</string>
-    <string name="Deletions_few">{0} deletions</string>
-    <string name="Deletions_many">{0} deletions</string>
 
 
     <string name="DiscussionChannelGroupSetHelp">A link to **{0}** is shown to all subscribers in the bottom panel.</string>
@@ -9506,10 +9174,6 @@
 
 
 
-    <string name="Exception_zero">{0} exceptions</string>
-    <string name="Exception_two">{0} exceptions</string>
-    <string name="Exception_few">{0} exceptions</string>
-    <string name="Exception_many">{0} exceptions</string>
 
 
 
@@ -9517,10 +9181,6 @@
     <string name="FeaturedStickersInfo">These stickers are currently trending on Telegram. You can add custom stickers via the @stickers bot.</string>
 
 
-    <string name="Files_zero">{0} files</string>
-    <string name="Files_two">{0} files</string>
-    <string name="Files_few">{0} files</string>
-    <string name="Files_many">{0} files</string>
 
 
 
@@ -9545,18 +9205,6 @@
 
 
 
-    <string name="FilterInviteChats_zero">Includes {0} chats</string>
-    <string name="FilterInviteChats_two">Includes {0} chats</string>
-    <string name="FilterInviteChats_few">Includes {0} chats</string>
-    <string name="FilterInviteChats_many">Includes {0} chats</string>
-    <string name="FilterInviteHeader_zero">Anyone with this link can add **{1}** folder and the **{0}** chats selected below.</string>
-    <string name="FilterInviteHeader_two">Anyone with this link can add **{1}** folder and the **{0}** chats selected below.</string>
-    <string name="FilterInviteHeader_few">Anyone with this link can add **{1}** folder and the **{0}** chats selected below.</string>
-    <string name="FilterInviteHeader_many">Anyone with this link can add **{1}** folder and the **{0}** chats selected below.</string>
-    <string name="FilterInviteHeaderChats_zero">{0} chats selected</string>
-    <string name="FilterInviteHeaderChats_two">{0} chats selected</string>
-    <string name="FilterInviteHeaderChats_few">{0} chats selected</string>
-    <string name="FilterInviteHeaderChats_many">{0} chats selected</string>
     <string name="FilterRemoveFromAlertFullText">Sorry, you can\'t add more than 100 chats to a folder.</string>
 
 
@@ -9578,30 +9226,6 @@
 
 
 
-    <string name="FolderLinkButtonJoinPlural_zero">Join chats</string>
-    <string name="FolderLinkButtonJoinPlural_two">Join chats</string>
-    <string name="FolderLinkButtonJoinPlural_few">Join chats</string>
-    <string name="FolderLinkButtonJoinPlural_many">Join chats</string>
-
-
-
-
-    <string name="FolderLinkHeaderChatsJoin_zero">{0} chats to join</string>
-    <string name="FolderLinkHeaderChatsJoin_two">{0} chats to join</string>
-    <string name="FolderLinkHeaderChatsJoin_few">{0} chats to join</string>
-    <string name="FolderLinkHeaderChatsJoin_many">{0} chats to join</string>
-    <string name="FolderLinkHeaderChatsQuit_zero">{0} chats to leave</string>
-    <string name="FolderLinkHeaderChatsQuit_two">{0} chats to leave</string>
-    <string name="FolderLinkHeaderChatsQuit_few">{0} chats to leave</string>
-    <string name="FolderLinkHeaderChatsQuit_many">{0} chats to leave</string>
-
-
-
-
-    <string name="FolderLinkSubtitleChats_zero">Do you want to join **{0} chats** and add them to the folder **{1}**?</string>
-    <string name="FolderLinkSubtitleChats_two">Do you want to join **{0} chats** and add them to the folder **{1}**?</string>
-    <string name="FolderLinkSubtitleChats_few">Do you want to join **{0} chats** and add them to the folder **{1}**?</string>
-    <string name="FolderLinkSubtitleChats_many">Do you want to join **{0} chats** and add them to the folder **{1}**?</string>
 
 
 
@@ -9622,10 +9246,14 @@
 
 
 
-    <string name="ForceSetPasswordAlertMessageShort_zero">If you do not set a password, you will only be able to log into your account via SMS once every {0} days. Do you want to proceed without a password?</string>
-    <string name="ForceSetPasswordAlertMessageShort_two">If you do not set a password, you will only be able to log into your account via SMS once every {0} days. Do you want to proceed without a password?</string>
-    <string name="ForceSetPasswordAlertMessageShort_few">If you do not set a password, you will only be able to log into your account via SMS once every {0} days. Do you want to proceed without a password?</string>
-    <string name="ForceSetPasswordAlertMessageShort_many">If you do not set a password, you will only be able to log into your account via SMS once every {0} days. Do you want to proceed without a password?</string>
+
+
+
+
+
+
+
+
 
 
 
@@ -9685,44 +9313,16 @@
 
 
     <string name="FwdMessageToChats">Message forwarded to **{0}**.</string>
-    <string name="FwdMessageToManyChats_zero">Message forwarded to **{0} chats**.</string>
-    <string name="FwdMessageToManyChats_two">Message forwarded to **{0} chats**.</string>
-    <string name="FwdMessageToManyChats_few">Message forwarded to **{0} chats**.</string>
-    <string name="FwdMessageToManyChats_many">Message forwarded to **{0} chats**.</string>
     <string name="FwdMessagesToChats">Messages forwarded to **{0}**.</string>
-    <string name="FwdMessagesToManyChats_zero">Messages forwarded to **{0} chats**.</string>
-    <string name="FwdMessagesToManyChats_two">Messages forwarded to **{0} chats**.</string>
-    <string name="FwdMessagesToManyChats_few">Messages forwarded to **{0} chats**.</string>
-    <string name="FwdMessagesToManyChats_many">Messages forwarded to **{0} chats**.</string>
-    <string name="GIFs_zero">{0} GIFs</string>
-    <string name="GIFs_two">{0} GIFs</string>
-    <string name="GIFs_few">{0} GIFs</string>
-    <string name="GIFs_many">{0} GIFs</string>
 
 
 
-    <string name="Gift2ActionConvertedInfo_zero">You converted this gift to {0} Stars.</string>
-    <string name="Gift2ActionConvertedInfo_two">You converted this gift to {0} Stars.</string>
-    <string name="Gift2ActionConvertedInfo_few">You converted this gift to {0} Stars.</string>
-    <string name="Gift2ActionConvertedInfo_many">You converted this gift to {0} Stars.</string>
-    <string name="Gift2ActionInfo_zero">Add this gift to your profile or convert it to {0} Stars.</string>
-    <string name="Gift2ActionInfo_two">Add this gift to your profile or convert it to {0} Stars.</string>
-    <string name="Gift2ActionInfo_few">Add this gift to your profile or convert it to {0} Stars.</string>
-    <string name="Gift2ActionInfo_many">Add this gift to your profile or convert it to {0} Stars.</string>
-    <string name="Gift2ActionOutInfo_zero">**{1}** can add this gift to their profile or convert it to {0} Stars.</string>
-    <string name="Gift2ActionOutInfo_two">**{1}** can add this gift to their profile or convert it to {0} Stars.</string>
-    <string name="Gift2ActionOutInfo_few">**{1}** can add this gift to their profile or convert it to {0} Stars.</string>
-    <string name="Gift2ActionOutInfo_many">**{1}** can add this gift to their profile or convert it to {0} Stars.</string>
 
 
 
 
 
     <string name="Gift2Availability3Value">{0} of {1} left</string>
-    <string name="Gift2Availability4Value_zero">{0} of {1} left</string>
-    <string name="Gift2Availability4Value_two">{0} of {1} left</string>
-    <string name="Gift2Availability4Value_few">{0} of {1} left</string>
-    <string name="Gift2Availability4Value_many">{0} of {1} left</string>
     <string name="Gift2Availability4Value_other">{0} of {1} left</string>
 
 
@@ -9738,22 +9338,6 @@
 
 
 
-    <string name="Gift2Converted_zero">{0} Star were sent to your balance</string>
-    <string name="Gift2Converted_two">{0} Star were sent to your balance</string>
-    <string name="Gift2Converted_few">{0} Star were sent to your balance</string>
-    <string name="Gift2Converted_many">{0} Star were sent to your balance</string>
-    <string name="Gift2Info_zero">You can add this gift to your profile or convert it to **{0}** Stars.</string>
-    <string name="Gift2Info_two">You can add this gift to your profile or convert it to **{0}** Stars.</string>
-    <string name="Gift2Info_few">You can add this gift to your profile or convert it to **{0}** Stars.</string>
-    <string name="Gift2Info_many">You can add this gift to your profile or convert it to **{0}** Stars.</string>
-    <string name="Gift2InfoConverted_zero">You converted this gift to **{0}** Stars.</string>
-    <string name="Gift2InfoConverted_two">You converted this gift to **{0}** Stars.</string>
-    <string name="Gift2InfoConverted_few">You converted this gift to **{0}** Stars.</string>
-    <string name="Gift2InfoConverted_many">You converted this gift to **{0}** Stars.</string>
-    <string name="Gift2InfoOut_zero">{1} can add this gift to their profile or convert it to **{0}** Stars.</string>
-    <string name="Gift2InfoOut_two">{1} can add this gift to their profile or convert it to **{0}** Stars.</string>
-    <string name="Gift2InfoOut_few">{1} can add this gift to their profile or convert it to **{0}** Stars.</string>
-    <string name="Gift2InfoOut_many">{1} can add this gift to their profile or convert it to **{0}** Stars.</string>
 
 
 
@@ -9766,22 +9350,10 @@
 
 
 
-    <string name="Gift2Send_zero">Send a Gift for &#11088;&#65039; {0}</string>
-    <string name="Gift2Send_two">Send a Gift for &#11088;&#65039; {0}</string>
-    <string name="Gift2Send_few">Send a Gift for &#11088;&#65039; {0}</string>
-    <string name="Gift2Send_many">Send a Gift for &#11088;&#65039; {0}</string>
 
 
 
 
-    <string name="Gift2ToBalance_zero">Convert to {0} Stars</string>
-    <string name="Gift2ToBalance_two">Convert to {0} Stars</string>
-    <string name="Gift2ToBalance_few">Convert to {0} Stars</string>
-    <string name="Gift2ToBalance_many">Convert to {0} Stars</string>
-    <string name="GiftMonths_zero">{0}-months</string>
-    <string name="GiftMonths_two">{0}-months</string>
-    <string name="GiftMonths_few">{0}-months</string>
-    <string name="GiftMonths_many">{0}-months</string>
 
 
 
@@ -9818,10 +9390,6 @@
 
 
 
-    <string name="Groups_zero">{0} groups</string>
-    <string name="Groups_two">{0} groups</string>
-    <string name="Groups_few">{0} groups</string>
-    <string name="Groups_many">{0} groups</string>
     <string name="GroupsAndChannels">Groups &amp; Channels</string>
 
 
@@ -9831,10 +9399,6 @@
 
     <string name="HelpUpgradeChannel">Help Upgrade This Channel</string>
     <string name="HelpUpgradeGroup">Help Upgrade This Group</string>
-    <string name="Hours_zero">{0} hours</string>
-    <string name="Hours_two">{0} hours</string>
-    <string name="Hours_few">{0} hours</string>
-    <string name="Hours_many">{0} hours</string>
 
 
 
@@ -9851,22 +9415,6 @@
 
 
     <string name="InteractionsChartTitle">Interactions</string>
-    <string name="Invitations_zero">{0} invitations</string>
-    <string name="Invitations_two">{0} invitations</string>
-    <string name="Invitations_few">{0} invitations</string>
-    <string name="Invitations_many">{0} invitations</string>
-    <string name="InviteChannelRestrictedUsers_zero">**{0} users** restrict adding them to channels. You can send them an invite link instead.</string>
-    <string name="InviteChannelRestrictedUsers_two">**{0} users** restrict adding them to channels. You can send them an invite link instead.</string>
-    <string name="InviteChannelRestrictedUsers_few">**{0} users** restrict adding them to channels. You can send them an invite link instead.</string>
-    <string name="InviteChannelRestrictedUsers_many">**{0} users** restrict adding them to channels. You can send them an invite link instead.</string>
-    <string name="InviteChannelRestrictedUsers2_zero">**{0} users** can only be invited via link, but you don\'t have permission to share invite links to this channel.</string>
-    <string name="InviteChannelRestrictedUsers2_two">**{0} users** can only be invited via link, but you don\'t have permission to share invite links to this channel.</string>
-    <string name="InviteChannelRestrictedUsers2_few">**{0} users** can only be invited via link, but you don\'t have permission to share invite links to this channel.</string>
-    <string name="InviteChannelRestrictedUsers2_many">**{0} users** can only be invited via link, but you don\'t have permission to share invite links to this channel.</string>
-    <string name="InviteLinkCount_zero">{0} invite links</string>
-    <string name="InviteLinkCount_two">{0} invite links</string>
-    <string name="InviteLinkCount_few">{0} invite links</string>
-    <string name="InviteLinkCount_many">{0} invite links</string>
 
 
 
@@ -9902,10 +9450,6 @@
 
 
     <string name="JoinGroup">JOIN GROUP</string>
-    <string name="JoinRequests_zero">{0} join requests</string>
-    <string name="JoinRequests_two">{0} join requests</string>
-    <string name="JoinRequests_few">{0} join requests</string>
-    <string name="JoinRequests_many">{0} join requests</string>
 
 
 
@@ -9915,10 +9459,6 @@
     <string name="KickFromSupergroup">Restrict user</string>
 
 
-    <string name="Languages_zero">{0} Languages</string>
-    <string name="Languages_two">{0} Languages</string>
-    <string name="Languages_few">{0} Languages</string>
-    <string name="Languages_many">{0} Languages</string>
 
 
 
@@ -9926,14 +9466,6 @@
 
 
 
-    <string name="Likes_zero">{0} likes</string>
-    <string name="Likes_two">{0} likes</string>
-    <string name="Likes_few">{0} likes</string>
-    <string name="Likes_many">{0} likes</string>
-    <string name="Links_zero">{0} links</string>
-    <string name="Links_two">{0} links</string>
-    <string name="Links_few">{0} links</string>
-    <string name="Links_many">{0} links</string>
 
     <string name="LitePowerSaver">Save Power on Low Battery</string>
     <string name="LitePowerSaverInfo">Automatically switch to low power usage when your system is in Battery Saving Mode.</string>
@@ -9960,14 +9492,6 @@
 
 
 
-    <string name="MaximumReactionsValue_zero">{0} reactions per post</string>
-    <string name="MaximumReactionsValue_two">{0} reactions per post</string>
-    <string name="MaximumReactionsValue_few">{0} reactions per post</string>
-    <string name="MaximumReactionsValue_many">{0} reactions per post</string>
-    <string name="Media_zero">{0} media</string>
-    <string name="Media_two">{0} media</string>
-    <string name="Media_few">{0} media</string>
-    <string name="Media_many">{0} media</string>
 
 
 
@@ -9978,10 +9502,6 @@
 
     <string name="MegaDeleteAlert">Deleting this group will remove all members and all messages will be lost. Do you want to delete the group?</string>
     <string name="MegaDeleteInfo">You will lose all messages in this group.</string>
-    <string name="Members_zero">{0} members</string>
-    <string name="Members_two">{0} members</string>
-    <string name="Members_few">{0} members</string>
-    <string name="Members_many">{0} members</string>
 
 
 
@@ -9995,11 +9515,7 @@
 
 
 
-    <string name="MessageContainsEmojiPacks_zero">This message contains emoji from **{0} Packs**.</string>
     <string name="MessageContainsEmojiPacks_one"></string>
-    <string name="MessageContainsEmojiPacks_two">This message contains emoji from **{0} Packs**.</string>
-    <string name="MessageContainsEmojiPacks_few">This message contains emoji from **{0} Packs**.</string>
-    <string name="MessageContainsEmojiPacks_many">This message contains emoji from **{0} Packs**.</string>
 
 
 
@@ -10008,41 +9524,6 @@
     <string name="MessageLifetimePhoto">If you set a timer, the photo will self-destruct after it is viewed.</string>
     <string name="MessageLifetimeVideo">If you set a timer, the video will self-destruct after it is viewed.</string>
 
-    <string name="MessagePlayed_zero">{0} Played</string>
-    <string name="MessagePlayed_two">{0} Played</string>
-    <string name="MessagePlayed_few">{0} Played</string>
-    <string name="MessagePlayed_many">{0} Played</string>
-    <string name="MessageSeen_zero">{0} Seen</string>
-    <string name="MessageSeen_two">{0} Seen</string>
-    <string name="MessageSeen_few">{0} Seen</string>
-    <string name="MessageSeen_many">{0} Seen</string>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <string name="Meters_zero">{0} meters</string>
-    <string name="Meters_two">{0} meters</string>
-    <string name="Meters_few">{0} meters</string>
-    <string name="Meters_many">{0} meters</string>
-
-
-
-    <string name="Minutes_zero">{0} minutes</string>
-    <string name="Minutes_two">{0} minutes</string>
-    <string name="Minutes_few">{0} minutes</string>
-    <string name="Minutes_many">{0} minutes</string>
 
 
 
@@ -10070,18 +9551,25 @@
 
 
 
-    <string name="Months_zero">{0} months</string>
-    <string name="Months_two">{0} months</string>
-    <string name="Months_few">{0} months</string>
-    <string name="Months_many">{0} months</string>
-    <string name="MoreBoosts_zero">**{0}** more boosts</string>
-    <string name="MoreBoosts_two">**{0}** more boosts</string>
-    <string name="MoreBoosts_few">**{0}** more boosts</string>
-    <string name="MoreBoosts_many">**{0}** more boosts</string>
-    <string name="MusicFiles_zero">{0} music files</string>
-    <string name="MusicFiles_two">{0} music files</string>
-    <string name="MusicFiles_few">{0} music files</string>
-    <string name="MusicFiles_many">{0} music files</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <string name="NearbyCreateGroup">Create a Local Group</string>
 
 
@@ -10094,14 +9582,6 @@
 
 
 
-    <string name="NewMessages_zero">{0} new messages</string>
-    <string name="NewMessages_two">{0} new messages</string>
-    <string name="NewMessages_few">{0} new messages</string>
-    <string name="NewMessages_many">{0} new messages</string>
-    <string name="NewStories_zero">{0} new stories</string>
-    <string name="NewStories_two">{0} new stories</string>
-    <string name="NewStories_few">{0} new stories</string>
-    <string name="NewStories_many">{0} new stories</string>
 
 
     <string name="NoBlockedChannel">Banned users are removed from the channel and can only come back if added by an admin. Invite links don\'t work for them.</string>
@@ -10184,16 +9664,8 @@
 
 
 
-    <string name="OnlineCount_zero">{0} online</string>
-    <string name="OnlineCount_two">{0} online</string>
-    <string name="OnlineCount_few">{0} online</string>
-    <string name="OnlineCount_many">{0} online</string>
     <string name="OnlyPremiumCanReply">Only Premium users can reply to {0}.\n**Learn more...**</string>
     <string name="OpenUrlAlert">Open this link: {0}?</string>
-    <string name="Option_zero">{0} more options</string>
-    <string name="Option_two">{0} more options</string>
-    <string name="Option_few">{0} more options</string>
-    <string name="Option_many">{0} more options</string>
 
 
 
@@ -10205,10 +9677,6 @@
 
 
 
-    <string name="Participants_zero">{0} participants</string>
-    <string name="Participants_two">{0} participants</string>
-    <string name="Participants_few">{0} participants</string>
-    <string name="Participants_many">{0} participants</string>
 
 
     <string name="PasscodePIN">PIN</string>
@@ -10234,14 +9702,6 @@
 
 
 
-    <string name="PeopleJoined_zero">{0} people joined</string>
-    <string name="PeopleJoined_two">{0} people joined</string>
-    <string name="PeopleJoined_few">{0} people joined</string>
-    <string name="PeopleJoined_many">{0} people joined</string>
-    <string name="PeopleJoinedRemaining_zero">{0} remaining</string>
-    <string name="PeopleJoinedRemaining_two">{0} remaining</string>
-    <string name="PeopleJoinedRemaining_few">{0} remaining</string>
-    <string name="PeopleJoinedRemaining_many">{0} remaining</string>
     <string name="PeopleNearby">People Nearby</string>
 
 
@@ -10265,10 +9725,6 @@
 
 
 
-    <string name="Photos_zero">{0} photos</string>
-    <string name="Photos_two">{0} photos</string>
-    <string name="Photos_few">{0} photos</string>
-    <string name="Photos_many">{0} photos</string>
 
 
 
@@ -10292,10 +9748,6 @@
     <string name="PleaseEnterFirstPassword">Enter a password</string>
 
 
-    <string name="Points_zero">{0}</string>
-    <string name="Points_two">{0}</string>
-    <string name="Points_few">{0}</string>
-    <string name="Points_many">{0}</string>
     <string name="PollOptions">Poll options</string>
 
 
@@ -10355,16 +9807,8 @@
     <string name="PrivacyPayments">Payments</string>
 
     <string name="PrivacyProfilePhotoInfo2">You can add users or entire groups as exceptions that will override the settings above.</string>
-    <string name="ProfileBirthdayTodayValueYear_zero">{1} ({0} years old)</string>
     <string name="ProfileBirthdayTodayValueYear_one"></string>
-    <string name="ProfileBirthdayTodayValueYear_two">{1} ({0} years old)</string>
-    <string name="ProfileBirthdayTodayValueYear_few">{1} ({0} years old)</string>
-    <string name="ProfileBirthdayTodayValueYear_many">{1} ({0} years old)</string>
-    <string name="ProfileBirthdayValueYear_zero">{1} ({0} years old)</string>
     <string name="ProfileBirthdayValueYear_one"></string>
-    <string name="ProfileBirthdayValueYear_two">{1} ({0} years old)</string>
-    <string name="ProfileBirthdayValueYear_few">{1} ({0} years old)</string>
-    <string name="ProfileBirthdayValueYear_many">{1} ({0} years old)</string>
 
 
 
@@ -10403,14 +9847,6 @@
     <string name="Question">Question</string>
 
     <string name="ReEnterYourPasscode">Re-enter your new passcode</string>
-    <string name="Reacted_zero">{0} Reacted</string>
-    <string name="Reacted_two">{0} Reacted</string>
-    <string name="Reacted_few">{0} Reacted</string>
-    <string name="Reacted_many">{0} Reacted</string>
-    <string name="ReactionLevelRequiredBtn_zero">Level {0} Required</string>
-    <string name="ReactionLevelRequiredBtn_two">Level {0} Required</string>
-    <string name="ReactionLevelRequiredBtn_few">Level {0} Required</string>
-    <string name="ReactionLevelRequiredBtn_many">Level {0} Required</string>
 
 
 
@@ -10419,14 +9855,6 @@
 
 
 
-    <string name="ReactionReachLvlForReactionShort_zero">Your channel needs to reach Level **{1}** to add **{0}** custom emoji as reactions.</string>
-    <string name="ReactionReachLvlForReactionShort_two">Your channel needs to reach Level **{1}** to add **{0}** custom emoji as reactions.</string>
-    <string name="ReactionReachLvlForReactionShort_few">Your channel needs to reach Level **{1}** to add **{0}** custom emoji as reactions.</string>
-    <string name="ReactionReachLvlForReactionShort_many">Your channel needs to reach Level **{1}** to add **{0}** custom emoji as reactions.</string>
-    <string name="ReactionsCount_zero">{0} reactions</string>
-    <string name="ReactionsCount_two">{0} reactions</string>
-    <string name="ReactionsCount_few">{0} reactions</string>
-    <string name="ReactionsCount_many">{0} reactions</string>
 
 
 
@@ -10464,10 +9892,6 @@
 
 
 
-    <string name="Replies_zero">{0} Replies</string>
-    <string name="Replies_two">{0} Replies</string>
-    <string name="Replies_few">{0} Replies</string>
-    <string name="Replies_many">{0} Replies</string>
 
 
 
@@ -10478,10 +9902,6 @@
 
 
     <string name="ResetMyAccountText">You will lose all your Telegram chats, messages, media and files if you proceed with resetting your account.</string>
-    <string name="Restrictions_zero">{0} bans</string>
-    <string name="Restrictions_two">{0} bans</string>
-    <string name="Restrictions_few">{0} bans</string>
-    <string name="Restrictions_many">{0} bans</string>
 
 
 
@@ -10511,10 +9931,6 @@
 
 
 
-    <string name="Seconds_zero">{0} seconds</string>
-    <string name="Seconds_two">{0} seconds</string>
-    <string name="Seconds_few">{0} seconds</string>
-    <string name="Seconds_many">{0} seconds</string>
 
 
 
@@ -10543,10 +9959,6 @@
 
 
 
-    <string name="Shared_zero">{0} shared</string>
-    <string name="Shared_two">{0} shared</string>
-    <string name="Shared_few">{0} shared</string>
-    <string name="Shared_many">{0} shared</string>
     <string name="SharedAudioFiles">Audio files</string>
 
 
@@ -10556,10 +9968,6 @@
 
 
 
-    <string name="Shares_zero">{0} shares</string>
-    <string name="Shares_two">{0} shares</string>
-    <string name="Shares_few">{0} shares</string>
-    <string name="Shares_many">{0} shares</string>
 
 
 
@@ -10571,10 +9979,6 @@
     <string name="ShowAllThemes">Show all Themes</string>
 
     <string name="ShowTranslateChatButtonLocked">Subscribe to **Telegram Premium** to be able to translate all messages in a chat at once.</string>
-    <string name="ShowVotes_zero">Show More ({0})</string>
-    <string name="ShowVotes_two">Show More ({0})</string>
-    <string name="ShowVotes_few">Show More ({0})</string>
-    <string name="ShowVotes_many">Show More ({0})</string>
     <string name="Shuffle">Shuffle</string>
 
     <string name="SlideToCancel">SLIDE TO CANCEL</string>
@@ -10664,15 +10068,7 @@
 
 
 
-    <string name="StarsAcquiredInfo_zero">**{0} Stars** added to your balance.</string>
     <string name="StarsAcquiredInfo_one"></string>
-    <string name="StarsAcquiredInfo_two">**{0} Stars** added to your balance.</string>
-    <string name="StarsAcquiredInfo_few">**{0} Stars** added to your balance.</string>
-    <string name="StarsAcquiredInfo_many">**{0} Stars** added to your balance.</string>
-    <string name="StarsConfirmPurchaseButton_zero">Confirm and Pay &#11088;&#65039; {0} Stars</string>
-    <string name="StarsConfirmPurchaseButton_two">Confirm and Pay &#11088;&#65039; {0} Stars</string>
-    <string name="StarsConfirmPurchaseButton_few">Confirm and Pay &#11088;&#65039; {0} Stars</string>
-    <string name="StarsConfirmPurchaseButton_many">Confirm and Pay &#11088;&#65039; {0} Stars</string>
     <string name="StarsConfirmPurchaseMedia1">Do you want to unlock {0} in **{1}** for **{2}**?</string>
     <string name="StarsConfirmPurchaseMedia2">Do you want to unlock {0} and {1} in **{2}** for **{3}**?</string>
 
@@ -10693,26 +10089,6 @@
 
 
 
-    <string name="StarsConfirmPurchaseMedia_Photos_zero">**{0} photos**</string>
-    <string name="StarsConfirmPurchaseMedia_Photos_two">**{0} photos**</string>
-    <string name="StarsConfirmPurchaseMedia_Photos_few">**{0} photos**</string>
-    <string name="StarsConfirmPurchaseMedia_Photos_many">**{0} photos**</string>
-    <string name="StarsConfirmPurchaseMedia_Videos_zero">**{0} videos**</string>
-    <string name="StarsConfirmPurchaseMedia_Videos_two">**{0} videos**</string>
-    <string name="StarsConfirmPurchaseMedia_Videos_few">**{0} videos**</string>
-    <string name="StarsConfirmPurchaseMedia_Videos_many">**{0} videos**</string>
-    <string name="StarsConfirmPurchaseText_zero">Do you want to buy \"**{1}**\" in **{2}** for **{0} stars**?</string>
-    <string name="StarsConfirmPurchaseText_two">Do you want to buy \"**{1}**\" in **{2}** for **{0} stars**?</string>
-    <string name="StarsConfirmPurchaseText_few">Do you want to buy \"**{1}**\" in **{2}** for **{0} stars**?</string>
-    <string name="StarsConfirmPurchaseText_many">Do you want to buy \"**{1}**\" in **{2}** for **{0} stars**?</string>
-    <string name="StarsCount_zero">{0} Stars</string>
-    <string name="StarsCount_two">{0} Stars</string>
-    <string name="StarsCount_few">{0} Stars</string>
-    <string name="StarsCount_many">{0} Stars</string>
-    <string name="StarsGiftCompletedText_zero">You spent **{0}** Stars from your balance.</string>
-    <string name="StarsGiftCompletedText_two">You spent **{0}** Stars from your balance.</string>
-    <string name="StarsGiftCompletedText_few">You spent **{0}** Stars from your balance.</string>
-    <string name="StarsGiftCompletedText_many">You spent **{0}** Stars from your balance.</string>
 
 
 
@@ -10725,27 +10101,7 @@
 
 
 
-    <string name="StarsNeededTitle_zero">{0} Stars Needed</string>
-    <string name="StarsNeededTitle_two">{0} Stars Needed</string>
-    <string name="StarsNeededTitle_few">{0} Stars Needed</string>
-    <string name="StarsNeededTitle_many">{0} Stars Needed</string>
-    <string name="StarsPurchaseCompletedInfo_zero">You acquired \"**{1}**\" in **{2}** for **{0} Stars**.</string>
     <string name="StarsPurchaseCompletedInfo_one"></string>
-    <string name="StarsPurchaseCompletedInfo_two">You acquired \"**{1}**\" in **{2}** for **{0} Stars**.</string>
-    <string name="StarsPurchaseCompletedInfo_few">You acquired \"**{1}**\" in **{2}** for **{0} Stars**.</string>
-    <string name="StarsPurchaseCompletedInfo_many">You acquired \"**{1}**\" in **{2}** for **{0} Stars**.</string>
-    <string name="StarsReactionTextSent_zero">You sent **{0}** Stars to support this post.</string>
-    <string name="StarsReactionTextSent_two">You sent **{0}** Stars to support this post.</string>
-    <string name="StarsReactionTextSent_few">You sent **{0}** Stars to support this post.</string>
-    <string name="StarsReactionTextSent_many">You sent **{0}** Stars to support this post.</string>
-    <string name="StarsSentText_zero">You reacted with **{0}** stars.</string>
-    <string name="StarsSentText_two">You reacted with **{0}** stars.</string>
-    <string name="StarsSentText_few">You reacted with **{0}** stars.</string>
-    <string name="StarsSentText_many">You reacted with **{0}** stars.</string>
-    <string name="StarsSubscriptionExpiredHintTitle2_zero">&#11088;&#65039;{0} Stars needed for {1}</string>
-    <string name="StarsSubscriptionExpiredHintTitle2_two">&#11088;&#65039;{0} Stars needed for {1}</string>
-    <string name="StarsSubscriptionExpiredHintTitle2_few">&#11088;&#65039;{0} Stars needed for {1}</string>
-    <string name="StarsSubscriptionExpiredHintTitle2_many">&#11088;&#65039;{0} Stars needed for {1}</string>
 
 
 
@@ -10762,14 +10118,6 @@
 
 
     <string name="StealthMode">Stealth Mode</string>
-    <string name="StickerSets_zero">{0} sticker sets</string>
-    <string name="StickerSets_two">{0} sticker sets</string>
-    <string name="StickerSets_few">{0} sticker sets</string>
-    <string name="StickerSets_many">{0} sticker sets</string>
-    <string name="Stickers_zero">{0} stickers</string>
-    <string name="Stickers_two">{0} stickers</string>
-    <string name="Stickers_few">{0} stickers</string>
-    <string name="Stickers_many">{0} stickers</string>
     <string name="StickersAndMasks">Stickers and Masks</string>
     <string name="StickersNameInfo">Manage your sticker sets, emoji and reactions.</string>
 
@@ -10778,40 +10126,16 @@
 
 
 
-    <string name="Stories_zero">{0} Stories</string>
-    <string name="Stories_two">{0} Stories</string>
-    <string name="Stories_few">{0} Stories</string>
-    <string name="Stories_many">{0} Stories</string>
 
 
 
 
-    <string name="StoriesPinLimit_zero">You can’t pin more than {0} posts.</string>
     <string name="StoriesPinLimit_one"></string>
-    <string name="StoriesPinLimit_two">You can’t pin more than {0} posts.</string>
-    <string name="StoriesPinLimit_few">You can’t pin more than {0} posts.</string>
-    <string name="StoriesPinLimit_many">You can’t pin more than {0} posts.</string>
-    <string name="StoriesPinned_zero">{0} stories pinned</string>
-    <string name="StoriesPinned_two">{0} stories pinned</string>
-    <string name="StoriesPinned_few">{0} stories pinned</string>
-    <string name="StoriesPinned_many">{0} stories pinned</string>
-    <string name="StoriesPinnedText_zero">Now they will be always shown on the top.</string>
-    <string name="StoriesPinnedText_two">Now they will be always shown on the top.</string>
-    <string name="StoriesPinnedText_few">Now they will be always shown on the top.</string>
-    <string name="StoriesPinnedText_many">Now they will be always shown on the top.</string>
 
-    <string name="StoriesSelected_zero">{0} Selected</string>
-    <string name="StoriesSelected_two">{0} Selected</string>
-    <string name="StoriesSelected_few">{0} Selected</string>
-    <string name="StoriesSelected_many">{0} Selected</string>
 
 
 
 
-    <string name="StoriesUnpinned_zero">{0} stories unpinned.</string>
-    <string name="StoriesUnpinned_two">{0} stories unpinned.</string>
-    <string name="StoriesUnpinned_few">{0} stories unpinned.</string>
-    <string name="StoriesUnpinned_many">{0} stories unpinned.</string>
 
 
 
@@ -10924,15 +10248,7 @@
 
 
 
-    <string name="StorySharedToManyChats_zero">Story forwarded to **{0} chats**.</string>
-    <string name="StorySharedToManyChats_two">Story forwarded to **{0} chats**.</string>
-    <string name="StorySharedToManyChats_few">Story forwarded to **{0} chats**.</string>
-    <string name="StorySharedToManyChats_many">Story forwarded to **{0} chats**.</string>
 
-    <string name="Subscribers_zero">{0} subscribers</string>
-    <string name="Subscribers_two">{0} subscribers</string>
-    <string name="Subscribers_few">{0} subscribers</string>
-    <string name="Subscribers_many">{0} subscribers</string>
 
     <string name="SyncContactsDeleteInfo">This will remove your contacts from the Telegram servers. If \'Sync Contacts\' is enabled, contacts will be re-synced.</string>
 
@@ -10964,18 +10280,6 @@
 
     <string name="ThemePreviewTitle">Reinhardt</string>
 
-    <string name="TimerPeriodPhotoSetSeconds_zero">Photo will be deleted **{0}** seconds after opening.</string>
-    <string name="TimerPeriodPhotoSetSeconds_two">Photo will be deleted **{0}** seconds after opening.</string>
-    <string name="TimerPeriodPhotoSetSeconds_few">Photo will be deleted **{0}** seconds after opening.</string>
-    <string name="TimerPeriodPhotoSetSeconds_many">Photo will be deleted **{0}** seconds after opening.</string>
-    <string name="TimerPeriodVideoSetSeconds_zero">Video will be deleted in **{0}** seconds after opening.</string>
-    <string name="TimerPeriodVideoSetSeconds_two">Video will be deleted in **{0}** seconds after opening.</string>
-    <string name="TimerPeriodVideoSetSeconds_few">Video will be deleted in **{0}** seconds after opening.</string>
-    <string name="TimerPeriodVideoSetSeconds_many">Video will be deleted in **{0}** seconds after opening.</string>
-    <string name="Times_zero">{0} times</string>
-    <string name="Times_two">{0} times</string>
-    <string name="Times_few">{0} times</string>
-    <string name="Times_many">{0} times</string>
 
 
 
@@ -10984,18 +10288,6 @@
 
 
 
-    <string name="TranscriptionTrialEnd_zero">You have used your **{0}** free transcriptions this week.</string>
-    <string name="TranscriptionTrialEnd_two">You have used your **{0}** free transcriptions this week.</string>
-    <string name="TranscriptionTrialEnd_few">You have used your **{0}** free transcriptions this week.</string>
-    <string name="TranscriptionTrialEnd_many">You have used your **{0}** free transcriptions this week.</string>
-    <string name="TranscriptionTrialLeft_zero">You have **{0}** free voice transcriptions left.</string>
-    <string name="TranscriptionTrialLeft_two">You have **{0}** free voice transcriptions left.</string>
-    <string name="TranscriptionTrialLeft_few">You have **{0}** free voice transcriptions left.</string>
-    <string name="TranscriptionTrialLeft_many">You have **{0}** free voice transcriptions left.</string>
-    <string name="TranscriptionTrialLeftUntil_zero">You have **{0}** free voice transcriptions left until {1}.</string>
-    <string name="TranscriptionTrialLeftUntil_two">You have **{0}** free voice transcriptions left until {1}.</string>
-    <string name="TranscriptionTrialLeftUntil_few">You have **{0}** free voice transcriptions left until {1}.</string>
-    <string name="TranscriptionTrialLeftUntil_many">You have **{0}** free voice transcriptions left until {1}.</string>
 
 
 
@@ -11035,10 +10327,6 @@
     <string name="Unban">Unban</string>
 
     <string name="UnblockText">Press and hold user to unblock.</string>
-    <string name="UnconfirmedAuthDeniedTitle_zero">New Logins Prevented</string>
-    <string name="UnconfirmedAuthDeniedTitle_two">New Logins Prevented</string>
-    <string name="UnconfirmedAuthDeniedTitle_few">New Logins Prevented</string>
-    <string name="UnconfirmedAuthDeniedTitle_many">New Logins Prevented</string>
 
 
 
@@ -11047,10 +10335,6 @@
 
 
 
-    <string name="UnlockPaidContent_zero">Unlock for &#11088;&#65039;{0}</string>
-    <string name="UnlockPaidContent_two">Unlock for &#11088;&#65039;{0}</string>
-    <string name="UnlockPaidContent_few">Unlock for &#11088;&#65039;{0}</string>
-    <string name="UnlockPaidContent_many">Unlock for &#11088;&#65039;{0}</string>
 
 
 
@@ -11068,10 +10352,6 @@
     <string name="UnsupportedMedia">This message is not supported by your version of Telegram. Update the app to view: https://telegram.org/update</string>
 
 
-    <string name="UpdatedMinutes_zero">updated {0} minutes ago</string>
-    <string name="UpdatedMinutes_two">updated {0} minutes ago</string>
-    <string name="UpdatedMinutes_few">updated {0} minutes ago</string>
-    <string name="UpdatedMinutes_many">updated {0} minutes ago</string>
 
 
 
@@ -11084,10 +10364,6 @@
 
     <string name="UserReplyIconHint">Make replies to your messages stand out by adding custom icons to them.</string>
     <string name="UserRestrictionsBy">Restricted by {0}</string>
-    <string name="UserRestrictionsCanDoUsers_zero">What can {0} selected users do?</string>
-    <string name="UserRestrictionsCanDoUsers_two">What can {0} selected users do?</string>
-    <string name="UserRestrictionsCanDoUsers_few">What can {0} selected users do?</string>
-    <string name="UserRestrictionsCanDoUsers_many">What can {0} selected users do?</string>
 
 
     <string name="UserRestrictionsSendFiles">Send Files</string>
@@ -11098,10 +10374,6 @@
     <string name="UserRestrictionsSendVoices">Send Voice Messages</string>
     <string name="UserRestrictionsUntil">Restricted until</string>
     <string name="UsernamePlaceholder">Your Username</string>
-    <string name="Users_zero">{0} users</string>
-    <string name="Users_two">{0} users</string>
-    <string name="Users_few">{0} users</string>
-    <string name="Users_many">{0} users</string>
 
 
 
@@ -11127,10 +10399,6 @@
 
 
 
-    <string name="Videos_zero">{0} videos</string>
-    <string name="Videos_two">{0} videos</string>
-    <string name="Videos_few">{0} videos</string>
-    <string name="Videos_many">{0} videos</string>
 
 
 
@@ -11142,23 +10410,7 @@
     <string name="ViewDetails">VIEW CONTACT</string>
     <string name="SharedContactAdd">ADD</string>
     <string name="SharedContactMessage">MESSAGE</string>
-    <string name="ViewReplies_zero">View {0} Replies</string>
-    <string name="ViewReplies_two">View {0} Replies</string>
-    <string name="ViewReplies_few">View {0} Replies</string>
-    <string name="ViewReplies_many">View {0} Replies</string>
 
-    <string name="ViewersWatching_zero">{0} viewers</string>
-    <string name="ViewersWatching_two">{0} viewers</string>
-    <string name="ViewersWatching_few">{0} viewers</string>
-    <string name="ViewersWatching_many">{0} viewers</string>
-    <string name="Views_zero">{0} views</string>
-    <string name="Views_two">{0} views</string>
-    <string name="Views_few">{0} views</string>
-    <string name="Views_many">{0} views</string>
-    <string name="Voice_zero">{0} voice messages</string>
-    <string name="Voice_two">{0} voice messages</string>
-    <string name="Voice_few">{0} voice messages</string>
-    <string name="Voice_many">{0} voice messages</string>
 
 
 
@@ -11179,25 +10431,6 @@
 
 
 
-    <string name="Vote_zero">{0} votes</string>
-    <string name="Vote_two">{0} votes</string>
-    <string name="Vote_few">{0} votes</string>
-    <string name="Vote_many">{0} votes</string>
-    <string name="Weeks_zero">{0} weeks</string>
-    <string name="Weeks_two">{0} weeks</string>
-    <string name="Weeks_few">{0} weeks</string>
-    <string name="Weeks_many">{0} weeks</string>
-
-
-
-
-
-
-
-    <string name="Years_zero">{0} years</string>
-    <string name="Years_two">{0} years</string>
-    <string name="Years_few">{0} years</string>
-    <string name="Years_many">{0} years</string>
 
 
 
@@ -11209,15 +10442,14 @@
 
 
 
-    <string name="items_zero">{0} items</string>
-    <string name="items_two">{0} items</string>
-    <string name="items_few">{0} items</string>
-    <string name="items_many">{0} items</string>
 
-    <string name="messages_zero">{0} messages</string>
-    <string name="messages_two">{0} messages</string>
-    <string name="messages_few">{0} messages</string>
-    <string name="messages_many">{0} messages</string>
+
+
+
+
+
+
+
 
 
     <!-- new from translations.telegram.org -->
@@ -11252,11 +10484,7 @@
     <string name="BoostLevelPlus">Level {0}+</string>
     <string name="BoostLevelUnlocks">Level {0} Unlocks:</string>
     <string name="BoostsMaxLevelReachedDescription">**{0}** reached **{1}**.</string>
-    <string name="BotDAU_zero">{0} monthly users</string>
     <string name="BotDAU_one">{0} monthly user</string>
-    <string name="BotDAU_two">{0} monthly users</string>
-    <string name="BotDAU_few">{0} monthly users</string>
-    <string name="BotDAU_many">{0} monthly users</string>
     <string name="BotDAU_other">{0} monthly users</string>
     <string name="BotStarsTransactionsMore">Show more transactions</string>
     <string name="BusinessLinksFooterNoUsername">You can also use a simple link for a chat with you — {0}.</string>
@@ -11399,25 +10627,17 @@
     <string name="SpellingAddToDictionary">Add to Dictionary</string>
     <string name="SpellingIgnoreWord">Ignore word</string>
     <string name="StarsYourBalance">your balance</string>
-    <string name="StoriesRemovedFromProfile_zero">{0} stories removed from your profile.</string>
     <string name="StoriesRemovedFromProfile_one">{0} story removed from your profile.</string>
-    <string name="StoriesRemovedFromProfile_two">{0} stories removed from your profile.</string>
-    <string name="StoriesRemovedFromProfile_few">{0} stories removed from your profile.</string>
-    <string name="StoriesRemovedFromProfile_many">{0} stories removed from your profile.</string>
     <string name="StoriesRemovedFromProfile_other">{0} stories removed from your profile.</string>
-    <string name="StoriesSavedToProfile_zero">{0} stories posted on your profile.</string>
     <string name="StoriesSavedToProfile_one">{0} story posted on your profile.</string>
-    <string name="StoriesSavedToProfile_two">{0} stories posted on your profile.</string>
-    <string name="StoriesSavedToProfile_few">{0} stories posted on your profile.</string>
-    <string name="StoriesSavedToProfile_many">{0} stories posted on your profile.</string>
     <string name="StoriesSavedToProfile_other">{0} stories posted on your profile.</string>
     <string name="StoryContactsHintSelf">Only your contacts can view this story.</string>
     <string name="StoryHiddenHint">**{0}** will not be able to see your stories.</string>
     <string name="StoryRemovedFromProfile">Story removed from your profile.</string>
     <string name="StorySavedToProfile">Story posted to your profile.</string>
-    <string name="StoryPinnedToPosts">Story saved to the channel’s profile</string>
-    <string name="StoryPinnedToPostsDescription">Saved stories can be viewed by others on the channel’s profile until an admin removes them.</string>
-    <string name="StoryUnpinnedFromPosts">Story removed from the channel’s profile</string>
+    <string name="StoryPinnedToPosts">Story posted to the channel page</string>
+    <string name="StoryPinnedToPostsDescription">Posted stories can be viewed by others on the channel page until an admin removes them.</string>
+    <string name="StoryUnpinnedFromPosts">Story removed from the channel page</string>
     <string name="StorySelectedContactsHintSelf">Only some users you selected can view this story.</string>
     <string name="StoryShowTo">Do Not Hide My Stories From {0}</string>
     <string name="StoryShownHint">**{0}** will be able to see your stories again.</string>
@@ -11491,21 +10711,13 @@
 
     <string name="TelegramPremiumUserDialogTitle">**{0}** is a subscriber of Telegram Premium.</string>
     <string name="TelegramPremiumUserDialogSubtitle">Owners of **Telegram Premium** accounts have exclusive access to multiple additional features.</string>
-    <string name="TelegramPremiumUserStatusDialogTitle">This is {0}\'s current status from {1}.</string>
+    <string name="TelegramPremiumUserStatusDialogTitle">{0} set this emoji from {1} as their current status.</string>
     <string name="TelegramPremiumUserStatusDialogSubtitle">Emoji statuses are a premium feature. Other features included in **Telegram Premium**:</string>
     <string name="TelegramPremiumUserStatusDefaultDialogTitle">This is {0}\'s current status.</string>
 
 
     <!-- new from translations.telegram.org -->
 
-    <string name="FilterShowMoreChats_zero">Show {0} More Chats</string>
-    <string name="FilterShowMoreChats_two">Show {0} More Chats</string>
-    <string name="FilterShowMoreChats_few">Show {0} More Chats</string>
-    <string name="FilterShowMoreChats_many">Show {0} More Chats</string>
-    <string name="Gift2SoldOutHint_zero">All {0} gifts were already sold.</string>
-    <string name="Gift2SoldOutHint_two">All {0} gifts were already sold.</string>
-    <string name="Gift2SoldOutHint_few">All {0} gifts were already sold.</string>
-    <string name="Gift2SoldOutHint_many">All {0} gifts were already sold.</string>
 
     <string name="AccDescrMentionReaction">With new reaction</string>
 
@@ -11540,10 +10752,6 @@
     <string name="TelegramPremiumUserGiftedPremiumOutboundDialogTitleWithPlural">You gifted **{0}** a {1} subscription to\nTelegram Premium.</string>
     <string name="TelegramPremiumUserGiftedPremiumOutboundDialogSubtitle">**{0}** now has access to additional features.</string>
 
-    <string name="Gift2Months_zero">{0} months</string>
-    <string name="Gift2Months_two">{0} months</string>
-    <string name="Gift2Months_few">{0} months</string>
-    <string name="Gift2Months_many">{0} months</string>
     <string name="Gift2Months_one">{0} month</string>
     <string name="Gift2Months_other">{0} months</string>
 
@@ -11558,40 +10766,16 @@
 
     <string name="AddStickersNotFound">Stickers not found</string>
 
-    <string name="RemoveManyEmojiCount_zero">Remove {0} emoji</string>
-    <string name="RemoveManyEmojiCount_two">Remove {0} emoji</string>
-    <string name="RemoveManyEmojiCount_few">Remove {0} emoji</string>
-    <string name="RemoveManyEmojiCount_many">Remove {0} emoji</string>
     <string name="RemoveManyEmojiCount_one">Remove emoji</string>
     <string name="RemoveManyEmojiCount_other">Remove {0} emoji</string>
-    <string name="RemoveManyEmojiPacksCount_zero">Remove {0} emoji packs</string>
-    <string name="RemoveManyEmojiPacksCount_two">Remove {0} emoji packs</string>
-    <string name="RemoveManyEmojiPacksCount_few">Remove {0} emoji packs</string>
-    <string name="RemoveManyEmojiPacksCount_many">Remove {0} emoji packs</string>
     <string name="RemoveManyEmojiPacksCount_one">Remove emoji pack</string>
     <string name="RemoveManyEmojiPacksCount_other">Remove {0} emoji packs</string>
-    <string name="RemoveManyStickersCount_zero">Remove {0} stickers</string>
-    <string name="RemoveManyStickersCount_two">Remove {0} stickers</string>
-    <string name="RemoveManyStickersCount_few">Remove {0} stickers</string>
-    <string name="RemoveManyStickersCount_many">Remove {0} stickers</string>
     <string name="RemoveManyStickersCount_one">Remove sticker</string>
     <string name="RemoveManyStickersCount_other">Remove {0} stickers</string>
-    <string name="AddManyEmojiCount_zero">Add {0} emoji</string>
-    <string name="AddManyEmojiCount_two">Add {0} emoji</string>
-    <string name="AddManyEmojiCount_few">Add {0} emoji</string>
-    <string name="AddManyEmojiCount_many">Add {0} emoji</string>
     <string name="AddManyEmojiCount_one">Add emoji</string>
     <string name="AddManyEmojiCount_other">Add {0} emoji</string>
-    <string name="AddManyEmojiPacksCount_zero">Add {0} emoji packs</string>
-    <string name="AddManyEmojiPacksCount_two">Add {0} emoji packs</string>
-    <string name="AddManyEmojiPacksCount_few">Add {0} emoji packs</string>
-    <string name="AddManyEmojiPacksCount_many">Add {0} emoji packs</string>
     <string name="AddManyEmojiPacksCount_one">Add emoji pack</string>
     <string name="AddManyEmojiPacksCount_other">Add {0} emoji packs</string>
-    <string name="AddManyStickersCount_zero">Add {0} stickers</string>
-    <string name="AddManyStickersCount_two">Add {0} stickers</string>
-    <string name="AddManyStickersCount_few">Add {0} stickers</string>
-    <string name="AddManyStickersCount_many">Add {0} stickers</string>
     <string name="AddManyStickersCount_one">Add sticker</string>
     <string name="AddManyStickersCount_other">Add {0} stickers</string>
     <string name="AddStickersInstalled">New stickers added</string>
@@ -11600,20 +10784,12 @@
     <string name="AddEmojiInstalledInfo">{0} has been added to your emoji packs.</string>
     <string name="AddEmojiMultipleInstalledInfo_one">{0} pack has been added to your emoji.</string>
     <string name="AddEmojiMultipleInstalledInfo_other">{0} packs have been added to your emoji.</string>
-    <string name="AddEmojiMultipleInstalledInfo_zero">{0} packs have been added to your emoji.</string>
-    <string name="AddEmojiMultipleInstalledInfo_two">{0} packs have been added to your emoji.</string>
-    <string name="AddEmojiMultipleInstalledInfo_few">{0} packs have been added to your emoji.</string>
-    <string name="AddEmojiMultipleInstalledInfo_many">{0} packs have been added to your emoji.</string>
     <string name="StickersRemoved">Stickers removed</string>
     <string name="StickersRemovedInfo">{0} is no longer in your stickers.</string>
     <string name="EmojiRemoved">Emoji removed.</string>
     <string name="EmojiRemovedInfo">{0} is no longer in your emoji.</string>
     <string name="EmojiRemovedMultipleInfo_one">{0} pack is no longer in your emoji.</string>
     <string name="EmojiRemovedMultipleInfo_other">{0} packs are no longer in your emoji.</string>
-    <string name="EmojiRemovedMultipleInfo_zero">{0} packs are no longer in your emoji.</string>
-    <string name="EmojiRemovedMultipleInfo_two">{0} packs are no longer in your emoji.</string>
-    <string name="EmojiRemovedMultipleInfo_few">{0} packs are no longer in your emoji.</string>
-    <string name="EmojiRemovedMultipleInfo_many">{0} packs are no longer in your emoji.</string>
 
     <string name="StarsTransactionFloodskip">Paid Broadcast</string>
     <string name="StarsTransactionFloodskipMessages_one">{0} Message</string>
@@ -11742,22 +10918,10 @@
     <string name="BoostingBoostsGroupByYouServiceMsg">You boosted the group</string>
     <string name="BoostingBoostsChannelByYouServiceMsg">You boosted the channel</string>
     <string name="BoostingBoostsGroupByYouServiceMsgCount_other">You boosted the group {0} times</string>
-    <string name="BoostingBoostsGroupByYouServiceMsgCount_zero">You boosted the group {0} times</string>
     <string name="BoostingBoostsGroupByYouServiceMsgCount_one"></string>
-    <string name="BoostingBoostsGroupByYouServiceMsgCount_two">You boosted the group {0} times</string>
-    <string name="BoostingBoostsGroupByYouServiceMsgCount_few">You boosted the group {0} times</string>
-    <string name="BoostingBoostsGroupByYouServiceMsgCount_many">You boosted the group {0} times</string>
-    <string name="BoostingBoostsChannelByUserServiceMsgCount_zero">{1} boosted the channel {0} times</string>
     <string name="BoostingBoostsChannelByUserServiceMsgCount_one"></string>
-    <string name="BoostingBoostsChannelByUserServiceMsgCount_two">{1} boosted the channel {0} times</string>
-    <string name="BoostingBoostsChannelByUserServiceMsgCount_few">{1} boosted the channel {0} times</string>
-    <string name="BoostingBoostsChannelByUserServiceMsgCount_many">{1} boosted the channel {0} times</string>
     <string name="BoostingBoostsChannelByUserServiceMsgCount_other">{1} boosted the channel {0} times</string>
-    <string name="BoostingBoostsChannelByYouServiceMsgCount_zero">You boosted the channel {0} times</string>
     <string name="BoostingBoostsChannelByYouServiceMsgCount_one"></string>
-    <string name="BoostingBoostsChannelByYouServiceMsgCount_two">You boosted the channel {0} times</string>
-    <string name="BoostingBoostsChannelByYouServiceMsgCount_few">You boosted the channel {0} times</string>
-    <string name="BoostingBoostsChannelByYouServiceMsgCount_many">You boosted the channel {0} times</string>
     <string name="BoostingBoostsChannelByYouServiceMsgCount_other">You boosted the channel {0} times</string>
 
     <string name="MediaShowPhotos">Show Photos</string>
@@ -11793,30 +10957,6 @@
 
     <!-- new from translations.telegram.org -->
 
-    <string name="ActionGiftPremiumTitle2_zero">{0} Months Premium</string>
-    <string name="ActionGiftPremiumTitle2_two">{0} Months Premium</string>
-    <string name="ActionGiftPremiumTitle2_few">{0} Months Premium</string>
-    <string name="ActionGiftPremiumTitle2_many">{0} Months Premium</string>
-    <string name="Gift2ButtonSell_zero">sell for {0} Stars</string>
-    <string name="Gift2ButtonSell_two">sell for {0} Stars</string>
-    <string name="Gift2ButtonSell_few">sell for {0} Stars</string>
-    <string name="Gift2ButtonSell_many">sell for {0} Stars</string>
-    <string name="Gift2ConvertText2_zero">Do you want to convert this gift from **{1}** to **{2}**?\n\nConversion is available for the next **{0} days**.\n\nThis action cannot be undone. This will permanently destroy the gift.</string>
-    <string name="Gift2ConvertText2_two">Do you want to convert this gift from **{1}** to **{2}**?\n\nConversion is available for the next **{0} days**.\n\nThis action cannot be undone. This will permanently destroy the gift.</string>
-    <string name="Gift2ConvertText2_few">Do you want to convert this gift from **{1}** to **{2}**?\n\nConversion is available for the next **{0} days**.\n\nThis action cannot be undone. This will permanently destroy the gift.</string>
-    <string name="Gift2ConvertText2_many">Do you want to convert this gift from **{1}** to **{2}**?\n\nConversion is available for the next **{0} days**.\n\nThis action cannot be undone. This will permanently destroy the gift.</string>
-    <string name="Gift2Info2Expired_zero">You can add this gift of {0} Stars to your profile.</string>
-    <string name="Gift2Info2Expired_two">You can add this gift of {0} Stars to your profile.</string>
-    <string name="Gift2Info2Expired_few">You can add this gift of {0} Stars to your profile.</string>
-    <string name="Gift2Info2Expired_many">You can add this gift of {0} Stars to your profile.</string>
-    <string name="StarsTransactionFloodskipMessages_zero">{0} Messages</string>
-    <string name="StarsTransactionFloodskipMessages_two">{0} Messages</string>
-    <string name="StarsTransactionFloodskipMessages_few">{0} Messages</string>
-    <string name="StarsTransactionFloodskipMessages_many">{0} Messages</string>
-    <string name="StarsTransactionFloodskipNumber_zero">{0}</string>
-    <string name="StarsTransactionFloodskipNumber_two">{0}</string>
-    <string name="StarsTransactionFloodskipNumber_few">{0}</string>
-    <string name="StarsTransactionFloodskipNumber_many">{0}</string>
 
     <string name="BotShareMessage">Share Message</string>
     <string name="BotShareMessageInfo">{0} offers you to send this message to a chat you select.</string>
@@ -11973,7 +11113,7 @@
     <string name="Gift2UpgradeInfo">Enable this to let {0} turn your gift into a unique collectible. **Learn More &gt;**</string>
     <string name="Gift2UpgradeForcedInfo">{0} only accepts unique gifts.</string>
     <string name="Gift2NoUpgradeForcedInfo">{0} only accepts limited gifts.</string>
-    <string name="Gift2UpgradeChannelInfo">Enable this to let the admins of {0} to turn your gift into a unique collectible. **Learn More &gt;**</string>
+    <string name="Gift2UpgradeChannelInfo">Enable this to let the admins of {0} convert your gift to a unique collectible. **Learn More &gt;**</string>
 
     <string name="FilterNameAnimationsEnable">Enable Animations</string>
     <string name="FilterNameAnimationsDisable">Disable Animations</string>
@@ -11983,33 +11123,17 @@
     <string name="ActionUniqueGiftUpgradeSelf">You turned the gift into a unique collectible</string>
     <string name="ActionUniqueGiftTransferInbound">**un1** transferred a gift to you!</string>
     <string name="ActionUniqueGiftTransferService">**un1** transferred a gift to **un2**!</string>
-    <string name="ActionUniqueGiftResaleService_zero">**un1** sent a gift to **un2** for {0} Stars!</string>
     <string name="ActionUniqueGiftResaleService_one">**un1** sent a gift to **un2** for {0} Star!</string>
-    <string name="ActionUniqueGiftResaleService_two">**un1** sent a gift to **un2** for {0} Stars!</string>
-    <string name="ActionUniqueGiftResaleService_few">**un1** sent a gift to **un2** for {0} Stars!</string>
-    <string name="ActionUniqueGiftResaleService_many">**un1** sent a gift to **un2** for {0} Stars!</string>
     <string name="ActionUniqueGiftResaleService_other">**un1** sent a gift to **un2** for {0} Stars!</string>
     <string name="ActionUniqueGiftResaleServiceTON">**un1** sent a gift to **un2** for {0} Grams!</string>
     <string name="ActionUniqueGiftResaleOutboundTON">You bought this gift for {0} Grams</string>
     <string name="ActionUniqueGiftResaleInboundTON">**un1** bought you a gift for {0} Grams!</string>
-    <string name="ActionUniqueGiftResaleOutbound_zero">You bought this gift for {0} Stars</string>
     <string name="ActionUniqueGiftResaleOutbound_one">You bought this gift for {0} Star</string>
-    <string name="ActionUniqueGiftResaleOutbound_two">You bought this gift for {0} Stars</string>
-    <string name="ActionUniqueGiftResaleOutbound_few">You bought this gift for {0} Stars</string>
-    <string name="ActionUniqueGiftResaleOutbound_many">You bought this gift for {0} Stars</string>
     <string name="ActionUniqueGiftResaleOutbound_other">You bought this gift for {0} Stars</string>
-    <string name="ActionUniqueGiftResaleInbound_zero">**un1** bought you a gift for {0} Stars!</string>
     <string name="ActionUniqueGiftResaleInbound_one">**un1** bought you a gift for {0} Star!</string>
-    <string name="ActionUniqueGiftResaleInbound_two">**un1** bought you a gift for {0} Stars!</string>
-    <string name="ActionUniqueGiftResaleInbound_few">**un1** bought you a gift for {0} Stars!</string>
-    <string name="ActionUniqueGiftResaleInbound_many">**un1** bought you a gift for {0} Stars!</string>
     <string name="ActionUniqueGiftResaleInbound_other">**un1** bought you a gift for {0} Stars!</string>
     <string name="ActionUniqueGiftResaleSoldOutboundTON">You sold this gift for {0} Grams</string>
-    <string name="ActionUniqueGiftResaleSoldOutbound_zero">You sold this gift for {0} Stars</string>
     <string name="ActionUniqueGiftResaleSoldOutbound_one">You sold this gift for {0} Star</string>
-    <string name="ActionUniqueGiftResaleSoldOutbound_two">You sold this gift for {0} Stars</string>
-    <string name="ActionUniqueGiftResaleSoldOutbound_few">You sold this gift for {0} Stars</string>
-    <string name="ActionUniqueGiftResaleSoldOutbound_many">You sold this gift for {0} Stars</string>
     <string name="ActionUniqueGiftResaleSoldOutbound_other">You sold this gift for {0} Stars</string>
     <string name="ActionUniqueGiftTransferOutbound">You transferred a gift to **un1**</string>
     <string name="ActionGiftSelf">You bought a gift for **un2**</string>
@@ -12058,8 +11182,8 @@
     <string name="Gift2TransferredText">You have successfully transferred **{0}** to **{1}**.</string>
     <string name="Gift2TransferredTitle">Gift Transferred</string>
     <string name="Gift2ChannelDoesntSupportGiftsTitle">Not Available</string>
-    <string name="Gift2ChannelDoesntSupportGiftsText">This channel can\'t receive any star gifts.</string>
-    <string name="UserDisallowedGifts">**{0}** disallowed sending themselves gifts.</string>
+    <string name="Gift2ChannelDoesntSupportGiftsText">This channel can\'t receive Telegram gifts.</string>
+    <string name="UserDisallowedGifts">**{0}** disabled receiving gifts.</string>
 
     <string name="BotVerifyAccounts">Verify Accounts</string>
     <string name="BotChooseChatToVerify">Choose Chat To Verify</string>
@@ -12088,7 +11212,7 @@
     <string name="Gift2UpgradeFeatureSoon">SOON</string>
     <string name="Gift2UpgradeFeature3TextLearn">The recipient will be able to auction the gift on third-party NFT marketplaces.</string>
     <string name="Gift2LearnMoreTitle">Make Unique</string>
-    <string name="Gift2LearnMoreText">Let {0} turn your gift into a unique collectible.</string>
+    <string name="Gift2LearnMoreText">Let {0} turn this gift into a unique collectible.</string>
     <string name="Gift2AddSenderName">Add sender\'s name to the gift</string>
     <string name="Gift2AddSenderNameComment">Add sender\'s name and comment</string>
     <string name="Gift2AddMyNameName">Add my name to the gift</string>
@@ -12226,112 +11350,8 @@
 
     <!-- new from translations.telegram.org -->
 
-    <string name="BoostingGiveawayMsgInfoPlural1_zero">**{0}** Telegram Premium</string>
-    <string name="BoostingGiveawayMsgInfoPlural1_two">**{0}** Telegram Premium</string>
-    <string name="BoostingGiveawayMsgInfoPlural1_few">**{0}** Telegram Premium</string>
-    <string name="BoostingGiveawayMsgInfoPlural1_many">**{0}** Telegram Premium</string>
-    <string name="BoostingGiveawayMsgInfoPlural2_zero">Subscriptions for {1}.</string>
-    <string name="BoostingGiveawayMsgInfoPlural2_two">Subscriptions for {1}.</string>
-    <string name="BoostingGiveawayMsgInfoPlural2_few">Subscriptions for {1}.</string>
-    <string name="BoostingGiveawayMsgInfoPlural2_many">Subscriptions for {1}.</string>
-    <string name="ChannelAffiliateProgramJoinText_Months_zero">{0} months</string>
-    <string name="ChannelAffiliateProgramJoinText_Months_two">{0} months</string>
-    <string name="ChannelAffiliateProgramJoinText_Months_few">{0} months</string>
-    <string name="ChannelAffiliateProgramJoinText_Months_many">{0} months</string>
-    <string name="ChannelAffiliateProgramJoinText_Years_zero">{0} years</string>
-    <string name="ChannelAffiliateProgramJoinText_Years_two">{0} years</string>
-    <string name="ChannelAffiliateProgramJoinText_Years_few">{0} years</string>
-    <string name="ChannelAffiliateProgramJoinText_Years_many">{0} years</string>
-    <string name="ChannelAffiliateProgramLinkOpened_zero">{0} users have opened {1} through this link.</string>
-    <string name="ChannelAffiliateProgramLinkOpened_two">{0} users have opened {1} through this link.</string>
-    <string name="ChannelAffiliateProgramLinkOpened_few">{0} users have opened {1} through this link.</string>
-    <string name="ChannelAffiliateProgramLinkOpened_many">{0} users have opened {1} through this link.</string>
-    <string name="DaysAgo_zero">{0} days ago</string>
-    <string name="DaysAgo_two">{0} days ago</string>
-    <string name="DaysAgo_few">{0} days ago</string>
-    <string name="DaysAgo_many">{0} days ago</string>
-    <string name="Gift2CollectionNumber_zero">Collectible #{0}</string>
-    <string name="Gift2CollectionNumber_two">Collectible #{0}</string>
-    <string name="Gift2CollectionNumber_few">Collectible #{0}</string>
-    <string name="Gift2CollectionNumber_many">Collectible #{0}</string>
-    <string name="Gift2QuantityIssued1_zero">{0}/</string>
     <string name="Gift2QuantityIssued1_one"></string>
-    <string name="Gift2QuantityIssued1_two">{0}/</string>
-    <string name="Gift2QuantityIssued1_few">{0}/</string>
-    <string name="Gift2QuantityIssued1_many">{0}/</string>
-    <string name="Gift2QuantityIssued2_zero">{0} issued</string>
     <string name="Gift2QuantityIssued2_one"></string>
-    <string name="Gift2QuantityIssued2_two">{0} issued</string>
-    <string name="Gift2QuantityIssued2_few">{0} issued</string>
-    <string name="Gift2QuantityIssued2_many">{0} issued</string>
-    <string name="Gift2QuantityIssuedNone_zero">None of {0} left</string>
-    <string name="Gift2QuantityIssuedNone_two">None of {0} left</string>
-    <string name="Gift2QuantityIssuedNone_few">None of {0} left</string>
-    <string name="Gift2QuantityIssuedNone_many">None of {0} left</string>
-    <string name="Gift2TransferPriceText_zero">Do you want to transfer ownership of **{1}** to **{2}** for **{0} Stars**?</string>
-    <string name="Gift2TransferPriceText_two">Do you want to transfer ownership of **{1}** to **{2}** for **{0} Stars**?</string>
-    <string name="Gift2TransferPriceText_few">Do you want to transfer ownership of **{1}** to **{2}** for **{0} Stars**?</string>
-    <string name="Gift2TransferPriceText_many">Do you want to transfer ownership of **{1}** to **{2}** for **{0} Stars**?</string>
-    <string name="HoursAgo_zero">{0} hours ago</string>
-    <string name="HoursAgo_two">{0} hours ago</string>
-    <string name="HoursAgo_few">{0} hours ago</string>
-    <string name="HoursAgo_many">{0} hours ago</string>
-    <string name="LastSeenHours_zero">last seen {0} hours ago</string>
-    <string name="LastSeenHours_two">last seen {0} hours ago</string>
-    <string name="LastSeenHours_few">last seen {0} hours ago</string>
-    <string name="LastSeenHours_many">last seen {0} hours ago</string>
-    <string name="LastSeenMinutes_zero">last seen {0} minutes ago</string>
-    <string name="LastSeenMinutes_two">last seen {0} minutes ago</string>
-    <string name="LastSeenMinutes_few">last seen {0} minutes ago</string>
-    <string name="LastSeenMinutes_many">last seen {0} minutes ago</string>
-    <string name="MessageLockedStarsConfirmMessage1_zero">**{1}** charges **{0}** Stars per message.</string>
-    <string name="MessageLockedStarsConfirmMessage1_two">**{1}** charges **{0}** Stars per message.</string>
-    <string name="MessageLockedStarsConfirmMessage1_few">**{1}** charges **{0}** Stars per message.</string>
-    <string name="MessageLockedStarsConfirmMessage1_many">**{1}** charges **{0}** Stars per message.</string>
-    <string name="MessageLockedStarsConfirmMessage2Many1_zero">Would you like to pay **{0}** Stars</string>
-    <string name="MessageLockedStarsConfirmMessage2Many1_two">Would you like to pay **{0}** Stars</string>
-    <string name="MessageLockedStarsConfirmMessage2Many1_few">Would you like to pay **{0}** Stars</string>
-    <string name="MessageLockedStarsConfirmMessage2Many1_many">Would you like to pay **{0}** Stars</string>
-    <string name="MessageLockedStarsConfirmMessage2Many2_zero">to send {0} messages?</string>
-    <string name="MessageLockedStarsConfirmMessage2Many2_two">to send {0} messages?</string>
-    <string name="MessageLockedStarsConfirmMessage2Many2_few">to send {0} messages?</string>
-    <string name="MessageLockedStarsConfirmMessage2Many2_many">to send {0} messages?</string>
-    <string name="MessageLockedStarsConfirmMessage2One_zero">Would you like to pay **{0}** Stars to send one message?</string>
-    <string name="MessageLockedStarsConfirmMessage2One_two">Would you like to pay **{0}** Stars to send one message?</string>
-    <string name="MessageLockedStarsConfirmMessage2One_few">Would you like to pay **{0}** Stars to send one message?</string>
-    <string name="MessageLockedStarsConfirmMessage2One_many">Would you like to pay **{0}** Stars to send one message?</string>
-    <string name="MessageLockedStarsConfirmMessageMulti1_zero">You selected **{0}** chats that charge Stars for messages.</string>
-    <string name="MessageLockedStarsConfirmMessageMulti1_two">You selected **{0}** chats that charge Stars for messages.</string>
-    <string name="MessageLockedStarsConfirmMessageMulti1_few">You selected **{0}** chats that charge Stars for messages.</string>
-    <string name="MessageLockedStarsConfirmMessageMulti1_many">You selected **{0}** chats that charge Stars for messages.</string>
-    <string name="MessageLockedStarsConfirmMessageMulti2_zero">Would you like to pay **{0}** Stars to send {1}?</string>
-    <string name="MessageLockedStarsConfirmMessageMulti2_two">Would you like to pay **{0}** Stars to send {1}?</string>
-    <string name="MessageLockedStarsConfirmMessageMulti2_few">Would you like to pay **{0}** Stars to send {1}?</string>
-    <string name="MessageLockedStarsConfirmMessageMulti2_many">Would you like to pay **{0}** Stars to send {1}?</string>
-    <string name="MessageLockedStarsConfirmMessageMulti2Messages_zero">**{0}** messages</string>
-    <string name="MessageLockedStarsConfirmMessageMulti2Messages_two">**{0}** messages</string>
-    <string name="MessageLockedStarsConfirmMessageMulti2Messages_few">**{0}** messages</string>
-    <string name="MessageLockedStarsConfirmMessageMulti2Messages_many">**{0}** messages</string>
-    <string name="MessageLockedStarsConfirmMessagePay_zero">Pay for {0} Messages</string>
-    <string name="MessageLockedStarsConfirmMessagePay_two">Pay for {0} Messages</string>
-    <string name="MessageLockedStarsConfirmMessagePay_few">Pay for {0} Messages</string>
-    <string name="MessageLockedStarsConfirmMessagePay_many">Pay for {0} Messages</string>
-    <string name="MinutesAgo_zero">{0} minutes ago</string>
-    <string name="MinutesAgo_two">{0} minutes ago</string>
-    <string name="MinutesAgo_few">{0} minutes ago</string>
-    <string name="MinutesAgo_many">{0} minutes ago</string>
-    <string name="MonthsAgo_zero">{0} months ago</string>
-    <string name="MonthsAgo_two">{0} months ago</string>
-    <string name="MonthsAgo_few">{0} months ago</string>
-    <string name="MonthsAgo_many">{0} months ago</string>
-    <string name="RemoveMessageFeeRefund_zero">"Refund the {0} Stars already paid "</string>
-    <string name="RemoveMessageFeeRefund_two">"Refund the {0} Stars already paid "</string>
-    <string name="RemoveMessageFeeRefund_few">"Refund the {0} Stars already paid "</string>
-    <string name="RemoveMessageFeeRefund_many">"Refund the {0} Stars already paid "</string>
-    <string name="YearsAgo_zero">{0} years ago</string>
-    <string name="YearsAgo_two">{0} years ago</string>
-    <string name="YearsAgo_few">{0} years ago</string>
-    <string name="YearsAgo_many">{0} years ago</string>
     <string name="GiftsPinLimit_one">You can\'t pin more than {0} gift.</string>
     <string name="GiftsPinLimit_other">You can\'t pin more than {0} gifts.</string>
     <string name="AccountFrozen1Text">Your account was frozen for violating Telegram’s Terms of Service.</string>
@@ -12395,34 +11415,6 @@
 
     <!-- new from translations.telegram.org -->
 
-    <string name="DeleteTopics_zero">Delete Topics</string>
-    <string name="DeleteTopics_two">Delete Topics</string>
-    <string name="DeleteTopics_few">Delete Topics</string>
-    <string name="DeleteTopics_many">Delete Topics</string>
-    <string name="GiftsPinLimit_zero">You can\'t pin more than {0} gifts.</string>
-    <string name="GiftsPinLimit_two">You can\'t pin more than {0} gifts.</string>
-    <string name="GiftsPinLimit_few">You can\'t pin more than {0} gifts.</string>
-    <string name="GiftsPinLimit_many">You can\'t pin more than {0} gifts.</string>
-    <string name="PaidMessagesPriceUpdated_zero">un1 changed price to {0} Stars per message</string>
-    <string name="PaidMessagesPriceUpdated_two">un1 changed price to {0} Stars per message</string>
-    <string name="PaidMessagesPriceUpdated_few">un1 changed price to {0} Stars per message</string>
-    <string name="PaidMessagesPriceUpdated_many">un1 changed price to {0} Stars per message</string>
-    <string name="PaidMessagesPriceUpdatedOut_zero">You changed price to {0} Stars per message</string>
-    <string name="PaidMessagesPriceUpdatedOut_two">You changed price to {0} Stars per message</string>
-    <string name="PaidMessagesPriceUpdatedOut_few">You changed price to {0} Stars per message</string>
-    <string name="PaidMessagesPriceUpdatedOut_many">You changed price to {0} Stars per message</string>
-    <string name="PaidMessagesRefunded_zero">un1 refunded {0} Stars to you</string>
-    <string name="PaidMessagesRefunded_two">un1 refunded {0} Stars to you</string>
-    <string name="PaidMessagesRefunded_few">un1 refunded {0} Stars to you</string>
-    <string name="PaidMessagesRefunded_many">un1 refunded {0} Stars to you</string>
-    <string name="PaidMessagesRefundedOut_zero">You refunded {0} Stars to un1</string>
-    <string name="PaidMessagesRefundedOut_two">You refunded {0} Stars to un1</string>
-    <string name="PaidMessagesRefundedOut_few">You refunded {0} Stars to un1</string>
-    <string name="PaidMessagesRefundedOut_many">You refunded {0} Stars to un1</string>
-    <string name="StarsTransactionMessageFee_zero">Fee for {0} Messages</string>
-    <string name="StarsTransactionMessageFee_two">Fee for {0} Messages</string>
-    <string name="StarsTransactionMessageFee_few">Fee for {0} Messages</string>
-    <string name="StarsTransactionMessageFee_many">Fee for {0} Messages</string>
 
     <string name="ChannelTopics">Topics</string>
     <string name="SelectAccount">Select Account</string>
@@ -12494,14 +11486,6 @@
     <string name="Gift2ResaleFiltersSearch">Search…</string>
     <string name="ResellGiftBuy_one">Buy for &#11088;&#65039;{0}</string>
     <string name="ResellGiftBuy_other">Buy for &#11088;&#65039;{0}</string>
-    <string name="Gift2BuyPriceSelfText_zero">Do you want to buy **{1}** for **{0} Stars**?</string>
-    <string name="Gift2BuyPriceSelfText_two">Do you want to buy **{1}** for **{0} Stars**?</string>
-    <string name="Gift2BuyPriceSelfText_few">Do you want to buy **{1}** for **{0} Stars**?</string>
-    <string name="Gift2BuyPriceSelfText_many">Do you want to buy **{1}** for **{0} Stars**?</string>
-    <string name="Gift2BuyPriceText_zero">Do you want to buy **{1}** for **{0} Stars** and gift it to **{2}**?</string>
-    <string name="Gift2BuyPriceText_two">Do you want to buy **{1}** for **{0} Stars** and gift it to **{2}**?</string>
-    <string name="Gift2BuyPriceText_few">Do you want to buy **{1}** for **{0} Stars** and gift it to **{2}**?</string>
-    <string name="Gift2BuyPriceText_many">Do you want to buy **{1}** for **{0} Stars** and gift it to **{2}**?</string>
     <string name="Gift2BuyPriceText_one">Do you want to buy **{1}** for **{0} Star** and gift it to **{2}**?</string>
     <string name="Gift2BuyPriceText_other">Do you want to buy **{1}** for **{0} Stars** and gift it to **{2}**?</string>
     <string name="Gift2BuyPriceSelfText_one">Do you want to buy **{1}** for **{0} Star**?</string>
@@ -12510,11 +11494,7 @@
     <string name="Gift2BuyPriceSelfTextTON">Do you want to buy **{1}** for **{0} Grams**?</string>
     <string name="Gift2BuyPriceOnlyTON">The seller only accepts Grams as payment.</string>
     <string name="Gift2BuyPricePayHintTON">Pay with Grams to skip the 21-day wait before transferring the gift again.</string>
-    <string name="Gift2BuyDoPrice2_zero">Buy for &#11088;&#65039;{0}</string>
     <string name="Gift2BuyDoPrice2_one">Buy for &#11088;&#65039;{0}</string>
-    <string name="Gift2BuyDoPrice2_two">Buy for &#11088;&#65039;{0}</string>
-    <string name="Gift2BuyDoPrice2_few">Buy for &#11088;&#65039;{0}</string>
-    <string name="Gift2BuyDoPrice2_many">Buy for &#11088;&#65039;{0}</string>
     <string name="Gift2BuyDoPrice2_other">Buy for &#11088;&#65039;{0}</string>
     <string name="Gift2BuyDoPrice2TON">Buy for &#11088;&#65039;{0}</string>
     <string name="Gift2BuyInStars">Pay in Stars</string>
@@ -12563,7 +11543,7 @@
     <string name="WalletOnchainGiftRepriced">Repriced to {0}</string>
     <string name="WalletOnchainGiftRemovedFromSale">Removed from sale</string>
     <string name="WalletOnchainGiftOfferSent">Offer sent</string>
-    <string name="WalletOnchainGiftOfferCancelled">Offer cancelled</string>
+    <string name="WalletOnchainGiftOfferCancelled">Offer canceled</string>
     <string name="WalletOnchainGiftOfferDeclined">Offer declined</string>
     <string name="WalletOnchainGiftOfferExpired">Offer expired</string>
     <string name="WalletOnchainGiftStatusPurchased">Purchased</string>
@@ -12715,16 +11695,8 @@
     <string name="Gift2UnlistText">Are you sure you want to unlist your gift?</string>
     <string name="Gift2AvailabilitySold_other">{0} sold</string>
     <string name="Gift2AvailabilityLeft_other">{0} left</string>
-    <string name="Gift2AvailabilityLeft_zero">{0} left</string>
     <string name="Gift2AvailabilityLeft_one">{0} left</string>
-    <string name="Gift2AvailabilityLeft_two">{0} left</string>
-    <string name="Gift2AvailabilityLeft_few">{0} left</string>
-    <string name="Gift2AvailabilityLeft_many">{0} left</string>
-    <string name="Gift2AvailabilitySold_zero">{0} sold</string>
     <string name="Gift2AvailabilitySold_one">{0} sold</string>
-    <string name="Gift2AvailabilitySold_two">{0} sold</string>
-    <string name="Gift2AvailabilitySold_few">{0} sold</string>
-    <string name="Gift2AvailabilitySold_many">{0} sold</string>
     <string name="Gift2AvailableForResale">Available for Resale</string>
     <string name="BoughtResoldGiftTitle">Gift acquired</string>
     <string name="BoughtResoldGiftText">{0} is now yours.</string>
@@ -12924,122 +11896,6 @@
 
     <!-- new from translations.telegram.org -->
 
-    <string name="ActionGiftChannel_zero">**un1** sent a gift to **un2** for {0} Stars</string>
-    <string name="ActionGiftChannel_two">**un1** sent a gift to **un2** for {0} Stars</string>
-    <string name="ActionGiftChannel_few">**un1** sent a gift to **un2** for {0} Stars</string>
-    <string name="ActionGiftChannel_many">**un1** sent a gift to **un2** for {0} Stars</string>
-    <string name="Bots_zero">{0} bots</string>
-    <string name="Bots_two">{0} bots</string>
-    <string name="Bots_few">{0} bots</string>
-    <string name="Bots_many">{0} bots</string>
-    <string name="ChecklistTasks_zero">{0} tasks</string>
-    <string name="ChecklistTasks_two">{0} tasks</string>
-    <string name="ChecklistTasks_few">{0} tasks</string>
-    <string name="ChecklistTasks_many">{0} tasks</string>
-    <string name="CommonGroups_zero">{0} groups in common</string>
-    <string name="CommonGroups_two">{0} groups in common</string>
-    <string name="CommonGroups_few">{0} groups in common</string>
-    <string name="CommonGroups_many">{0} groups in common</string>
-    <string name="Gift2ResaleCount_zero">{0} listings</string>
-    <string name="Gift2ResaleCount_two">{0} listings</string>
-    <string name="Gift2ResaleCount_few">{0} listings</string>
-    <string name="Gift2ResaleCount_many">{0} listings</string>
-    <string name="Gift2ResaleFilterBackdrops_zero">{0} Backdrops</string>
-    <string name="Gift2ResaleFilterBackdrops_two">{0} Backdrops</string>
-    <string name="Gift2ResaleFilterBackdrops_few">{0} Backdrops</string>
-    <string name="Gift2ResaleFilterBackdrops_many">{0} Backdrops</string>
-    <string name="Gift2ResaleFilterModels_zero">{0} Models</string>
-    <string name="Gift2ResaleFilterModels_two">{0} Models</string>
-    <string name="Gift2ResaleFilterModels_few">{0} Models</string>
-    <string name="Gift2ResaleFilterModels_many">{0} Models</string>
-    <string name="Gift2ResaleFilterSymbols_zero">{0} Symbols</string>
-    <string name="Gift2ResaleFilterSymbols_two">{0} Symbols</string>
-    <string name="Gift2ResaleFilterSymbols_few">{0} Symbols</string>
-    <string name="Gift2ResaleFilterSymbols_many">{0} Symbols</string>
-    <string name="GroupCallCreateInfo_zero">You can add up to {0} participants to a call.</string>
-    <string name="GroupCallCreateInfo_two">You can add up to {0} participants to a call.</string>
-    <string name="GroupCallCreateInfo_few">You can add up to {0} participants to a call.</string>
-    <string name="GroupCallCreateInfo_many">You can add up to {0} participants to a call.</string>
-    <string name="GroupCallLinkText2Many_zero">**{1}**, **{2}** and **{0}** more people already joined this call.</string>
-    <string name="GroupCallLinkText2Many_two">**{1}**, **{2}** and **{0}** more people already joined this call.</string>
-    <string name="GroupCallLinkText2Many_few">**{1}**, **{2}** and **{0}** more people already joined this call.</string>
-    <string name="GroupCallLinkText2Many_many">**{1}**, **{2}** and **{0}** more people already joined this call.</string>
-    <string name="PinnedMessagesCount_zero">{0} Pinned Messages</string>
-    <string name="PinnedMessagesCount_two">{0} Pinned Messages</string>
-    <string name="PinnedMessagesCount_few">{0} Pinned Messages</string>
-    <string name="PinnedMessagesCount_many">{0} Pinned Messages</string>
-    <string name="PostSuggestionsPriceUpdated_zero">un1 now accepts direct messages for {0} Stars</string>
-    <string name="PostSuggestionsPriceUpdated_two">un1 now accepts direct messages for {0} Stars</string>
-    <string name="PostSuggestionsPriceUpdated_few">un1 now accepts direct messages for {0} Stars</string>
-    <string name="PostSuggestionsPriceUpdated_many">un1 now accepts direct messages for {0} Stars</string>
-    <string name="ProfileGiftsCount_zero">{0} gifts</string>
-    <string name="ProfileGiftsCount_two">{0} gifts</string>
-    <string name="ProfileGiftsCount_few">{0} gifts</string>
-    <string name="ProfileGiftsCount_many">{0} gifts</string>
-    <string name="ProfileStoriesArchiveCount_zero">{0} archived stories</string>
-    <string name="ProfileStoriesArchiveCount_two">{0} archived stories</string>
-    <string name="ProfileStoriesArchiveCount_few">{0} archived stories</string>
-    <string name="ProfileStoriesArchiveCount_many">{0} archived stories</string>
-    <string name="ProfileStoriesCount_zero">{0} stories</string>
-    <string name="ProfileStoriesCount_two">{0} stories</string>
-    <string name="ProfileStoriesCount_few">{0} stories</string>
-    <string name="ProfileStoriesCount_many">{0} stories</string>
-    <string name="ResellGiftBuy_zero">Buy for &#11088;&#65039;{0}</string>
-    <string name="ResellGiftBuy_two">Buy for &#11088;&#65039;{0}</string>
-    <string name="ResellGiftBuy_few">Buy for &#11088;&#65039;{0}</string>
-    <string name="ResellGiftBuy_many">Buy for &#11088;&#65039;{0}</string>
-    <string name="ResellGiftInfo_zero">You will receive **{0}** Stars.</string>
-    <string name="ResellGiftInfo_two">You will receive **{0}** Stars.</string>
-    <string name="ResellGiftInfo_few">You will receive **{0}** Stars.</string>
-    <string name="ResellGiftInfo_many">You will receive **{0}** Stars.</string>
-    <string name="ResellGiftInfoMin_zero">Minimum price is **{0}** Stars.</string>
-    <string name="ResellGiftInfoMin_two">Minimum price is **{0}** Stars.</string>
-    <string name="ResellGiftInfoMin_few">Minimum price is **{0}** Stars.</string>
-    <string name="ResellGiftInfoMin_many">Minimum price is **{0}** Stars.</string>
-    <string name="SavedMessagesCount_zero">{0} saved messages</string>
-    <string name="SavedMessagesCount_two">{0} saved messages</string>
-    <string name="SavedMessagesCount_few">{0} saved messages</string>
-    <string name="SavedMessagesCount_many">{0} saved messages</string>
-    <string name="TodoAddedTasks_zero">un1 added **{0} tasks** to **{1}**</string>
-    <string name="TodoAddedTasks_two">un1 added **{0} tasks** to **{1}**</string>
-    <string name="TodoAddedTasks_few">un1 added **{0} tasks** to **{1}**</string>
-    <string name="TodoAddedTasks_many">un1 added **{0} tasks** to **{1}**</string>
-    <string name="TodoAddedTasksOut_zero">You added **{0} tasks** to **\"{1}\"**</string>
-    <string name="TodoAddedTasksOut_two">You added **{0} tasks** to **\"{1}\"**</string>
-    <string name="TodoAddedTasksOut_few">You added **{0} tasks** to **\"{1}\"**</string>
-    <string name="TodoAddedTasksOut_many">You added **{0} tasks** to **\"{1}\"**</string>
-    <string name="TodoAddedTasksOutUnknown_zero">You added **{0} tasks** to a checklist</string>
-    <string name="TodoAddedTasksOutUnknown_two">You added **{0} tasks** to a checklist</string>
-    <string name="TodoAddedTasksOutUnknown_few">You added **{0} tasks** to a checklist</string>
-    <string name="TodoAddedTasksOutUnknown_many">You added **{0} tasks** to a checklist</string>
-    <string name="TodoAddedTasksUnknown_zero">un1 added **{0} tasks** to a checklist</string>
-    <string name="TodoAddedTasksUnknown_two">un1 added **{0} tasks** to a checklist</string>
-    <string name="TodoAddedTasksUnknown_few">un1 added **{0} tasks** to a checklist</string>
-    <string name="TodoAddedTasksUnknown_many">un1 added **{0} tasks** to a checklist</string>
-    <string name="TodoCompleted_zero">{1} of {0} completed</string>
-    <string name="TodoCompleted_two">{1} of {0} completed</string>
-    <string name="TodoCompleted_few">{1} of {0} completed</string>
-    <string name="TodoCompleted_many">{1} of {0} completed</string>
-    <string name="TodoNewTaskInfo_zero">You can add {0} more tasks.</string>
-    <string name="TodoNewTaskInfo_two">You can add {0} more tasks.</string>
-    <string name="TodoNewTaskInfo_few">You can add {0} more tasks.</string>
-    <string name="TodoNewTaskInfo_many">You can add {0} more tasks.</string>
-    <string name="TodoTasksCompleted_zero">un1 marked **{0} tasks** as done</string>
-    <string name="TodoTasksCompleted_two">un1 marked **{0} tasks** as done</string>
-    <string name="TodoTasksCompleted_few">un1 marked **{0} tasks** as done</string>
-    <string name="TodoTasksCompleted_many">un1 marked **{0} tasks** as done</string>
-    <string name="TodoTasksCompletedOut_zero">You marked **{0} tasks** as done</string>
-    <string name="TodoTasksCompletedOut_two">You marked **{0} tasks** as done</string>
-    <string name="TodoTasksCompletedOut_few">You marked **{0} tasks** as done</string>
-    <string name="TodoTasksCompletedOut_many">You marked **{0} tasks** as done</string>
-    <string name="TodoTasksNotCompleted_zero">un1 marked **{0} tasks** as not done</string>
-    <string name="TodoTasksNotCompleted_two">un1 marked **{0} tasks** as not done</string>
-    <string name="TodoTasksNotCompleted_few">un1 marked **{0} tasks** as not done</string>
-    <string name="TodoTasksNotCompleted_many">un1 marked **{0} tasks** as not done</string>
-    <string name="TodoTasksNotCompletedOut_zero">You marked **{0} tasks** as not done</string>
-    <string name="TodoTasksNotCompletedOut_two">You marked **{0} tasks** as not done</string>
-    <string name="TodoTasksNotCompletedOut_few">You marked **{0} tasks** as not done</string>
-    <string name="TodoTasksNotCompletedOut_many">You marked **{0} tasks** as not done</string>
     <string name="SendDirectMessage">Send direct message</string>
     <string name="UnlockPremiumEmojiHint">Subscribe to **Telegram Premium** to unlock this emoji.</string>
     <string name="UnlockPremiumEmojiReaction">Subscribe to **Telegram Premium** to unlock this reaction.</string>
@@ -13394,91 +12250,7 @@
 
   <!-- new from translations.telegram.org -->
 
-  <string name="Gift2CollectionNumberBy_zero">Collectible #{0} by **{1}**</string>
-  <string name="Gift2CollectionNumberBy_two">Collectible #{0} by **{1}**</string>
-  <string name="Gift2CollectionNumberBy_few">Collectible #{0} by **{1}**</string>
-  <string name="Gift2CollectionNumberBy_many">Collectible #{0} by **{1}**</string>
-  <string name="Gift2PerUserLimit_zero">You already sent **{0}** of these gifts, which is the limit.</string>
-  <string name="Gift2PerUserLimit_two">You already sent **{0}** of these gifts, which is the limit.</string>
-  <string name="Gift2PerUserLimit_few">You already sent **{0}** of these gifts, which is the limit.</string>
-  <string name="Gift2PerUserLimit_many">You already sent **{0}** of these gifts, which is the limit.</string>
-  <string name="Gift2PremiumSubtitleMany_zero">Subscribe to **Telegram Premium** to send up to **{0}** of these gifts and unlock powerful features.</string>
-  <string name="Gift2PremiumSubtitleMany_two">Subscribe to **Telegram Premium** to send up to **{0}** of these gifts and unlock powerful features.</string>
-  <string name="Gift2PremiumSubtitleMany_few">Subscribe to **Telegram Premium** to send up to **{0}** of these gifts and unlock powerful features.</string>
-  <string name="Gift2PremiumSubtitleMany_many">Subscribe to **Telegram Premium** to send up to **{0}** of these gifts and unlock powerful features.</string>
-  <string name="Gift2SentRemainsLimit_zero">You can send **{0}** more.</string>
-  <string name="Gift2SentRemainsLimit_two">You can send **{0}** more.</string>
-  <string name="Gift2SentRemainsLimit_few">You can send **{0}** more.</string>
-  <string name="Gift2SentRemainsLimit_many">You can send **{0}** more.</string>
-  <string name="GiftAddedToCollectionTitle_zero">{0} gifts saved to **{1}**</string>
-  <string name="GiftAddedToCollectionTitle_two">{0} gifts saved to **{1}**</string>
-  <string name="GiftAddedToCollectionTitle_few">{0} gifts saved to **{1}**</string>
-  <string name="GiftAddedToCollectionTitle_many">{0} gifts saved to **{1}**</string>
-  <string name="GiftRemovedFromCollectionTitle_zero">{0} gifts removed from **{1}**</string>
-  <string name="GiftRemovedFromCollectionTitle_two">{0} gifts removed from **{1}**</string>
-  <string name="GiftRemovedFromCollectionTitle_few">{0} gifts removed from **{1}**</string>
-  <string name="GiftRemovedFromCollectionTitle_many">{0} gifts removed from **{1}**</string>
-  <string name="MessageContainsReactionsPacks_zero">Emoji from **{0} packs** were used as reactions.</string>
   <string name="MessageContainsReactionsPacks_one"></string>
-  <string name="MessageContainsReactionsPacks_two">Emoji from **{0} packs** were used as reactions.</string>
-  <string name="MessageContainsReactionsPacks_few">Emoji from **{0} packs** were used as reactions.</string>
-  <string name="MessageContainsReactionsPacks_many">Emoji from **{0} packs** were used as reactions.</string>
-  <string name="SearchPaidStars_zero">**{0} Stars** spent on extra search.</string>
-  <string name="SearchPaidStars_two">**{0} Stars** spent on extra search.</string>
-  <string name="SearchPaidStars_few">**{0} Stars** spent on extra search.</string>
-  <string name="SearchPaidStars_many">**{0} Stars** spent on extra search.</string>
-  <string name="SearchPostsButtonPay_zero">Search for &#11088;&#65039;{0}</string>
-  <string name="SearchPostsButtonPay_two">Search for &#11088;&#65039;{0}</string>
-  <string name="SearchPostsButtonPay_few">Search for &#11088;&#65039;{0}</string>
-  <string name="SearchPostsButtonPay_many">Search for &#11088;&#65039;{0}</string>
-  <string name="SearchPostsFreeSearches_zero">{0} free searches remaining today.</string>
-  <string name="SearchPostsFreeSearches_two">{0} free searches remaining today.</string>
-  <string name="SearchPostsFreeSearches_few">{0} free searches remaining today.</string>
-  <string name="SearchPostsFreeSearches_many">{0} free searches remaining today.</string>
-  <string name="SearchPostsLimitReachedText_zero">You can make up to {0} search queries per day.</string>
-  <string name="SearchPostsLimitReachedText_two">You can make up to {0} search queries per day.</string>
-  <string name="SearchPostsLimitReachedText_few">You can make up to {0} search queries per day.</string>
-  <string name="SearchPostsLimitReachedText_many">You can make up to {0} search queries per day.</string>
-  <string name="StarRatingFuture_zero">This rating will update in {0} days.</string>
-  <string name="StarRatingFuture_two">This rating will update in {0} days.</string>
-  <string name="StarRatingFuture_few">This rating will update in {0} days.</string>
-  <string name="StarRatingFuture_many">This rating will update in {0} days.</string>
-  <string name="StarRatingFuturePendingPoints_zero">{0} points are pending.</string>
-  <string name="StarRatingFuturePendingPoints_two">{0} points are pending.</string>
-  <string name="StarRatingFuturePendingPoints_few">{0} points are pending.</string>
-  <string name="StarRatingFuturePendingPoints_many">{0} points are pending.</string>
-  <string name="StarRatingFuturePendingPointsAndLevel1_zero">{0} points and</string>
-  <string name="StarRatingFuturePendingPointsAndLevel1_two">{0} points and</string>
-  <string name="StarRatingFuturePendingPointsAndLevel1_few">{0} points and</string>
-  <string name="StarRatingFuturePendingPointsAndLevel1_many">{0} points and</string>
-  <string name="StarRatingFuturePendingPointsAndLevel2_zero">Level {0} are pending.</string>
-  <string name="StarRatingFuturePendingPointsAndLevel2_two">Level {0} are pending.</string>
-  <string name="StarRatingFuturePendingPointsAndLevel2_few">Level {0} are pending.</string>
-  <string name="StarRatingFuturePendingPointsAndLevel2_many">Level {0} are pending.</string>
-  <string name="StarRatingFuturePreview1_zero">This will be your rating in {0} days, after</string>
-  <string name="StarRatingFuturePreview1_two">This will be your rating in {0} days, after</string>
-  <string name="StarRatingFuturePreview1_few">This will be your rating in {0} days, after</string>
-  <string name="StarRatingFuturePreview1_many">This will be your rating in {0} days, after</string>
-  <string name="StarRatingFuturePreview2_zero">{0} points are added.</string>
-  <string name="StarRatingFuturePreview2_two">{0} points are added.</string>
-  <string name="StarRatingFuturePreview2_few">{0} points are added.</string>
-  <string name="StarRatingFuturePreview2_many">{0} points are added.</string>
-  <string name="StarRatingLevelNegativeYou_zero">A negative rating indicates that your payments are unreliable. Spend **{0} Stars** to fix this issue.</string>
-  <string name="StarRatingLevelNegativeYou_two">A negative rating indicates that your payments are unreliable. Spend **{0} Stars** to fix this issue.</string>
-  <string name="StarRatingLevelNegativeYou_few">A negative rating indicates that your payments are unreliable. Spend **{0} Stars** to fix this issue.</string>
-  <string name="StarRatingLevelNegativeYou_many">A negative rating indicates that your payments are unreliable. Spend **{0} Stars** to fix this issue.</string>
-  <string name="StoryAddedToAlbumTitle_zero">{0} stories saved to **{1}**</string>
-  <string name="StoryAddedToAlbumTitle_two">{0} stories saved to **{1}**</string>
-  <string name="StoryAddedToAlbumTitle_few">{0} stories saved to **{1}**</string>
-  <string name="StoryAddedToAlbumTitle_many">{0} stories saved to **{1}**</string>
-  <string name="StoryRemovedFromAlbumTitle_zero">{0} stories removed from **{1}**</string>
-  <string name="StoryRemovedFromAlbumTitle_two">{0} stories removed from **{1}**</string>
-  <string name="StoryRemovedFromAlbumTitle_few">{0} stories removed from **{1}**</string>
-  <string name="StoryRemovedFromAlbumTitle_many">{0} stories removed from **{1}**</string>
-  <string name="TonCount_zero">{0} Grams</string>
-  <string name="TonCount_two">{0} Grams</string>
-  <string name="TonCount_few">{0} Grams</string>
-  <string name="TonCount_many">{0} Grams</string>
 
     <string name="GroupJoinLinkText2One">**{0}** already joined this group.</string>
     <string name="GroupJoinLinkText2Two">**{0}** and **{1}** already joined this group.</string>
@@ -13506,10 +12278,10 @@
     <string name="AudioSaveTo">Save to...</string>
     <string name="AudioSaveToInfo">Choose where you want this audio to be saved.</string>
     <string name="AudioSaveToFiles">Files</string>
-    <string name="AudioSaveToMyProfile">Profile</string>
+    <string name="AudioSaveToMyProfile">To Profile</string>
     <string name="AudioSaveToMyProfileSaved">Audio added to your Profile.</string>
     <string name="AudioSaveToMyProfileUnsaved">Audio removed from your Profile.</string>
-    <string name="AudioSaveToSavedMessages">Saved Messages</string>
+    <string name="AudioSaveToSavedMessages">To Saved Messages</string>
     <string name="AudioSaveToSavedMessagesSaved">Audio sent to Saved Messages.</string>
 
     <string name="BoostingBoostGroupMenu">Boost Group</string>
@@ -13740,14 +12512,6 @@
     <string name="ShortMinutesAgo_other">{0}m</string>
     <string name="ShortHoursAgo_one">{0}h</string>
     <string name="ShortHoursAgo_other">{0}h</string>
-    <string name="ShortHoursAgo_zero">{0}h</string>
-    <string name="ShortHoursAgo_two">{0}h</string>
-    <string name="ShortHoursAgo_few">{0}h</string>
-    <string name="ShortHoursAgo_many">{0}h</string>
-    <string name="ShortMinutesAgo_zero">{0}m</string>
-    <string name="ShortMinutesAgo_two">{0}m</string>
-    <string name="ShortMinutesAgo_few">{0}m</string>
-    <string name="ShortMinutesAgo_many">{0}m</string>
 
     <string name="CocoonFeature1Text">No third party can access any data, such as translations, inside **@cocoon**.</string>
     <string name="CocoonFeature1TextLink">https://t.me/cocoon</string>
@@ -13867,7 +12631,7 @@
     <string name="DisableSharingInfoHeader2">No Forwarding</string>
     <string name="DisableSharingInfoHeader3">No Saving</string>
     <string name="DisableSharingInfoText1">Disable screenshots and screen recordings in this chat.</string>
-    <string name="DisableSharingInfoText2">Disable message forwarding to other chats.</string>
+    <string name="DisableSharingInfoText2">Disable forwarding messages to other chats.</string>
     <string name="DisableSharingInfoText3">Disable copying text and saving photos or videos.</string>
     <string name="DisableSharingToastDisabled">Sharing disabled for this chat</string>
     <string name="DisableSharingToastEnabled">Sharing enabled for this chat</string>
@@ -13983,86 +12747,6 @@
 
   <!-- new from translations.telegram.org -->
 
-  <string name="GiftCraftFailedText_zero">The crafting attempt was unsuccessful.\n**{0}** gifts were lost.</string>
-  <string name="GiftCraftFailedText_two">The crafting attempt was unsuccessful.\n**{0}** gifts were lost.</string>
-  <string name="GiftCraftFailedText_few">The crafting attempt was unsuccessful.\n**{0}** gifts were lost.</string>
-  <string name="GiftCraftFailedText_many">The crafting attempt was unsuccessful.\n**{0}** gifts were lost.</string>
-  <string name="GiftOfferHours_zero">{0} hours</string>
-  <string name="GiftOfferHours_two">{0} hours</string>
-  <string name="GiftOfferHours_few">{0} hours</string>
-  <string name="GiftOfferHours_many">{0} hours</string>
-  <string name="GiftPreviewCountBackdrops_zero">This collection features **{0}** unique backdrops</string>
-  <string name="GiftPreviewCountBackdrops_two">This collection features **{0}** unique backdrops</string>
-  <string name="GiftPreviewCountBackdrops_few">This collection features **{0}** unique backdrops</string>
-  <string name="GiftPreviewCountBackdrops_many">This collection features **{0}** unique backdrops</string>
-  <string name="GiftPreviewCountModels_zero">This collection features **{0}** unique models</string>
-  <string name="GiftPreviewCountModels_two">This collection features **{0}** unique models</string>
-  <string name="GiftPreviewCountModels_few">This collection features **{0}** unique models</string>
-  <string name="GiftPreviewCountModels_many">This collection features **{0}** unique models</string>
-  <string name="GiftPreviewCountSymbols_zero">This collection features **{0}** unique symbols</string>
-  <string name="GiftPreviewCountSymbols_two">This collection features **{0}** unique symbols</string>
-  <string name="GiftPreviewCountSymbols_few">This collection features **{0}** unique symbols</string>
-  <string name="GiftPreviewCountSymbols_many">This collection features **{0}** unique symbols</string>
-  <string name="GroupCallLinkText2Unknown_zero">**{0}** people already joined this call.</string>
-  <string name="GroupCallLinkText2Unknown_two">**{0}** people already joined this call.</string>
-  <string name="GroupCallLinkText2Unknown_few">**{0}** people already joined this call.</string>
-  <string name="GroupCallLinkText2Unknown_many">**{0}** people already joined this call.</string>
-  <string name="GroupJoinLinkText2Many_zero">**{1}**, **{2}** and **{0}** more people already joined this group.</string>
-  <string name="GroupJoinLinkText2Many_two">**{1}**, **{2}** and **{0}** more people already joined this group.</string>
-  <string name="GroupJoinLinkText2Many_few">**{1}**, **{2}** and **{0}** more people already joined this group.</string>
-  <string name="GroupJoinLinkText2Many_many">**{1}**, **{2}** and **{0}** more people already joined this group.</string>
-  <string name="GroupJoinLinkText2Unknown_zero">**{0}** people already joined this group.</string>
-  <string name="GroupJoinLinkText2Unknown_two">**{0}** people already joined this group.</string>
-  <string name="GroupJoinLinkText2Unknown_few">**{0}** people already joined this group.</string>
-  <string name="GroupJoinLinkText2Unknown_many">**{0}** people already joined this group.</string>
-  <string name="InDays_zero">in {0} days</string>
-  <string name="InDays_two">in {0} days</string>
-  <string name="InDays_few">in {0} days</string>
-  <string name="InDays_many">in {0} days</string>
-  <string name="InHours_zero">in {0} hours</string>
-  <string name="InHours_two">in {0} hours</string>
-  <string name="InHours_few">in {0} hours</string>
-  <string name="InHours_many">in {0} hours</string>
-  <string name="InMinutes_zero">in {0} minutes</string>
-  <string name="InMinutes_two">in {0} minutes</string>
-  <string name="InMinutes_few">in {0} minutes</string>
-  <string name="InMinutes_many">in {0} minutes</string>
-  <string name="InMonths_zero">in {0} months</string>
-  <string name="InMonths_two">in {0} months</string>
-  <string name="InMonths_few">in {0} months</string>
-  <string name="InMonths_many">in {0} months</string>
-  <string name="InSeconds_zero">in {0} seconds</string>
-  <string name="InSeconds_two">in {0} seconds</string>
-  <string name="InSeconds_few">in {0} seconds</string>
-  <string name="InSeconds_many">in {0} seconds</string>
-  <string name="InYears_zero">in {0} years</string>
-  <string name="InYears_two">in {0} years</string>
-  <string name="InYears_few">in {0} years</string>
-  <string name="InYears_many">in {0} years</string>
-  <string name="InviteRestrictedUsers_zero">**{0} users** restrict adding them to groups. You can send them an invite link instead.</string>
-  <string name="InviteRestrictedUsers_two">**{0} users** restrict adding them to groups. You can send them an invite link instead.</string>
-  <string name="InviteRestrictedUsers_few">**{0} users** restrict adding them to groups. You can send them an invite link instead.</string>
-  <string name="InviteRestrictedUsers_many">**{0} users** restrict adding them to groups. You can send them an invite link instead.</string>
-  <string name="InviteRestrictedUsers2_zero">**{0} users** can only be invited via link, but you don\'t have permission to share invite links to this group.</string>
-  <string name="InviteRestrictedUsers2_two">**{0} users** can only be invited via link, but you don\'t have permission to share invite links to this group.</string>
-  <string name="InviteRestrictedUsers2_few">**{0} users** can only be invited via link, but you don\'t have permission to share invite links to this group.</string>
-  <string name="InviteRestrictedUsers2_many">**{0} users** can only be invited via link, but you don\'t have permission to share invite links to this group.</string>
-  <string name="LeaveCommunities_zero">Leave {0} communities</string>
-  <string name="LeaveCommunities_two">Leave {0} communities</string>
-  <string name="LeaveCommunities_few">Leave {0} communities</string>
-  <string name="LeaveCommunities_many">Leave {0} communities</string>
-  <string name="LiveStoryWatching_zero">{0} watching</string>
-  <string name="LiveStoryWatching_two">{0} watching</string>
-  <string name="LiveStoryWatching_few">{0} watching</string>
-  <string name="LiveStoryWatching_many">{0} watching</string>
-  <string name="MessageScheduledRepeatMonthlyMany_zero">{0}-monthly</string>
-  <string name="MessageScheduledRepeatMonthlyMany_two">{0}-monthly</string>
-  <string name="MessageScheduledRepeatMonthlyMany_few">{0}-monthly</string>
-  <string name="MessageScheduledRepeatMonthlyMany_many">{0}-monthly</string>
-  <string name="SecondsAgo_zero">{0} seconds ago</string>
-  <string name="SecondsAgo_two">{0} seconds ago</string>
-  <string name="SecondsAgo_few">{0} seconds ago</string>
-  <string name="SecondsAgo_many">{0} seconds ago</string>
 
     <string name="AIEditor">AI Editor</string>
     <string name="AIEditorHint">Rewrite, translate and correct your text using AI.</string>
@@ -14369,7 +13053,6 @@
     <string name="WelcomeMessageEmptySubtitle">Automatically greet new\nmembers when they join.</string>
     <string name="WelcomeMessageEmptyTitle">Create a Welcome\nMessage</string>
     <string name="WelcomeMessageEnter">Add a message</string>
-    <string name="WelcomeMessageHint">New members will see these messages when they join</string>
     <string name="WelcomeMessageHint2">Click it to delete</string>
     <string name="WelcomeMessageOff">Off</string>
     <string name="WelcomeMessagesLimit_one">Limit of **{0}** message reached.</string>
@@ -14410,38 +13093,6 @@
 
   <!-- new from translations.telegram.org -->
 
-  <string name="AIEditorUsedBy_zero">Used by {0} people.</string>
-  <string name="AIEditorUsedBy_two">Used by {0} people.</string>
-  <string name="AIEditorUsedBy_few">Used by {0} people.</string>
-  <string name="AIEditorUsedBy_many">Used by {0} people.</string>
-  <string name="ApproveNewMembersDisableForLinks_zero">Also disable **Approve New Members** for **{0} existing invite links** in this group?</string>
-  <string name="ApproveNewMembersDisableForLinks_two">Also disable **Approve New Members** for **{0} existing invite links** in this group?</string>
-  <string name="ApproveNewMembersDisableForLinks_few">Also disable **Approve New Members** for **{0} existing invite links** in this group?</string>
-  <string name="ApproveNewMembersDisableForLinks_many">Also disable **Approve New Members** for **{0} existing invite links** in this group?</string>
-  <string name="ApproveNewMembersDisableForLinksChannel_zero">Also disable **Approve New Members** for **{0} existing invite links** in this channel?</string>
-  <string name="ApproveNewMembersDisableForLinksChannel_two">Also disable **Approve New Members** for **{0} existing invite links** in this channel?</string>
-  <string name="ApproveNewMembersDisableForLinksChannel_few">Also disable **Approve New Members** for **{0} existing invite links** in this channel?</string>
-  <string name="ApproveNewMembersDisableForLinksChannel_many">Also disable **Approve New Members** for **{0} existing invite links** in this channel?</string>
-  <string name="ApproveNewMembersEnableForLinks_zero">Also enable **Approve New Members** for **{0} existing invite links** in this group?</string>
-  <string name="ApproveNewMembersEnableForLinks_two">Also enable **Approve New Members** for **{0} existing invite links** in this group?</string>
-  <string name="ApproveNewMembersEnableForLinks_few">Also enable **Approve New Members** for **{0} existing invite links** in this group?</string>
-  <string name="ApproveNewMembersEnableForLinks_many">Also enable **Approve New Members** for **{0} existing invite links** in this group?</string>
-  <string name="ApproveNewMembersEnableForLinksChannel_zero">Also enable **Approve New Members** for **{0} existing invite links** in this channel?</string>
-  <string name="ApproveNewMembersEnableForLinksChannel_two">Also enable **Approve New Members** for **{0} existing invite links** in this channel?</string>
-  <string name="ApproveNewMembersEnableForLinksChannel_few">Also enable **Approve New Members** for **{0} existing invite links** in this channel?</string>
-  <string name="ApproveNewMembersEnableForLinksChannel_many">Also enable **Approve New Members** for **{0} existing invite links** in this channel?</string>
-  <string name="PollV2AllowedCountriesListManyP_zero">{0} countries</string>
-  <string name="PollV2AllowedCountriesListManyP_two">{0} countries</string>
-  <string name="PollV2AllowedCountriesListManyP_few">{0} countries</string>
-  <string name="PollV2AllowedCountriesListManyP_many">{0} countries</string>
-  <string name="ProfilePollsCount_zero">{0} polls</string>
-  <string name="ProfilePollsCount_two">{0} polls</string>
-  <string name="ProfilePollsCount_few">{0} polls</string>
-  <string name="ProfilePollsCount_many">{0} polls</string>
-  <string name="WelcomeMessagesLimit_zero">Limit of **{0}** messages reached.</string>
-  <string name="WelcomeMessagesLimit_two">Limit of **{0}** messages reached.</string>
-  <string name="WelcomeMessagesLimit_few">Limit of **{0}** messages reached.</string>
-  <string name="WelcomeMessagesLimit_many">Limit of **{0}** messages reached.</string>
 
     <string name="FilterChatAddedToExisting">**{0}** added to **{1}**.</string>
     <string name="FilterChatRemovedFrom">**{0}** removed from **{1}**.</string>
@@ -14795,10 +13446,6 @@
     <string name="WalletImportPhraseInfo">Enter the {0}-word Secret Phrase from another wallet you own.</string>
     <string name="WalletPhraseWords_one">{0} word</string>
     <string name="WalletPhraseWords_other">{0} words</string>
-    <string name="WalletPhraseWords_few">{0} words</string>
-    <string name="WalletPhraseWords_many">{0} words</string>
-    <string name="WalletPhraseWords_two">{0} words</string>
-    <string name="WalletPhraseWords_zero">{0} words</string>
 
     <string name="WalletAddressOrName">Address or name</string>
     <string name="WalletSearchNoResults">There were no results for \"{0}\".\nTry another name or address.</string>
@@ -14863,18 +13510,10 @@
     <string name="WalletMovedFromProfile">moved from profile</string>
     <string name="WalletMovedToProfile">moved to profile</string>
 
-    <string name="Grams_few">{0} Grams</string>
-    <string name="Grams_many">{0} Grams</string>
     <string name="Grams_one">{0} Gram</string>
     <string name="Grams_other">{0} Grams</string>
-    <string name="Grams_two">{0} Grams</string>
-    <string name="Grams_zero">{0} Grams</string>
-    <string name="GramCapital_few">{0} GRAM</string>
-    <string name="GramCapital_many">{0} GRAM</string>
     <string name="GramCapital_one">{0} GRAM</string>
     <string name="GramCapital_other">{0} GRAM</string>
-    <string name="GramCapital_two">{0} GRAM</string>
-    <string name="GramCapital_zero">{0} GRAM</string>
 
     <string name="GramEarnings">Gram Earnings</string>
     <string name="GramEarningsHint">You can withdraw your Grams using Fragment.</string>
@@ -14925,10 +13564,6 @@
     <string name="Gift2ExportTONUnlocksAlertTitle">Unlocking in progress</string>
     <string name="Gift2ExportTONUnlocksAlertText_one">In {0} day, you\'ll be able to send this collectible to any TON blockchain address outside Telegram for sale or auction.</string>
     <string name="Gift2ExportTONUnlocksAlertText_other">In {0} days, you\'ll be able to send this collectible to any TON blockchain address outside Telegram for sale or auction.</string>
-    <string name="Gift2ExportTONUnlocksAlertText_zero">In {0} days, you\'ll be able to send this collectible to any TON blockchain address outside Telegram for sale or auction.</string>
-    <string name="Gift2ExportTONUnlocksAlertText_two">In {0} days, you\'ll be able to send this collectible to any TON blockchain address outside Telegram for sale or auction.</string>
-    <string name="Gift2ExportTONUnlocksAlertText_few">In {0} days, you\'ll be able to send this collectible to any TON blockchain address outside Telegram for sale or auction.</string>
-    <string name="Gift2ExportTONUnlocksAlertText_many">In {0} days, you\'ll be able to send this collectible to any TON blockchain address outside Telegram for sale or auction.</string>
     <string name="Gift2ExportTONFragmentTitle">Manage with Fragment</string>
     <string name="Gift2ExportTONFragmentText">You can use Fragment, a third-party service, to transfer **{0}** to the TON blockchain. After that, you can manage it as an NFT with any TON wallet application.\n\nYou can also move such NFTs back to your Telegram account via Fragment.</string>
     <string name="Gift2TransferToTONAlertTitle">Security Check</string>
@@ -14958,46 +13593,20 @@
     <string name="RichPasteToastMarkdown">Pasted with Markdown formatting</string>
     <string name="RichPasteToastPlain">Paste as plain text instead</string>
 
+    <!--NOT FINAL: the send menu's switch for the chat's "Always use in this chat" rewrite, and the
+        toasts over the send button when it is turned on or off. Replace with the final strings
+        once they ship, and remove this block.-->
+    <string name="AIEditorRewriteWithAI">Rewrite with AI</string>
+    <string name="AIEditorAutoRewriteTurnOff">Turn Off Auto-Rewrite</string>
+    <string name="AIEditorAutoRewriteOn">Auto-Rewrite is ON</string>
+    <string name="AIEditorAutoRewriteOnText">Right-click to turn it off.</string>
+    <string name="AIEditorAutoRewriteOff">Auto-Rewrite is OFF</string>
+    <string name="AIEditorAutoRewriteOffText">Right-click to turn it on.</string>
+
   <!-- new from translations.telegram.org -->
 
-  <string name="BotInviteDoneMany_zero">{0} users were invited to **{1}**.</string>
-  <string name="BotInviteDoneMany_two">{0} users were invited to **{1}**.</string>
-  <string name="BotInviteDoneMany_few">{0} users were invited to **{1}**.</string>
-  <string name="BotInviteDoneMany_many">{0} users were invited to **{1}**.</string>
-  <string name="ShortcutsImportIgnored_zero">{0} entries ignored</string>
-  <string name="ShortcutsImportIgnored_two">{0} entries ignored</string>
-  <string name="ShortcutsImportIgnored_few">{0} entries ignored</string>
-  <string name="ShortcutsImportIgnored_many">{0} entries ignored</string>
-  <string name="ShortcutsImported_zero">{0} shortcuts imported</string>
-  <string name="ShortcutsImported_two">{0} shortcuts imported</string>
-  <string name="ShortcutsImported_few">{0} shortcuts imported</string>
-  <string name="ShortcutsImported_many">{0} shortcuts imported</string>
-  <string name="ShortcutsResults_zero">{0} shortcuts</string>
-  <string name="ShortcutsResults_two">{0} shortcuts</string>
-  <string name="ShortcutsResults_few">{0} shortcuts</string>
-  <string name="ShortcutsResults_many">{0} shortcuts</string>
-  <string name="StoryKeepInfo_zero">Keep this story on your page even after it expires in {0} hours. Privacy settings will apply.</string>
-  <string name="StoryKeepInfo_two">Keep this story on your page even after it expires in {0} hours. Privacy settings will apply.</string>
-  <string name="StoryKeepInfo_few">Keep this story on your page even after it expires in {0} hours. Privacy settings will apply.</string>
-  <string name="StoryKeepInfo_many">Keep this story on your page even after it expires in {0} hours. Privacy settings will apply.</string>
-  <string name="StoryPeriodPremium_zero">Subscribe to **Telegram Premium** to make your stories disappear after {0} hours.</string>
-  <string name="StoryPeriodPremium_two">Subscribe to **Telegram Premium** to make your stories disappear after {0} hours.</string>
-  <string name="StoryPeriodPremium_few">Subscribe to **Telegram Premium** to make your stories disappear after {0} hours.</string>
-  <string name="StoryPeriodPremium_many">Subscribe to **Telegram Premium** to make your stories disappear after {0} hours.</string>
-  <string name="StoryPrivacyOptionExcludePeople_zero">except {0} people</string>
-  <string name="StoryPrivacyOptionExcludePeople_two">except {0} people</string>
-  <string name="StoryPrivacyOptionExcludePeople_few">except {0} people</string>
-  <string name="StoryPrivacyOptionExcludePeople_many">except {0} people</string>
-  <string name="StoryPrivacyOptionPeople_zero">{0} people</string>
-  <string name="StoryPrivacyOptionPeople_two">{0} people</string>
-  <string name="StoryPrivacyOptionPeople_few">{0} people</string>
-  <string name="StoryPrivacyOptionPeople_many">{0} people</string>
   <string name="VoipConferenceShareLink">Invite via Link</string>
-  <string name="WelcomeMessageHint_zero">New members will see these messages\nwhen they join</string>
   <string name="WelcomeMessageHint_one">New members will see this message\nwhen they join</string>
-  <string name="WelcomeMessageHint_two">New members will see these messages\nwhen they join</string>
-  <string name="WelcomeMessageHint_few">New members will see these messages\nwhen they join</string>
-  <string name="WelcomeMessageHint_many">New members will see these messages\nwhen they join</string>
   <string name="WelcomeMessageHint_other">New members will see these messages\nwhen they join</string>
 
   <string name="UseNavigationBar">Use Navigation Bar</string>

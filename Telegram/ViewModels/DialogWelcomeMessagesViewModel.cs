@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Collections;
+using Telegram.Common;
 using Telegram.Services;
 using Telegram.Td.Api;
 
@@ -67,7 +68,7 @@ namespace Telegram.ViewModels
 
             if (replied.Count > 0)
             {
-                replied.Insert(0, new WelcomeMessageViewModel(ClientService, _messageDelegateWeak, _chat, new Message(0, new MessageSenderChat(chat.Id), null, chat.Id, null, null, false, false, false, false, false, false, false, false, false, false, 0, 0, null, null, null, null, null, null, null, null, null, 0, 0, 0, null, 0, 0, string.Empty, 0, string.Empty, 0, 0, null, string.Empty, new MessageCustomServiceAction(Strings.WelcomeMessageHint), null, null)));
+                replied.Insert(0, new WelcomeMessageViewModel(ClientService, _messageDelegateWeak, _chat, new Message(0, new MessageSenderChat(chat.Id), null, chat.Id, null, null, false, false, false, false, false, false, false, false, false, false, 0, 0, null, null, null, null, null, null, null, null, null, 0, 0, 0, null, 0, 0, string.Empty, 0, string.Empty, 0, 0, null, string.Empty, new MessageCustomServiceAction(Locale.Declension(Strings.R.WelcomeMessageHint, count, false)), null, null)));
             }
 
             BeginOnUIThread(() =>
