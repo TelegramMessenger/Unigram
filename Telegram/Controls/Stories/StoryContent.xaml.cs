@@ -2621,8 +2621,10 @@ namespace Telegram.Controls.Stories
             }
             else if (args.ItemContainer.ContentTemplateRoot is LiveStoryMessageCell content && args.Item is GroupCallMessage message)
             {
+                // Not _call: Deactivate discards it while this list stays in the tree and keeps
+                // realizing containers through the move to the next story.
                 _topDonors.TryGetValue(message.SenderId, out int position);
-                content.Update(_call.ClientService, message, position);
+                content.Update(_viewModel.ClientService, message, position);
             }
         }
 
@@ -2673,7 +2675,7 @@ namespace Telegram.Controls.Stories
             else if (args.ItemContainer.ContentTemplateRoot is LiveStoryPinnedMessageCell content && args.Item is GroupCallMessage message)
             {
                 _topDonors.TryGetValue(message.SenderId, out int position);
-                content.Update(_call.ClientService, message, position);
+                content.Update(_viewModel.ClientService, message, position);
             }
         }
 
