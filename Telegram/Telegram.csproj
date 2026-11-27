@@ -465,6 +465,7 @@
     <Compile Include="Controls\ISelectableControl.cs" />
     <Compile Include="Controls\ITextPresenter.cs" />
     <Compile Include="Controls\ITrimmableText.cs" />
+    <Compile Include="Controls\TrimmableBlockPanel.cs" />
     <Compile Include="Common\TextSelectionManager.cs" />
     <Compile Include="Controls\Messages\MessageSummary.xaml.cs">
       <DependentUpon>MessageSummary.xaml</DependentUpon>

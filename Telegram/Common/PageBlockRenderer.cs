@@ -165,7 +165,7 @@ namespace Telegram.Common
                 PageBlockSlideshow slideshow => ProcessSlideshow(clientService, slideshow),
                 PageBlockCollage collage => ProcessCollage(clientService, collage),
                 PageBlockPullQuote pullquote => ProcessPullquote(clientService, pullquote),
-                PageBlockExpandableBlockQuote expandable => ProcessExpandableBlockquote(clientService, expandable),
+                PageBlockExpandableBlockQuote expandable => ProcessBlockquote(clientService, expandable, expandable.Blocks, true),
                 PageBlockDocument document => ProcessDocument(clientService, document),
                 PageBlockButtonRow buttonRow => ProcessButtonRow(clientService, buttonRow),
                 PageBlockAnchor anchor => ProcessAnchor(clientService, anchor),
@@ -1229,9 +1229,11 @@ namespace Telegram.Common
             return panel;
         }
 
-        private FrameworkElement ProcessBlockquote(IClientService clientService, PageBlock block, Vector<PageBlock> blocks)
+        private FrameworkElement ProcessBlockquote(IClientService clientService, PageBlock block, Vector<PageBlock> blocks, bool expandable = false)
         {
-            var content = new StackPanel(); //{ Style = _context.Resources["BlockBlockquoteStyle"] as Style };
+            Panel content = expandable
+                ? new TrimmableBlockPanel { MaxLines = 3 }
+                : new StackPanel();
 
             foreach (var item in blocks)
             {
@@ -1254,39 +1256,10 @@ namespace Telegram.Common
             return new BlockQuote
             {
                 Glyph = Icons.QuoteBlockFilled16,
+                IsExpandable = expandable,
                 Content = content,
                 Padding = new Thickness(8, 4, 24, 6)
             };
-        }
-
-        // BlockQuote.IsExpandable clamps only a single trimmable text, so the quote starts
-        // collapsed only when it is one paragraph without a credit.
-        // TODO: collapse a quote of several blocks, or one with a credit.
-        private FrameworkElement ProcessExpandableBlockquote(IClientService clientService, PageBlockExpandableBlockQuote block)
-        {
-            if (block.Blocks.Count == 1 && block.Blocks[0] is PageBlockParagraph paragraph && PageBlockHelper.IsEmpty(block.Credit))
-            {
-                var text = ProcessText(clientService, paragraph, false, false);
-                if (text == null)
-                {
-                    return null;
-                }
-
-                if (text is ITrimmableText trimmable)
-                {
-                    trimmable.MaxLines = 3;
-
-                    return new BlockQuote
-                    {
-                        Glyph = Icons.QuoteBlockFilled16,
-                        IsExpandable = true,
-                        Content = text,
-                        Padding = new Thickness(8, 4, 24, 6)
-                    };
-                }
-            }
-
-            return ProcessBlockquote(clientService, block, block.Blocks);
         }
 
         private FrameworkElement ProcessDocument(IClientService clientService, PageBlockDocument block)
