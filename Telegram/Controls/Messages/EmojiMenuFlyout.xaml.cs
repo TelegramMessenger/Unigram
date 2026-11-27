@@ -97,6 +97,14 @@ namespace Telegram.Controls.Messages
             Initialize(message.ClientService, element, EmojiFlyoutAlignment.Center, viewModel);
         }
 
+        /// <summary>
+        /// Closes the picker.
+        /// </summary>
+        public void Hide()
+        {
+            _popup.IsOpen = false;
+        }
+
         private void OnClosed(object sender, object e)
         {
             _popup.Closed -= OnClosed;
@@ -632,14 +640,7 @@ namespace Telegram.Controls.Messages
             }
             else
             {
-                // Shown in the button at once, which plays its effect once the story is updated
-                // with it.
-                if (_reserved is StoryReactionButton target && target.IsLoaded)
-                {
-                    target.Choose(reaction.Type);
-                }
-
-                _story.ClientService.Send(new SetStoryReaction(_story.PosterChatId, _story.Id, reaction.Type, true));
+                ReactionsMenuFlyout.StorySetReaction(_story, reaction.Type, _reserved as StoryReactionButton);
             }
         }
 

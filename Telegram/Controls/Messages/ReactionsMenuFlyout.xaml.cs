@@ -55,7 +55,11 @@ namespace Telegram.Controls.Messages
 
         // Set when shown on its own above an element rather than over a menu.
         private readonly FrameworkElement _anchor;
+        private readonly bool _focusFirst;
         private bool _expanding;
+
+        // The full picker for a story, while it is open in place of the strip or the menu.
+        private EmojiMenuFlyout _expanded;
 
         public ReactionsMenuFlyout()
         {
@@ -100,21 +104,24 @@ namespace Telegram.Controls.Messages
 
         /// <summary>
         /// Offers <paramref name="reactions"/> for <paramref name="story"/> above
-        /// <paramref name="anchor"/>, with no menu under them, until one is chosen or the pointer
-        /// goes elsewhere. <see cref="Dismissed"/> reports when neither this nor the full picker
-        /// opened from it is open anymore.
+        /// <paramref name="anchor"/>, with no menu under them, until one is chosen, a click lands
+        /// elsewhere, Escape is pressed or <see cref="Hide"/> is called. With
+        /// <paramref name="focus"/>, as when opened from the keyboard, the first reaction takes the
+        /// focus. <see cref="Dismissed"/> reports when neither this nor the full picker opened from
+        /// it is open anymore.
         /// </summary>
-        public static ReactionsMenuFlyout ShowAt(AvailableReactions reactions, StoryViewModel story, StoryReactionButton anchor)
+        public static ReactionsMenuFlyout ShowAt(AvailableReactions reactions, StoryViewModel story, StoryReactionButton anchor, bool focus)
         {
-            return new ReactionsMenuFlyout(reactions, story, anchor);
+            return new ReactionsMenuFlyout(reactions, story, anchor, focus);
         }
 
-        private ReactionsMenuFlyout(AvailableReactions reactions, StoryViewModel story, StoryReactionButton anchor)
+        private ReactionsMenuFlyout(AvailableReactions reactions, StoryViewModel story, StoryReactionButton anchor, bool focus)
         {
             _reactions = reactions;
             _story = story;
             _reserved = anchor;
             _anchor = anchor;
+            _focusFirst = focus;
 
             _viewModel = EmojiDrawerViewModel.Create(story.ClientService.Session, EmojiDrawerMode.Reactions);
 
@@ -123,6 +130,32 @@ namespace Telegram.Controls.Messages
         }
 
         public event EventHandler Dismissed;
+
+        /// <summary>
+        /// The story the reactions are offered for, if any.
+        /// </summary>
+        public StoryViewModel Story => _story;
+
+        /// <summary>
+        /// Whether the strip, or the full picker expanded from it, is still open.
+        /// </summary>
+        public bool IsOpen => _popup?.IsOpen is true || _expanded != null;
+
+        /// <summary>
+        /// Closes the strip and the full picker expanded from it, which live in popups of their
+        /// own and so outlive whatever closes the element they were shown for.
+        /// </summary>
+        public void Hide()
+        {
+            _expanded?.Hide();
+
+            if (_popup != null)
+            {
+                _popup.IsOpen = false;
+            }
+
+            _flyout?.Hide();
+        }
 
         /// <summary>
         /// Raised for a story when the full picker is about to replace the menu the reactions are
@@ -444,6 +477,12 @@ namespace Telegram.Controls.Messages
             }
 
             Presenter.ColumnDefinitions.Add(1, GridUnitType.Auto);
+
+            // Nothing else gives the focus to the strip when it stands on its own.
+            if (_focusFirst && _popup.IsOpen && FocusManager.FindFirstFocusableElement(Presenter) is Control firstReaction)
+            {
+                firstReaction.Focus(FocusState.Keyboard);
+            }
         }
 
         public static ReactionsMenuFlyout ShowAt(IClientService clientService, Vector<long> effectIds, FrameworkElement reserved, MenuFlyout flyout)
@@ -1005,6 +1044,11 @@ namespace Telegram.Controls.Messages
                 var direction = e.Key is VirtualKey.Right ? FocusNavigationDirection.Right : FocusNavigationDirection.Left;
                 FocusManager.TryMoveFocus(direction, new FindNextElementOptions { SearchRoot = Presenter });
             }
+            else if (e.Key is VirtualKey.Escape && _anchor != null)
+            {
+                e.Handled = true;
+                _popup.IsOpen = false;
+            }
             else if (e.Key is VirtualKey.Up or VirtualKey.Down && _flyout != null)
             {
                 e.Handled = true;
@@ -1084,8 +1128,43 @@ namespace Telegram.Controls.Messages
             // Expanding closes the strip, and the picker opened in its place reports instead.
             if (!_expanding)
             {
+                RestoreFocus();
                 Dismissed?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        private void RestoreFocus()
+        {
+            // Opened from the keyboard, the focus would otherwise leave with the popup.
+            if (_focusFirst && _anchor is Control anchor && anchor.IsLoaded)
+            {
+                anchor.Focus(FocusState.Keyboard);
+            }
+        }
+
+        private void Expanded_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is EmojiMenuFlyout flyout)
+            {
+                flyout.Loaded -= Expanded_Loaded;
+            }
+
+            // The picker takes the strip's place, and reports in its place when closed.
+            _expanding = true;
+            _popup.IsOpen = false;
+        }
+
+        private void Expanded_Closed(object sender, EventArgs e)
+        {
+            if (sender is EmojiMenuFlyout flyout)
+            {
+                flyout.Closed -= Expanded_Closed;
+            }
+
+            _expanded = null;
+
+            RestoreFocus();
+            Dismissed?.Invoke(this, EventArgs.Empty);
         }
 
         private void Reaction_Click(object sender, RoutedEventArgs e)
@@ -1139,14 +1218,23 @@ namespace Telegram.Controls.Messages
             }
             else
             {
-                // Shown in the button at once, which plays its effect once the story is updated
-                // with it.
-                if (_reserved is StoryReactionButton target && target.IsLoaded)
-                {
-                    target.Choose(reaction.Type);
-                }
+                StorySetReaction(_story, reaction.Type, _reserved as StoryReactionButton);
+            }
+        }
 
-                _story.ClientService.Send(new SetStoryReaction(_story.PosterChatId, _story.Id, reaction.Type, true));
+        /// <summary>
+        /// Shows <paramref name="type"/> in <paramref name="target"/> with its effect at once, if it
+        /// still shows <paramref name="story"/>, and the reaction actually chosen again if TDLib
+        /// can't set it.
+        /// </summary>
+        internal static async void StorySetReaction(StoryViewModel story, ReactionType type, StoryReactionButton target)
+        {
+            target?.Choose(story, type);
+
+            var response = await story.ClientService.SendAsync(new SetStoryReaction(story.PosterChatId, story.Id, type, true));
+            if (response is Error)
+            {
+                target?.Restore(story);
             }
         }
 
@@ -1220,15 +1308,10 @@ namespace Telegram.Controls.Messages
             {
                 // Near the bottom of the window, so the picker opens upwards over the strip.
                 var flyout = EmojiMenuFlyout.ShowAt(this, _story, _reserved, _reactions, _viewModel, EmojiFlyoutAlignment.Top);
-                flyout.Closed += (s, args) =>
-                {
-                    Dismissed?.Invoke(this, EventArgs.Empty);
-                };
-                flyout.Loaded += (s, args) =>
-                {
-                    _expanding = true;
-                    _popup.IsOpen = false;
-                };
+                flyout.Closed += Expanded_Closed;
+                flyout.Loaded += Expanded_Loaded;
+
+                _expanded = flyout;
             }
             else if (_story != null)
             {
@@ -1236,10 +1319,10 @@ namespace Telegram.Controls.Messages
                 Expanding?.Invoke(this, EventArgs.Empty);
 
                 var flyout = EmojiMenuFlyout.ShowAt(this, _story, _reserved, _reactions, _viewModel);
-                flyout.Closed += (s, args) =>
-                {
-                    Dismissed?.Invoke(this, EventArgs.Empty);
-                };
+                flyout.Closed += Expanded_Closed;
+
+                _expanded = flyout;
+
                 flyout.Loaded += (s, args) =>
                 {
                     _flyout?.Hide();

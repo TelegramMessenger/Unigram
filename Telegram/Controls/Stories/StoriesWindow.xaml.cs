@@ -162,10 +162,27 @@ namespace Telegram.Controls.Stories
 
         private bool _done;
 
+        // The quick reactions open for the story on screen, from its menu or a reaction button,
+        // and the card they keep paused.
+        private ReactionsMenuFlyout _reactionsFlyout;
+        private StoryContent _reactionsCard;
+
         protected override void OnBackRequestedOverride(object sender, BackRequestedRoutedEventArgs e)
         {
             if (_done)
             {
+                return;
+            }
+
+            // The reactions live in popups of their own, outside the window's tree.
+            if (_reactionsFlyout?.IsOpen is true)
+            {
+                _reactionsFlyout.Hide();
+
+                // Still open, for the next request to close it.
+                Cancel();
+
+                e.Handled = true;
                 return;
             }
 
@@ -177,6 +194,8 @@ namespace Telegram.Controls.Stories
 
             _done = true;
             e.Handled = true;
+
+            _reactionsFlyout?.Hide();
 
             IsHitTestVisible = false;
             ActiveCard?.Suspend(StoryPauseSource.Window);
@@ -444,6 +463,13 @@ namespace Telegram.Controls.Stories
                         SetComposer(viewModel.Items[real]);
 
                         var selectedItem = viewModel.Items[real].SelectedItem;
+
+                        // Offered for another story, the reactions would react to it out of view.
+                        if (_reactionsFlyout != null && !IsSameStory(_reactionsFlyout.Story, selectedItem))
+                        {
+                            _reactionsFlyout.Hide();
+                        }
+
                         if (selectedItem == null)
                         {
                             return;
@@ -1201,8 +1227,10 @@ namespace Telegram.Controls.Stories
                             // Closing the menu resumes the story, which stays paused while the
                             // picker expanded from it is open.
                             var picker = ReactionsMenuFlyout.ShowAt(reactions, story, GetVisibleReactionButton(), flyout);
-                            picker.Expanding += (s, e) => ActiveCard.Suspend(StoryPauseSource.Popup);
-                            picker.Dismissed += (s, e) => ActiveCard.Resume(StoryPauseSource.Popup);
+                            picker.Expanding += MenuReactions_Expanding;
+                            picker.Dismissed += MenuReactions_Dismissed;
+
+                            _reactionsFlyout = picker;
                         }
                     }
                 };
@@ -1396,27 +1424,111 @@ namespace Telegram.Controls.Stories
         {
             args.Handled = true;
 
-            var story = _viewModel?.Items[_index].SelectedItem;
-            if (story == null || sender is not StoryReactionButton button)
+            var story = GetSelectedStory();
+            var card = ActiveCard;
+
+            if (story == null || card == null || sender is not StoryReactionButton button)
             {
                 return;
             }
 
+            // Opened from the keyboard, with no pointer position, the reactions take the focus.
+            var keyboard = !args.TryGetPosition(button, out _);
+
             // Paused while loading too, so that the story the reactions are for is still on screen.
-            ActiveCard.Suspend(StoryPauseSource.Flyout);
+            card.Suspend(StoryPauseSource.Flyout);
 
             var response = await story.ClientService.SendAsync(new GetStoryAvailableReactions(8));
+
+            // The viewer may have closed, or moved to another story, in the meantime.
             if (response is AvailableReactions reactions
                 && reactions.TopReactions.Count + reactions.RecentReactions.Count + reactions.PopularReactions.Count > 0
-                && button.IsLoaded)
+                && button.IsLoaded
+                && IsSameStory(story, GetSelectedStory()))
             {
-                var flyout = ReactionsMenuFlyout.ShowAt(reactions, story, button);
-                flyout.Dismissed += (s, e) => ActiveCard.Resume(StoryPauseSource.Flyout);
+                // One at a time: closing the one open resumes its story, paused again for this one.
+                _reactionsFlyout?.Hide();
+                card.Suspend(StoryPauseSource.Flyout);
+
+                var flyout = ReactionsMenuFlyout.ShowAt(reactions, story, button, keyboard);
+                flyout.Dismissed += ButtonReactions_Dismissed;
+
+                _reactionsFlyout = flyout;
+                _reactionsCard = card;
             }
             else
             {
-                ActiveCard.Resume(StoryPauseSource.Flyout);
+                card.Resume(StoryPauseSource.Flyout);
             }
+        }
+
+        /// <summary>
+        /// The story on screen, if the viewer is still open on one.
+        /// </summary>
+        private StoryViewModel GetSelectedStory()
+        {
+            if (_done || _viewModel == null || _index < 0 || _index >= _viewModel.Items.Count)
+            {
+                return null;
+            }
+
+            return _viewModel.Items[_index].SelectedItem;
+        }
+
+        private static bool IsSameStory(StoryViewModel x, StoryViewModel y)
+        {
+            return x != null
+                && y != null
+                && x.Id == y.Id
+                && x.PosterChatId == y.PosterChatId;
+        }
+
+        private void ButtonReactions_Dismissed(object sender, EventArgs e)
+        {
+            OnReactionsDismissed(sender, ButtonReactions_Dismissed, StoryPauseSource.Flyout);
+        }
+
+        private void MenuReactions_Expanding(object sender, EventArgs e)
+        {
+            if (sender is ReactionsMenuFlyout flyout)
+            {
+                flyout.Expanding -= MenuReactions_Expanding;
+            }
+
+            // The menu closing resumes the story, which stays paused while the picker is open.
+            _reactionsCard = ActiveCard;
+            _reactionsCard?.Suspend(StoryPauseSource.Popup);
+        }
+
+        private void MenuReactions_Dismissed(object sender, EventArgs e)
+        {
+            OnReactionsDismissed(sender, MenuReactions_Dismissed, StoryPauseSource.Popup);
+        }
+
+        private void OnReactionsDismissed(object sender, EventHandler handler, StoryPauseSource source)
+        {
+            // The card paused for them, which is no longer the active one after moving to
+            // another story.
+            var card = _reactionsCard ?? ActiveCard;
+
+            if (sender is ReactionsMenuFlyout flyout)
+            {
+                flyout.Dismissed -= handler;
+
+                if (flyout == _reactionsFlyout)
+                {
+                    _reactionsFlyout = null;
+                    _reactionsCard = null;
+                }
+            }
+
+            // Closed along with the window, which stays paused.
+            if (_done)
+            {
+                return;
+            }
+
+            card?.Resume(source);
         }
 
         /// <summary>
@@ -1580,7 +1692,7 @@ namespace Telegram.Controls.Stories
                     ? AppSettings.Stickers.SelectedTab
                     : Services.Settings.StickersTab.Emoji;
 
-                // As in the other apps, reacting gives way to sending while typing.
+                // Hidden while there is text, so sending takes its place.
                 ButtonReact.Visibility = empty
                     ? Visibility.Visible
                     : Visibility.Collapsed;

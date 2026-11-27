@@ -29,6 +29,7 @@ namespace Telegram.Controls.Stories
         private ReactionType _type;
         private bool _suggested;
         private bool _chosen;
+        private bool _empty;
         private int _count;
 
         private FrameworkElement _icon;
@@ -56,8 +57,8 @@ namespace Telegram.Controls.Stories
         public int ReactionSize { get; set; }
 
         /// <summary>
-        /// Whether the like button shows an empty heart while no reaction is chosen, as the reply
-        /// bars of the other apps do, rather than the heart a click would react with.
+        /// Whether the like button shows an empty heart while no reaction is chosen, rather than
+        /// the heart a click would react with.
         /// </summary>
         public bool ShowsEmptyHeart { get; set; }
 
@@ -66,6 +67,12 @@ namespace Telegram.Controls.Stories
 
         public override string GetAutomationName()
         {
+            // The empty heart counts nothing, and the button's own name says what it is for.
+            if (_empty)
+            {
+                return null;
+            }
+
             return _type switch
             {
                 ReactionTypeEmoji emoji => Locale.Declension(Strings.R.AccDescrNumberOfPeopleReactions, _count, emoji.Emoji),
@@ -128,13 +135,13 @@ namespace Telegram.Controls.Stories
         }
 
         /// <summary>
-        /// Shows <paramref name="reactionType"/>, just chosen somewhere else than this button, and
-        /// plays its effect. The update that follows finds it shown already, and leaves it be.
+        /// Shows <paramref name="reactionType"/>, just chosen for <paramref name="story"/> somewhere
+        /// else than this button, and plays its effect at once, if the button still shows that
+        /// story. The update that follows finds it shown already, and leaves it be.
         /// </summary>
-        public void Choose(ReactionType reactionType)
+        public void Choose(StoryViewModel story, ReactionType reactionType)
         {
-            var story = _story;
-            if (story == null || _suggested || !IsTemplateApplied)
+            if (!Shows(story) || _suggested || !IsTemplateApplied || !IsLoaded)
             {
                 return;
             }
@@ -142,8 +149,8 @@ namespace Telegram.Controls.Stories
             // An earlier choice may still be playing, or about to.
             StopAnimation();
 
+            // Left to the update to mark as chosen, which then animates the count as a click does.
             _type = reactionType;
-            _chosen = true;
 
             IsChecked = true;
 
@@ -152,6 +159,29 @@ namespace Telegram.Controls.Stories
             FitIcon();
 
             Animate();
+        }
+
+        /// <summary>
+        /// Shows again the reaction chosen for <paramref name="story"/>, if the button still shows
+        /// that story, after one passed to <see cref="Choose"/> could not be set.
+        /// </summary>
+        public void Restore(StoryViewModel story)
+        {
+            if (!Shows(story) || _suggested || !IsTemplateApplied)
+            {
+                return;
+            }
+
+            StopAnimation();
+            SetReaction(_story);
+        }
+
+        private bool Shows(StoryViewModel story)
+        {
+            return story != null
+                && _story != null
+                && story.Id == _story.Id
+                && story.PosterChatId == _story.PosterChatId;
         }
 
         /// <summary>
@@ -165,6 +195,8 @@ namespace Telegram.Controls.Stories
 
         private void ShowEmptyHeart(bool empty)
         {
+            _empty = empty;
+
             if (_glyph == null || _icon == null)
             {
                 return;
@@ -188,10 +220,21 @@ namespace Telegram.Controls.Stories
 
             // Larger than the box, as an emoji's animation is, the icon would be laid out from the
             // box's corner rather than centered on it: given room for it, it stays centered, and
-            // the box, and so the button, keeps its size whatever the reaction is. The effect,
-            // three times an emoji's size, is centered on the box too.
-            _icon.Margin = new Thickness(Math.Min(0, (ReactionSize - _icon.Width) / 2));
-            _overlay.Margin = new Thickness((ReactionSize - EmojiSize * 3) / 2.0);
+            // the box, and so the button, keeps its size whatever the reaction is. The size is the
+            // one UpdateIcon gives the icon, which a template applied again doesn't have yet.
+            var size = _type is ReactionTypeCustomEmoji or ReactionTypePaid ? CustomEmojiSize : EmojiSize;
+
+            _icon.Margin = new Thickness(Math.Min(0, (ReactionSize - size) / 2.0));
+
+            // The effect, three times an emoji's size, is centered on the box too. The template
+            // sizes its popup for a message's emoji: left smaller than the effect, the popup would
+            // be centered in the room the margin gives it, and the effect off center by the
+            // difference.
+            var effect = EmojiSize * 3;
+
+            _overlay.Width = effect;
+            _overlay.Height = effect;
+            _overlay.Margin = new Thickness((ReactionSize - effect) / 2.0);
         }
 
         private void UpdateCount(StoryViewModel story, ReactionType reactionType, bool suggested, bool animate)
@@ -248,7 +291,7 @@ namespace Telegram.Controls.Stories
             }
         }
 
-        private void OnClick(object sender, RoutedEventArgs e)
+        private async void OnClick(object sender, RoutedEventArgs e)
         {
             var story = _story;
             if (story == null || !IsTemplateApplied)
@@ -273,10 +316,17 @@ namespace Telegram.Controls.Stories
             }
             else
             {
+                // The empty heart gives way to the heart at once, and comes back if it can't be set.
+                var empty = _empty;
                 ShowEmptyHeart(false);
 
                 Animate();
-                story.ClientService.Send(new SetStoryReaction(story.PosterChatId, story.Id, _type, false));
+
+                var response = await story.ClientService.SendAsync(new SetStoryReaction(story.PosterChatId, story.Id, _type, false));
+                if (response is Error && empty)
+                {
+                    Restore(story);
+                }
             }
         }
     }
