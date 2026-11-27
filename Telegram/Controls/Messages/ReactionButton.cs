@@ -333,7 +333,7 @@ namespace Telegram.Controls.Messages
 
                 flyout.ShowAt(this, args);
 
-                var function = _message.ClientService.GetCustomEmojiStickerSets(new[] { customEmoji.CustomEmojiId });
+                var function = message.ClientService.GetCustomEmojiStickerSets(new[] { customEmoji.CustomEmojiId });
 
                 await Task.WhenAll(function, Task.Delay(250));
 
@@ -350,7 +350,7 @@ namespace Telegram.Controls.Messages
                     {
                         var player = new CustomEmojiIcon();
                         player.LoopCount = 0;
-                        player.Source = DelayedFileSource.FromStickerSetInfo(_message.ClientService, stickerSets.Sets[0]);
+                        player.Source = DelayedFileSource.FromStickerSetInfo(message.ClientService, stickerSets.Sets[0]);
 
                         player.HorizontalAlignment = HorizontalAlignment.Left;
                         player.FlowDirection = FlowDirection.LeftToRight;
@@ -397,12 +397,13 @@ namespace Telegram.Controls.Messages
 
         private async void ShowCustomEmoji()
         {
-            if (_reactionType is not ReactionTypeCustomEmoji customEmoji)
+            var message = _message;
+            if (message == null || _reactionType is not ReactionTypeCustomEmoji customEmoji)
             {
                 return;
             }
 
-            var response = await _message.ClientService.SendAsync(new GetCustomEmojiStickers(new[] { customEmoji.CustomEmojiId }));
+            var response = await message.ClientService.SendAsync(new GetCustomEmojiStickers(new[] { customEmoji.CustomEmojiId }));
             if (response is Stickers stickers)
             {
                 var sets = new HashSet<long>();
@@ -412,7 +413,7 @@ namespace Telegram.Controls.Messages
                     sets.Add(sticker.SetId);
                 }
 
-                await StickersPopup.ShowAsync(_message.Delegate.NavigationService, sets);
+                await StickersPopup.ShowAsync(message.Delegate.NavigationService, sets);
             }
         }
 
