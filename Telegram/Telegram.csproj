@@ -273,6 +273,7 @@
     <Compile Include="Common\TdThroughput.cs" />
     <Compile Include="Common\TextSelectionCoordinator.cs" />
     <Compile Include="Common\ThemeShadowEx.cs" />
+    <Compile Include="Common\GlyphShadow.cs" />
     <Compile Include="Common\OutlineMask.cs" />
     <Compile Include="Common\TextShadow.cs" />
     <Compile Include="Common\NormalizingStringBuilder.cs" />

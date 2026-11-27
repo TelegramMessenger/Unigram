@@ -18,15 +18,137 @@ using Windows.UI.Xaml.Media;
 
 namespace Telegram.Controls.Cells
 {
-    public sealed partial class ReceivedGiftCell : UserControl
+    public sealed partial class ReceivedGiftCell : Control
     {
+        private IClientService _clientService;
+        private object _gift;
+        private bool _transfer;
+        private bool _resale;
+        private bool _upgrade;
+
+        private GlyphShadow _pinnedShadow;
+
         public ReceivedGiftCell()
         {
-            InitializeComponent();
+            DefaultStyleKey = typeof(ReceivedGiftCell);
+        }
+
+        #region InitializeComponent
+
+        private Border PremiumRoot;
+        private PatternBackground Pattern;
+        private ProfilePicture Photo;
+        private Border PinnedShadowHost;
+        private TextBlock Pinned;
+        private TextBlock Locked;
+        private AnimatedImage Animated;
+        private Border Hidden;
+        private Grid StarCountRoot;
+        private AnimatedImage StarCountParticles;
+        private TextBlock StarCount;
+        private Grid ResaleStarCountRoot;
+        private TextBlock ResaleStarCount;
+        private Ribbon Ribbon;
+        private LinearGradientBrush RibbonGradient;
+        private GradientStop RibbonTop;
+        private GradientStop RibbonBottom;
+        private bool _templateApplied;
+
+        protected override void OnApplyTemplate()
+        {
+            Pattern = GetTemplateChild(nameof(Pattern)) as PatternBackground;
+            Photo = GetTemplateChild(nameof(Photo)) as ProfilePicture;
+            PinnedShadowHost = GetTemplateChild(nameof(PinnedShadowHost)) as Border;
+            Pinned = GetTemplateChild(nameof(Pinned)) as TextBlock;
+            Animated = GetTemplateChild(nameof(Animated)) as AnimatedImage;
+            StarCountRoot = GetTemplateChild(nameof(StarCountRoot)) as Grid;
+            StarCountParticles = GetTemplateChild(nameof(StarCountParticles)) as AnimatedImage;
+            StarCount = GetTemplateChild(nameof(StarCount)) as TextBlock;
+            Ribbon = GetTemplateChild(nameof(Ribbon)) as Ribbon;
+            RibbonGradient = GetTemplateChild(nameof(RibbonGradient)) as LinearGradientBrush;
+            RibbonTop = GetTemplateChild(nameof(RibbonTop)) as GradientStop;
+            RibbonBottom = GetTemplateChild(nameof(RibbonBottom)) as GradientStop;
+
+            // Deferred with x:Load: GetTemplateChild realizes them, so they are fetched when first shown.
+            PremiumRoot = null;
+            Locked = null;
+            Hidden = null;
+            ResaleStarCountRoot = null;
+            ResaleStarCount = null;
+
+            _pinnedShadow = null;
+
+            _templateApplied = true;
+
+            switch (_gift)
+            {
+                case ReceivedGift received when _transfer:
+                    UpdateGift(_clientService, received, true);
+                    break;
+                case ReceivedGift received:
+                    UpdateGift(_clientService, received);
+                    break;
+                case SentGiftUpgraded upgraded:
+                    UpdateGift(_clientService, upgraded);
+                    break;
+                case EmojiStatusTypeUpgradedGift emojiStatus:
+                    UpdateGift(_clientService, emojiStatus);
+                    break;
+                case GiftForResale resold:
+                    UpdateGift(_clientService, resold);
+                    break;
+                case AvailableGift available:
+                    UpdateGift(_clientService, available, _resale, _upgrade);
+                    break;
+            }
+        }
+
+        #endregion
+
+        // Every overload records its arguments, so that OnApplyTemplate can replay the last one.
+        private bool Defer(IClientService clientService, object gift, bool transfer = false, bool resale = false, bool upgrade = false)
+        {
+            _clientService = clientService;
+            _gift = gift;
+            _transfer = transfer;
+            _resale = resale;
+            _upgrade = upgrade;
+
+            return !_templateApplied;
+        }
+
+        private void LoadResaleStarCount()
+        {
+            if (ResaleStarCountRoot == null)
+            {
+                ResaleStarCountRoot = GetTemplateChild(nameof(ResaleStarCountRoot)) as Grid;
+                ResaleStarCount = GetTemplateChild(nameof(ResaleStarCount)) as TextBlock;
+            }
+        }
+
+        private void ShowPinned(ElementTheme theme)
+        {
+            Pinned.Visibility = Visibility.Visible;
+            Pinned.RequestedTheme = theme;
+
+            // The glyph the template gives Pinned.
+            _pinnedShadow ??= new GlyphShadow(PinnedShadowHost);
+            _pinnedShadow.Show(Icons.PinFilled, Pinned);
+        }
+
+        private void HidePinned()
+        {
+            Pinned.Visibility = Visibility.Collapsed;
+            _pinnedShadow?.Hide();
         }
 
         public void UpdateGift(IClientService clientService, ReceivedGift gift)
         {
+            if (Defer(clientService, gift))
+            {
+                return;
+            }
+
             StarCountRoot.Visibility = Visibility.Collapsed;
 
             if (gift.IsSaved)
@@ -41,7 +163,7 @@ namespace Telegram.Controls.Cells
             }
             else
             {
-                FindName(nameof(Hidden));
+                Hidden ??= GetTemplateChild(nameof(Hidden)) as Border;
                 Hidden.Visibility = Visibility.Visible;
 
                 if (Animated.DominantColor == null)
@@ -57,15 +179,12 @@ namespace Telegram.Controls.Cells
                 if (gift.IsPinned)
                 {
                     Photo.Visibility = Visibility.Collapsed;
-                    Pinned.Visibility = Visibility.Visible;
-                    Pinned.RequestedTheme = ElementTheme.Default;
-
-                    VisualUtilities.DropShadow(Pinned, target: Shadow);
+                    ShowPinned(ElementTheme.Default);
                 }
                 else
                 {
                     Photo.Visibility = Visibility.Visible;
-                    Pinned.Visibility = Visibility.Collapsed;
+                    HidePinned();
 
                     if (gift.IsPrivate)
                     {
@@ -116,14 +235,11 @@ namespace Telegram.Controls.Cells
 
                 if (gift.IsPinned)
                 {
-                    Pinned.Visibility = Visibility.Visible;
-                    Pinned.RequestedTheme = ElementTheme.Dark;
-
-                    VisualUtilities.DropShadow(Pinned, target: Shadow);
+                    ShowPinned(ElementTheme.Dark);
                 }
                 else
                 {
-                    Pinned.Visibility = Visibility.Collapsed;
+                    HidePinned();
                 }
 
                 Photo.Visibility = Visibility.Collapsed;
@@ -146,7 +262,7 @@ namespace Telegram.Controls.Cells
                     }
                     else
                     {
-                        FindName(nameof(ResaleStarCountRoot));
+                        LoadResaleStarCount();
                         Grid.SetRow(ResaleStarCountRoot, 0);
                     }
 
@@ -175,6 +291,11 @@ namespace Telegram.Controls.Cells
 
         public void UpdateGift(IClientService clientService, SentGiftUpgraded upgraded)
         {
+            if (Defer(clientService, upgraded))
+            {
+                return;
+            }
+
             StarCountRoot.Visibility = Visibility.Collapsed;
 
             if (Hidden != null)
@@ -190,7 +311,7 @@ namespace Telegram.Controls.Cells
 
             Pattern.Update(clientService, upgraded.Gift);
 
-            Pinned.Visibility = Visibility.Collapsed;
+            HidePinned();
 
             Photo.Visibility = Visibility.Collapsed;
             Pattern.Visibility = Visibility.Visible;
@@ -205,6 +326,11 @@ namespace Telegram.Controls.Cells
 
         public void UpdateGift(IClientService clientService, EmojiStatusTypeUpgradedGift upgraded)
         {
+            if (Defer(clientService, upgraded))
+            {
+                return;
+            }
+
             StarCountRoot.Visibility = Visibility.Collapsed;
 
             if (Hidden != null)
@@ -222,7 +348,7 @@ namespace Telegram.Controls.Cells
 
             Pattern.Update(source, centerColor, edgeColor, symbolColor);
 
-            Pinned.Visibility = Visibility.Collapsed;
+            HidePinned();
 
             Photo.Visibility = Visibility.Collapsed;
             Pattern.Visibility = Visibility.Visible;
@@ -236,11 +362,16 @@ namespace Telegram.Controls.Cells
 
         public void UpdateGift(IClientService clientService, GiftForResale gift)
         {
+            if (Defer(clientService, gift))
+            {
+                return;
+            }
+
             StarCountRoot.Visibility = Visibility.Collapsed;
 
             Pattern.Update(clientService, gift.Gift);
 
-            Pinned.Visibility = Visibility.Collapsed;
+            HidePinned();
 
             Photo.Visibility = Visibility.Collapsed;
             Pattern.Visibility = Visibility.Visible;
@@ -250,7 +381,7 @@ namespace Telegram.Controls.Cells
             var centerColor = gift.Gift.Backdrop.Colors.CenterColor.ToColor();
             var edgeColor = gift.Gift.Backdrop.Colors.EdgeColor.ToColor();
 
-            FindName(nameof(ResaleStarCountRoot));
+            LoadResaleStarCount();
             ResaleStarCountRoot.Background = new SolidColorBrush(edgeColor.Darken());
             UpdateResalePrice(gift.Gift);
 
@@ -263,7 +394,7 @@ namespace Telegram.Controls.Cells
 
         public void UpdateGift(IClientService clientService, ReceivedGift gift, bool transfer)
         {
-            if (gift.Gift is not SentGiftUpgraded upgraded)
+            if (Defer(clientService, gift, transfer: true) || gift.Gift is not SentGiftUpgraded upgraded)
             {
                 return;
             }
@@ -272,7 +403,7 @@ namespace Telegram.Controls.Cells
 
             Pattern.Update(clientService, upgraded.Gift);
 
-            Pinned.Visibility = Visibility.Collapsed;
+            HidePinned();
 
             // The picker shows this beside available gifts, whose marks a container may still carry.
             PremiumRoot?.Visibility = Visibility.Collapsed;
@@ -286,7 +417,7 @@ namespace Telegram.Controls.Cells
             var centerColor = upgraded.Gift.Backdrop.Colors.CenterColor.ToColor();
             var edgeColor = upgraded.Gift.Backdrop.Colors.EdgeColor.ToColor();
 
-            FindName(nameof(ResaleStarCountRoot));
+            LoadResaleStarCount();
             ResaleStarCountRoot.Background = new SolidColorBrush(edgeColor.Darken());
             ResaleStarCount.Text = Strings.Gift2TransferMine;
 
@@ -313,8 +444,13 @@ namespace Telegram.Controls.Cells
         /// <param name="upgrade">The price includes the upgrade: the receiver takes this gift only unique.</param>
         public void UpdateGift(IClientService clientService, AvailableGift gift, bool resale, bool upgrade)
         {
+            if (Defer(clientService, gift, resale: resale, upgrade: upgrade))
+            {
+                return;
+            }
+
             Photo.Visibility = Visibility.Collapsed;
-            Pinned.Visibility = Visibility.Collapsed;
+            HidePinned();
 
             StarCountParticles.Source = new ParticlesImageSource(Color.FromArgb(0x80, 0xE8, 0xAB, 0x02), Native.ParticlesType.Premium);
             Animated.Source = new DelayedFileSource(clientService, gift.Gift.Sticker);
@@ -326,7 +462,7 @@ namespace Telegram.Controls.Cells
             // Gold marks what isn't for everyone right now: Premium gifts and running auctions.
             if (!listed && (gift.Gift.IsPremium || auction != null && !soldOut))
             {
-                FindName(nameof(PremiumRoot));
+                PremiumRoot ??= GetTemplateChild(nameof(PremiumRoot)) as Border;
                 PremiumRoot.Visibility = Visibility.Visible;
             }
             else
@@ -336,7 +472,7 @@ namespace Telegram.Controls.Cells
 
             if (!listed && gift.Gift.NextSendDate > clientService.UnixTime)
             {
-                FindName(nameof(Locked));
+                Locked ??= GetTemplateChild(nameof(Locked)) as TextBlock;
                 Locked.Visibility = Visibility.Visible;
             }
             else

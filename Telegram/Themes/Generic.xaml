@@ -25,6 +25,8 @@
         <ResourceDictionary Source="ms-appx:///Controls/Cells/SharedMediaCell.xaml" />
         <ResourceDictionary Source="ms-appx:///Controls/Cells/SharedVoiceCell.xaml" />
         <ResourceDictionary Source="ms-appx:///Controls/Cells/ProfileCell.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/Cells/ReceivedGiftCell.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/Cells/StoryCell.xaml" />
         <ResourceDictionary Source="ms-appx:///Controls/Messages/Content/AnimationContent.xaml" />
         <ResourceDictionary Source="ms-appx:///Controls/Messages/Content/AudioContent.xaml" />
         <ResourceDictionary Source="ms-appx:///Controls/Messages/Content/CallContent.xaml" />
