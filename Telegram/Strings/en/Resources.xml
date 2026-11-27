@@ -12281,10 +12281,10 @@
     <string name="AudioSaveTo">Save to...</string>
     <string name="AudioSaveToInfo">Choose where you want this audio to be saved.</string>
     <string name="AudioSaveToFiles">Files</string>
-    <string name="AudioSaveToMyProfile">To Profile</string>
+    <string name="AudioSaveToMyProfile">Profile</string>
     <string name="AudioSaveToMyProfileSaved">Audio added to your Profile.</string>
     <string name="AudioSaveToMyProfileUnsaved">Audio removed from your Profile.</string>
-    <string name="AudioSaveToSavedMessages">To Saved Messages</string>
+    <string name="AudioSaveToSavedMessages">Saved Messages</string>
     <string name="AudioSaveToSavedMessagesSaved">Audio sent to Saved Messages.</string>
 
     <string name="BoostingBoostGroupMenu">Boost Group</string>
@@ -13595,16 +13595,6 @@
     <string name="RichPasteToastPremium">**Subscribe to Premium** to preserve formatting when pasting.</string>
     <string name="RichPasteToastMarkdown">Pasted with Markdown formatting</string>
     <string name="RichPasteToastPlain">Paste as plain text instead</string>
-
-    <!--NOT FINAL: the send menu's switch for the chat's "Always use in this chat" rewrite, and the
-        toasts over the send button when it is turned on or off. Replace with the final strings
-        once they ship, and remove this block.-->
-    <string name="AIEditorRewriteWithAI">Rewrite with AI</string>
-    <string name="AIEditorAutoRewriteTurnOff">Turn Off Auto-Rewrite</string>
-    <string name="AIEditorAutoRewriteOn">Auto-Rewrite is ON</string>
-    <string name="AIEditorAutoRewriteOnText">Right-click to turn it off.</string>
-    <string name="AIEditorAutoRewriteOff">Auto-Rewrite is OFF</string>
-    <string name="AIEditorAutoRewriteOffText">Right-click to turn it on.</string>
 
   <!-- new from translations.telegram.org -->
 
