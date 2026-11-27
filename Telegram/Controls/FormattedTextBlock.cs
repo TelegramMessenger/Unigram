@@ -2093,7 +2093,7 @@ namespace Telegram.Controls
                                     OpenInline(parentLink);
                                 }
 
-                                GetOrCreateRun(direct, parentInlines, mathematicalExpression.Expression, entity.Offset, entity.Length, direction, entity.Flags, null, partFontSize);
+                                GetOrCreateRun(direct, parentInlines, text, entity.Offset, entity.Length, direction, entity.Flags, null, partFontSize);
                                 Map(part.Offset + entity.Offset, entity.Length, entity.Length);
                                 offset += entity.Length;
                             }
