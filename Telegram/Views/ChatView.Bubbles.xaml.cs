@@ -543,7 +543,14 @@ namespace Telegram.Views
                     }
                 }
 
-                var childHeight = container.ContentTemplateRoot.ActualSize.Y;
+                // A container is realized before its template applies, and an activation can arrive
+                // in between. It has no height yet, so skipping it leaves top and bottom right.
+                if (container.ContentTemplateRoot is not UIElement templateRoot)
+                {
+                    continue;
+                }
+
+                var childHeight = templateRoot.ActualSize.Y;
 
                 if (top <= 0 && top + childHeight > 0 && !summaryAbove)
                 {
