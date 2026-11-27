@@ -89,6 +89,7 @@ namespace Telegram.Views.Chats.Popups
                     ChatBoostFeature.CustomBackground => _channel ? Strings.ChannelNeedBoostsForCustomWallpaperDescription : Strings.GroupNeedBoostsForCustomWallpaperDescription,
                     ChatBoostFeature.BackgroundCustomEmoji => _channel ? Strings.ChannelNeedBoostsForReplyIconDescription : Strings.GroupNeedBoostsForReplyIconDescription,
                     ChatBoostFeature.ProfileBackgroundCustomEmoji => _channel ? Strings.ChannelNeedBoostsForProfileIconDescription : Strings.GroupNeedBoostsForProfileIconDescription,
+                    ChatBoostFeature.CustomEmojiStickerSet => Strings.GroupNeedBoostsForCustomEmojiPackDescription,
                     ChatBoostFeature.DisableSponsoredMessages => _channel ? Strings.ChannelNeedBoostsForSwitchOffAdsDescription : Strings.ChannelNeedBoostsForSwitchOffAdsDescription,
                     ChatBoostFeature.AutoTranslate => Strings.ChannelNeedBoostsForAutotranslationDescription,
                     ChatBoostFeature.Stories when status.Level == 0 => _channel ? Strings.ChannelNeedBoostsDescription : Strings.GroupNeedBoostsDescription,
