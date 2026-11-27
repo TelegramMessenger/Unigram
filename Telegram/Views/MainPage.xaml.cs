@@ -4498,7 +4498,14 @@ namespace Telegram.Views
                     _searchHole.Clip.StartAnimation("Scale", scale);
                 }
 
-                _searchHole.Update(_searchBorder, ChatsGhost, _searchBorder.ActualSize, (float)_searchBorder.CornerRadius.TopLeft);
+                // The field moves in the header, and the header in the root grid.
+                var origin = _searchBorder.TransformToVector2(SearchField)
+                    + LayoutOffset(SearchField)
+                    + MainHeader.TransformToVector2(Header)
+                    + LayoutOffset(Header)
+                    + RootGrid.TransformToVector2(ChatsGhost);
+
+                _searchHole.Update(origin, _searchBorder.ActualSize, (float)_searchBorder.CornerRadius.TopLeft);
             }
 
             // Loaded the first time the tabs show. Hiding fades the tabs out, so the hole stays until they
@@ -4511,12 +4518,16 @@ namespace Telegram.Views
                     ? ChatFolders.ActualSize
                     : Vector2.Zero;
 
-                _tabsHole.Update(ChatFolders, ChatsGhost, size, (float)ChatFolders.CornerRadius.TopLeft);
+                var origin = ChatFolders.TransformToVector2(ChatTabs)
+                    + LayoutOffset(ChatTabs)
+                    + ChatListHeader.TransformToVector2(ChatsGhost);
+
+                _tabsHole.Update(origin, size, (float)ChatFolders.CornerRadius.TopLeft);
             }
 
             // The card stacks the rows from the panel's top, as the panel has no leading spacing.
             _bannerHole ??= CreateChatsGhostHole(_chatsGhostBannerLayer, BannerMaster);
-            _bannerHole.Update(BannerMaster, ChatsGhost, new Vector2(BannerMaster.ActualSize.X, _bannerHoleHeight), (float)BannerMaster.CardCornerRadius);
+            _bannerHole.Update(LayoutOffset(BannerMaster) + ChatListHeader.TransformToVector2(ChatsGhost), new Vector2(BannerMaster.ActualSize.X, _bannerHoleHeight), (float)BannerMaster.CardCornerRadius);
         }
 
         private ChatsGhostHole CreateChatsGhostHole(ContainerVisual layer, UIElement element)
@@ -4560,7 +4571,7 @@ namespace Telegram.Views
 
             public CompositionGeometricClip Clip { get; }
 
-            public void Update(UIElement element, UIElement ghost, Vector2 size, float radius)
+            public void Update(Vector2 origin, Vector2 size, float radius)
             {
                 if (size.X <= 0 || size.Y <= 0)
                 {
@@ -4573,7 +4584,7 @@ namespace Telegram.Views
                     return;
                 }
 
-                _origin.InsertVector2("Origin", element.TransformToVector2(ghost));
+                _origin.InsertVector2("Origin", origin);
 
                 if (size != _size || radius != _radius)
                 {
@@ -4595,6 +4606,15 @@ namespace Telegram.Views
                     _layer.Clip = Clip;
                 }
             }
+        }
+
+        // A hole's origin crosses each island, and each element that moves it, by its layout offset
+        // rather than TransformToVisual: once XAML has picked up the Translation composition put on a
+        // hand-off visual it counts it in the transform, and the hole's expression adds it as well.
+        private static Vector2 LayoutOffset(UIElement element)
+        {
+            var offset = element.ActualOffset;
+            return new Vector2(offset.X, offset.Y);
         }
 
         private static void EnsureTranslation(Visual visual)
