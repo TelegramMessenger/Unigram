@@ -1151,6 +1151,7 @@
     <Compile Include="Controls\VersionLabel.cs" />
     <Compile Include="Controls\WebViewer.cs" />
     <Compile Include="Controls\ZoomViewer.cs" />
+    <Compile Include="Controls\HeaderGrid.cs" />
     <Compile Include="Controls\HeaderedControl.cs" />
     <Compile Include="Controls\IdentityIcon.cs" />
     <Compile Include="Controls\CropRotationWheel.cs" />

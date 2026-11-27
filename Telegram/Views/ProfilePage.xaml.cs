@@ -644,10 +644,15 @@ namespace Telegram.Views
             UpdateBackButton();
 
             MediaFrame.MinHeight = ScrollingHost.ActualHeight + e.NewSize.Height - 80;
+        }
 
+        // Before the tab is measured: a list laid out under a header shorter than the real one
+        // realizes the rows the header then covers.
+        private void OnHeaderMeasured(object sender, EventArgs e)
+        {
             if (MediaFrame.Content is ProfileTabPage tabPage)
             {
-                tabPage.HeaderHeight = Math.Max(e.NewSize.Height, MinimumHeaderHeight);
+                tabPage.HeaderHeight = Math.Max(Header.DesiredSize.Height, MinimumHeaderHeight);
             }
         }
 
@@ -663,7 +668,7 @@ namespace Telegram.Views
             var width = Math.Min(24 + 1000 + 24, BackgroundRoot.ActualSize.X) - 24 - 24;
             var x = (BackgroundRoot.ActualSize.X - width) / 2;
 
-            var elli1 = CanvasGeometry.CreateRoundedRectangle(null, x, 0, width, BackgroundRoot.ActualSize.Y, 4, 4);
+            using var elli1 = CanvasGeometry.CreateRoundedRectangle(null, x, 0, width, BackgroundRoot.ActualSize.Y, 4, 4);
             var ellipse = material.Compositor.CreatePathGeometry(new CompositionPath(elli1));
             var clip = material.Compositor.CreateGeometricClip(ellipse);
 

@@ -19,7 +19,7 @@
                       SizeChanged="OnSizeChanged"
                       DirectManipulationStarted="OnDirectManipulationStarted"
                       ViewChanged="OnViewChanged">
-            <Grid>
+            <controls:HeaderGrid HeaderMeasured="OnHeaderMeasured">
                 <StackPanel x:Name="Header"
                             SizeChanged="ProfileHeader_SizeChanged"
                             VerticalAlignment="Top"
@@ -140,7 +140,7 @@
                                             Navigating="OnNavigating"
                                             Navigated="OnNavigated"
                                             Released="OnMediaReleased" />
-            </Grid>
+            </controls:HeaderGrid>
         </ScrollViewer>
 
         <Grid MaxWidth="1000"
