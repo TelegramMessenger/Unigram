@@ -122,6 +122,7 @@ namespace Telegram.Controls.Stories
                 _player.VideoOut -= OnVout;
                 _player.Buffering -= OnBuffering;
                 _player.EndReached -= OnEndReached;
+                _player.PositionChanged -= OnPositionChanged;
                 _player.Close();
             }
 
@@ -984,7 +985,10 @@ namespace Telegram.Controls.Stories
             {
                 var video = SelectVideoFile(videoContent);
 
+                _progressStarted = false;
+
                 UpdateProgress(video.Duration);
+                Progress.Suspend();
                 Play(video);
 
                 MessagesRoot.Visibility = Visibility.Collapsed;
@@ -1772,6 +1776,7 @@ namespace Telegram.Controls.Stories
             _player.VideoOut += OnVout;
             _player.Buffering += OnBuffering;
             _player.EndReached += OnEndReached;
+            _player.PositionChanged += OnPositionChanged;
 
             _player.Context.Attach(Video, true);
         }
@@ -1790,7 +1795,10 @@ namespace Telegram.Controls.Stories
             {
                 // Play restarts an ended player by itself.
                 sender.Play();
+
+                _progressStarted = false;
                 Progress.Restart();
+                Progress.Suspend();
                 return;
             }
 
@@ -1829,7 +1837,7 @@ namespace Telegram.Controls.Stories
                 {
                     _buffering = false;
 
-                    if (_state == StoryPauseSource.None)
+                    if (_state == StoryPauseSource.None && _progressStarted)
                     {
                         SynchronizeProgress();
                         Progress.Resume();
@@ -1843,6 +1851,26 @@ namespace Telegram.Controls.Stories
             }
         }
 
+        // Each report comes with a frame the player rendered, about four a second, so the bar
+        // starts only once the video does: while the player opens and prerolls it reports no
+        // buffering, and nothing else says it hasn't started. In between reports the timed
+        // animation fills in, and each report puts it back where the video is.
+        private void OnPositionChanged(AsyncMediaPlayer sender, AsyncMediaPlayerPositionChangedEventArgs e)
+        {
+            if (_type != StoryType.Video || sender.Duration <= 0)
+            {
+                return;
+            }
+
+            Progress.Seek(e.Position / sender.Duration);
+
+            if (!_progressStarted && !_buffering && _state == StoryPauseSource.None)
+            {
+                _progressStarted = true;
+                Progress.Resume();
+            }
+        }
+
         private void SynchronizeProgress()
         {
             if (_player != null && _player.Duration > 0)
@@ -1852,6 +1880,7 @@ namespace Telegram.Controls.Stories
         }
 
         private bool _buffering;
+        private bool _progressStarted;
 
         private Image _texture;
 
@@ -1945,7 +1974,7 @@ namespace Telegram.Controls.Stories
                     _timer.Start();
                 }
 
-                if (!_buffering)
+                if (!_buffering && (_type != StoryType.Video || _progressStarted))
                 {
                     Progress.Resume();
                 }
