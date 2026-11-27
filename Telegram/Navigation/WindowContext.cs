@@ -1825,8 +1825,10 @@ namespace Telegram.Navigation
 
                 // The coordinator is app-wide rather than per session, so a call ringing on an
                 // account other than the one on screen is answered too.
+                // Ctrl+Home also reaches here mid-call, and the system call throws Element not found
+                // when told an outgoing or already answered call was accepted.
                 case ShortcutCommand.CallAccept:
-                    if (LifetimeService.Current.Voip.ActiveCall is VoipCall accept)
+                    if (LifetimeService.Current.Voip.ActiveCall is VoipCall { IsOutgoing: false, State: CallStatePending } accept)
                     {
                         accept.Accept(false);
                         args.Handled = true;
