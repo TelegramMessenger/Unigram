@@ -6375,6 +6375,7 @@
     <string name="StorySharedToManyChats_one">Story forwarded to **a chat**.</string>
     <string name="StorySharedToManyChats_other">Story forwarded to **{0} chats**.</string>
     <string name="StoryNotFound">This story is no longer available</string>
+    <string name="StoryHidAccount">This account was hidden by the user</string>
 
 
 

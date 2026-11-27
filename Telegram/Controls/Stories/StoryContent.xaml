@@ -211,6 +211,41 @@
                                            TextTrimming="CharacterEllipsis"
                                            VerticalAlignment="Bottom"
                                            Grid.Column="2" />
+
+                                <HyperlinkButton x:Name="SourceButton"
+                                                 Click="Source_Click"
+                                                 Style="{StaticResource EmptyHyperlinkButtonStyle}"
+                                                 VerticalAlignment="Bottom"
+                                                 Visibility="Collapsed"
+                                                 Grid.Column="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Name="SourceIcon"
+                                                   Text="&#xF7B3;"
+                                                   Foreground="{ThemeResource PageHeaderDisabledBrush}"
+                                                   FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,4,0" />
+                                        <controls:ProfilePicture x:Name="SourcePhoto"
+                                                                 Size="16"
+                                                                 VerticalAlignment="Center"
+                                                                 Margin="0,0,4,0"
+                                                                 Grid.Column="1" />
+                                        <TextBlock x:Name="SourceText"
+                                                   Foreground="{ThemeResource PageHeaderDisabledBrush}"
+                                                   Style="{StaticResource CaptionTextBlockStyle}"
+                                                   FontFamily="{ThemeResource EmojiThemeFontFamilyWithSymbols}"
+                                                   TextWrapping="NoWrap"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   VerticalAlignment="Center"
+                                                   Grid.Column="2" />
+                                    </Grid>
+                                </HyperlinkButton>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -317,20 +352,59 @@
                       PointerWheelChanged="CaptionPanel_PointerWheelChanged"
                       Padding="12,8"
                       Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <HyperlinkButton x:Name="RepostPanel"
+                                     Click="RepostPanel_Click"
+                                     Style="{StaticResource EmptyHyperlinkButtonStyle}"
+                                     HorizontalAlignment="Left"
+                                     Margin="0,0,0,8"
+                                     Visibility="Collapsed">
+                        <Border x:Name="RepostBackground"
+                                Background="#40000000"
+                                BorderBrush="#FFFFFF"
+                                CornerRadius="11"
+                                Padding="7,0,10,0"
+                                Height="22">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock x:Name="RepostTitle"
+                                           Foreground="#FFFFFF"
+                                           FontFamily="{ThemeResource EmojiThemeFontFamilyWithSymbols}"
+                                           FontWeight="SemiBold"
+                                           FontSize="14"
+                                           TextWrapping="NoWrap"
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxLines="1" />
+                                <TextBlock x:Name="RepostText"
+                                           Foreground="#FFFFFF"
+                                           FontSize="14"
+                                           TextWrapping="NoWrap"
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxLines="1"
+                                           Visibility="Collapsed" />
+                            </StackPanel>
+                        </Border>
+                    </HyperlinkButton>
+
                     <ScrollViewer x:Name="CaptionScroll"
                                   VerticalScrollBarVisibility="Auto"
                                   VerticalScrollMode="Auto"
                                   HorizontalScrollBarVisibility="Disabled"
                                   HorizontalScrollMode="Disabled"
                                   Margin="0,0,-12,0"
-                                  Visibility="Collapsed">
+                                  Visibility="Collapsed"
+                                  Grid.Row="1">
                         <messages:MessageTextBlock x:Name="Caption"
                                                    TextEntityClick="Caption_TextEntityClick"
                                                    Margin="0,0,12,0" />
                     </ScrollViewer>
 
                     <messages:MessageTextBlock x:Name="CaptionCollapsed"
-                                               TextEntityClick="Caption_TextEntityClick" />
+                                               TextEntityClick="Caption_TextEntityClick"
+                                               Grid.Row="1" />
                 </Grid>
             </Grid>
 

@@ -178,7 +178,19 @@ namespace Telegram.ViewModels.Stories
             HasExpiredViewers = story.HasExpiredViewers;
             Areas = story.Areas;
             ChosenReactionType = story.ChosenReactionType;
+            PosterId = story.PosterId;
+            RepostInfo = story.RepostInfo;
         }
+
+        /// <summary>
+        /// Who posted the story, if known; for a group's story, the member or chat that did.
+        /// </summary>
+        public MessageSender PosterId { get; private set; }
+
+        /// <summary>
+        /// The story this one reposts; null if it isn't a repost.
+        /// </summary>
+        public StoryRepostInfo RepostInfo { get; private set; }
 
         public FormattedText Caption { get; private set; }
 

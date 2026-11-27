@@ -392,6 +392,9 @@ namespace Telegram.Controls.Stories
 
         private void UpdateSubtitle(StoryViewModel story)
         {
+            SourceButton.Visibility = Visibility.Collapsed;
+            Subtitle.Visibility = Visibility.Visible;
+
             if (story.Content is StoryContentLive live && story.ClientService.TryGetGroupCall(live.GroupCallId, out GroupCall groupCall))
             {
                 LiveBadge.Visibility = Visibility.Visible;
@@ -411,6 +414,10 @@ namespace Telegram.Controls.Stories
             {
                 LiveBadge.Visibility = Visibility.Collapsed;
                 Subtitle.Text = string.Format("{0}/{1}", 1 + ViewModel.Items.IndexOf(story), ViewModel.Items.Count);
+            }
+            else if (UpdateSource(story))
+            {
+                LiveBadge.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -433,6 +440,137 @@ namespace Telegram.Controls.Stories
             {
                 Position.Visibility = Visibility.Collapsed;
             }
+        }
+
+        // Where the story came from takes the date's place under the poster's name: the story
+        // it reposts, the channel post it shares, or, in a group, the member who posted it.
+        private bool UpdateSource(StoryViewModel story)
+        {
+            var clientService = story.ClientService;
+            var repost = true;
+
+            string name = null;
+            ProfilePictureSource photo = null;
+
+            if (story.RepostInfo?.Origin is StoryOriginPublicStory publicStory)
+            {
+                if (clientService.TryGetChat(publicStory.ChatId, out Chat chat))
+                {
+                    name = clientService.GetTitle(chat);
+                    photo = ProfilePictureSource.Chat(clientService, chat);
+                }
+                else
+                {
+                    name = string.Empty;
+                }
+            }
+            else if (story.RepostInfo?.Origin is StoryOriginHiddenUser hiddenUser)
+            {
+                name = hiddenUser.PosterName;
+            }
+            else if (TryGetPostArea(story, out Chat postChat, out _))
+            {
+                name = clientService.GetTitle(postChat);
+                photo = ProfilePictureSource.Chat(clientService, postChat);
+            }
+            else if (story.PosterId != null && story.Chat?.Type is ChatTypeSupergroup { IsChannel: false })
+            {
+                repost = false;
+                name = clientService.GetTitle(story.PosterId);
+                photo = ProfilePictureSource.MessageSender(clientService, story.PosterId);
+            }
+
+            if (name == null)
+            {
+                return false;
+            }
+
+            SourceIcon.Visibility = repost
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            SourcePhoto.Visibility = photo != null
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            SourcePhoto.Source = photo;
+            SourceText.Text = name + " · " + Locale.FormatRelativeShort(story.Date);
+
+            SourceButton.Visibility = Visibility.Visible;
+            Subtitle.Visibility = Visibility.Collapsed;
+            return true;
+        }
+
+        // A story that shares a channel post carries it as an area; only one whose chat is known counts.
+        private static bool TryGetPostArea(StoryViewModel story, out Chat chat, out StoryAreaTypeMessage post)
+        {
+            post = null;
+
+            if (story.Areas != null)
+            {
+                foreach (var area in story.Areas)
+                {
+                    if (area.Type is StoryAreaTypeMessage typeMessage)
+                    {
+                        post = typeMessage;
+                    }
+                }
+            }
+
+            chat = null;
+            return post != null && story.ClientService.TryGetChat(post.ChatId, out chat);
+        }
+
+        private void Source_Click(object sender, RoutedEventArgs e)
+        {
+            var story = _viewModel?.SelectedItem;
+            if (story == null)
+            {
+                return;
+            }
+
+            if (story.RepostInfo?.Origin is StoryOriginPublicStory publicStory)
+            {
+                OpenSender(new MessageSenderChat(publicStory.ChatId));
+            }
+            else if (story.RepostInfo?.Origin is StoryOriginHiddenUser)
+            {
+                ShowHiddenAccount(SourceButton, ToastPlacementMode.BottomLeft);
+            }
+            else if (TryGetPostArea(story, out _, out StoryAreaTypeMessage post))
+            {
+                OpenPost(post);
+            }
+            else if (story.PosterId != null)
+            {
+                OpenSender(story.PosterId);
+            }
+        }
+
+        private void OpenSender(MessageSender sender)
+        {
+            var parent = this.GetParent<StoriesWindow>();
+            if (parent != null)
+            {
+                parent.TryHide(ContentDialogResult.Primary);
+                ViewModel.NavigationService.NavigateToSender(sender);
+            }
+        }
+
+        private void OpenPost(StoryAreaTypeMessage post)
+        {
+            var parent = this.GetParent<StoriesWindow>();
+            if (parent != null)
+            {
+                parent.TryHide(ContentDialogResult.Primary);
+                ViewModel.NavigationService.NavigateToChat(post.ChatId, message: post.MessageId);
+            }
+        }
+
+        private void ShowHiddenAccount(FrameworkElement element, ToastPlacementMode placement)
+        {
+            var window = element.GetParent<StoriesWindow>();
+            window?.ShowToast(element, Strings.StoryHidAccount, placement);
         }
 
         private void Update(StoryViewModel story)
@@ -513,9 +651,15 @@ namespace Telegram.Controls.Stories
                 UnsupportedPanel.Visibility = Visibility.Collapsed;
             }
 
-            if (string.IsNullOrEmpty(story.Caption?.Text))
+            var empty = string.IsNullOrEmpty(story.Caption?.Text);
+            var repost = UpdateRepostPanel(story, empty);
+
+            if (empty)
             {
-                CaptionRoot.Visibility = Visibility.Collapsed;
+                CaptionRoot.Visibility = repost
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+
                 Caption.Clear();
                 CaptionCollapsed.Clear();
 
@@ -2022,7 +2166,145 @@ namespace Telegram.Controls.Stories
         private void UpdateCaptionMaxHeight()
         {
             var padding = CaptionPanel.Padding;
-            CaptionScroll.MaxHeight = Math.Max(0, CaptionRoot.ActualHeight - CaptionExpandedInset - padding.Top - padding.Bottom);
+            var repost = RepostPanel.Visibility == Visibility.Visible
+                ? RepostPanel.ActualHeight + RepostPanel.Margin.Bottom
+                : 0;
+
+            CaptionScroll.MaxHeight = Math.Max(0, CaptionRoot.ActualHeight - CaptionExpandedInset - padding.Top - padding.Bottom - repost);
+        }
+
+        private StoryRepostInfo _repostInfo;
+
+        // A repost names its source above the caption, in a pill that grows to a quote of the
+        // original caption once that has loaded. A story sharing a channel post names the channel.
+        private bool UpdateRepostPanel(StoryViewModel story, bool emptyCaption)
+        {
+            var clientService = story.ClientService;
+            string title = null;
+
+            if (story.RepostInfo?.Origin is StoryOriginPublicStory publicStory)
+            {
+                title = clientService.TryGetChat(publicStory.ChatId, out Chat chat)
+                    ? GetRepostIcon(chat) + Icons.Spacing + clientService.GetTitle(chat)
+                    : Icons.PersonFilled16;
+            }
+            else if (story.RepostInfo?.Origin is StoryOriginHiddenUser hiddenUser)
+            {
+                title = Icons.PersonFilled16 + Icons.Spacing + hiddenUser.PosterName;
+            }
+            else if (TryGetPostArea(story, out Chat postChat, out _))
+            {
+                title = GetRepostIcon(postChat) + Icons.Spacing + clientService.GetTitle(postChat);
+            }
+
+            if (title == null)
+            {
+                _repostInfo = null;
+                RepostPanel.Visibility = Visibility.Collapsed;
+                return false;
+            }
+
+            RepostPanel.Margin = new Thickness(0, 0, 0, emptyCaption ? 0 : 8);
+            RepostPanel.Visibility = Visibility.Visible;
+            RepostTitle.Text = title;
+
+            // TDLib hands out a new info with every change to the story, the only time the
+            // original's caption has to be fetched again.
+            if (story.RepostInfo == null)
+            {
+                _repostInfo = null;
+                UpdateRepostText(null);
+            }
+            else if (story.RepostInfo != _repostInfo)
+            {
+                _repostInfo = story.RepostInfo;
+                UpdateRepostText(null);
+
+                if (story.RepostInfo.Origin is StoryOriginPublicStory origin)
+                {
+                    LoadRepostText(story, origin);
+                }
+            }
+
+            return true;
+        }
+
+        private static string GetRepostIcon(Chat chat)
+        {
+            return chat.Type switch
+            {
+                ChatTypeSupergroup { IsChannel: true } => Icons.MegaphoneFilled16,
+                ChatTypeSupergroup or ChatTypeBasicGroup => Icons.PeopleFilled16,
+                _ => Icons.PersonFilled16
+            };
+        }
+
+        private async void LoadRepostText(StoryViewModel story, StoryOriginPublicStory origin)
+        {
+            var response = await story.ClientService.SendAsync(new GetStory(origin.ChatId, origin.StoryId, false));
+            if (response is Story source && story.RepostInfo?.Origin == origin && _viewModel?.SelectedItem == story && !string.IsNullOrEmpty(source.Caption?.Text))
+            {
+                // The panel grows at the top, as the caption does when it opens.
+                _captionAnimate = true;
+
+                UpdateRepostText(source.Caption.Text);
+                FadeCaptionPart(RepostText, true);
+            }
+        }
+
+        private void UpdateRepostText(string text)
+        {
+            var large = text != null;
+
+            RepostText.Text = text ?? string.Empty;
+            RepostText.Visibility = large
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            RepostBackground.Height = large ? 42 : 22;
+            RepostBackground.CornerRadius = new CornerRadius(large ? 5 : 11);
+            RepostBackground.BorderThickness = new Thickness(large ? 3 : 0, 0, 0, 0);
+        }
+
+        private async void RepostPanel_Click(object sender, RoutedEventArgs e)
+        {
+            // Inside the caption, a click that opens the caption too otherwise.
+            _captionEntityClicked = true;
+
+            var story = _viewModel?.SelectedItem;
+            if (story == null)
+            {
+                return;
+            }
+
+            if (story.RepostInfo?.Origin is StoryOriginPublicStory origin)
+            {
+                var response = await story.ClientService.SendAsync(new GetStory(origin.ChatId, origin.StoryId, false));
+                if (response is Story source)
+                {
+                    var parent = this.GetParent<StoriesWindow>();
+                    var navigationService = ViewModel?.NavigationService;
+
+                    if (parent != null && navigationService != null)
+                    {
+                        parent.TryHide(ContentDialogResult.Primary);
+                        StoriesWindow.ShowStory(navigationService, source, StoryOpenOrigin.Card, Windows.Foundation.Rect.Empty, null);
+                    }
+                }
+                else
+                {
+                    var window = RepostPanel.GetParent<StoriesWindow>();
+                    window?.ShowToast(RepostPanel, Strings.StoryNotFound, ToastPlacementMode.Top);
+                }
+            }
+            else if (story.RepostInfo != null)
+            {
+                ShowHiddenAccount(RepostPanel, ToastPlacementMode.Top);
+            }
+            else if (TryGetPostArea(story, out _, out StoryAreaTypeMessage post))
+            {
+                OpenPost(post);
+            }
         }
 
         private void ExpandCaption()
