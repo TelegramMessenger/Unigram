@@ -246,7 +246,7 @@ namespace Telegram.Views.Popups
 
         private void List_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (ViewModel.NavigationService?.ActiveContent is Page { Content: ChatView view } && e.ClickedItem is ViewModels.Drawers.StickerViewModel sticker)
+            if (ViewModel.NavigationService?.Content is NavigationPage { Content: ChatView view } && e.ClickedItem is ViewModels.Drawers.StickerViewModel sticker)
             {
                 if (sticker.FullType is StickerFullTypeCustomEmoji)
                 {

@@ -2350,9 +2350,9 @@ namespace Telegram.Views.Host
             _source = source is SecondaryNavigationService secondary ? secondary._source : source;
         }
 
-        public override bool Navigate(Type page, object parameter = null, NavigationState state = null, NavigationTransitionInfo infoOverride = null, bool navigationStackEnabled = true)
+        public override bool Navigate(Type page, object parameter = null, NavigationState state = null, PageTransition transition = PageTransition.Default)
         {
-            _source.Dispatcher.Dispatch(() => _source.Navigate(page, parameter, state, infoOverride, navigationStackEnabled));
+            _source.Dispatcher.Dispatch(() => _source.Navigate(page, parameter, state, transition));
             _ = _source.Window.SwitchToAsync();
 
             return true;

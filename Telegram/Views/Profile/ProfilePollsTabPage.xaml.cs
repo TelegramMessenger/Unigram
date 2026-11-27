@@ -21,7 +21,8 @@ namespace Telegram.Views.Profile
         public ProfilePollsTabPage()
         {
             InitializeComponent();
-            NavigationCacheMode = ApiInfo.NavigationCacheMode;
+            Retention = ApiInfo.PageRetention;
+            Transition = PageTransition.None;
         }
 
         public override string GetTitle()

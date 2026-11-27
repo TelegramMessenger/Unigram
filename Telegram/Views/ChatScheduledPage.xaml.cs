@@ -21,7 +21,7 @@ namespace Telegram.Views
         public ChatScheduledPage()
         {
             InitializeComponent();
-            NavigationCacheMode = ApiInfo.NavigationCacheMode;
+            Retention = ApiInfo.PageRetention;
         }
 
         public override string GetTitle()

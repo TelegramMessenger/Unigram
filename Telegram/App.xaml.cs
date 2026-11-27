@@ -248,7 +248,7 @@ namespace Telegram
             };
         }
 
-        protected override INavigationService CreateNavigationService(ISession session, WindowContext window, Frame frame, string id, bool root)
+        protected override INavigationService CreateNavigationService(ISession session, WindowContext window, NavigationFrame frame, string id, bool root)
         {
             if (root)
             {

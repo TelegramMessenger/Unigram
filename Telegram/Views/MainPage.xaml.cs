@@ -90,6 +90,9 @@ namespace Telegram.Views
         public MainPage()
         {
             InitializeComponent();
+
+            // base: the XAML names a Border "Transition", and its field hides the property.
+            base.Transition = PageTransition.None;
 #if INSTRUMENTATION
             // Here rather than at the first analysis: a window can be closed, and its tree captured,
             // long before anyone asks for a report.
@@ -336,13 +339,13 @@ namespace Telegram.Views
 
         public INavigationService NavigationService => MasterDetail.NavigationService;
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigatedEventArgs e)
         {
             Initialize();
             NavigationService.Window.SetTitleBar(TitleBarHandle);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected override void OnNavigatedFrom(NavigatedEventArgs e)
         {
             NavigationService.Window.SetTitleBar(null);
         }
@@ -375,9 +378,11 @@ namespace Telegram.Views
 
                 LifetimeService.Current.Playback.SourceChanged -= OnPlaybackSourceChanged;
 
-                MasterDetail.NavigationService.FrameFacade.Navigated -= OnNavigated;
+                MasterDetail.NavigationService.Navigated -= OnNavigated;
                 MasterDetail.NavigationService.Suspend();
-                MasterDetail.NavigationService.ClearCache();
+
+                // After the suspend, which still reads the page: every page is released and leaves the tree.
+                MasterDetail.NavigationService.Detach();
 
                 MasterDetail.Dispose();
                 SettingsView?.Dispose();
@@ -1129,7 +1134,7 @@ namespace Telegram.Views
             {
                 // Null once Dispose has run: switching or logging out the account tears this page
                 // down without waiting for the animation, and the batch still completes after it.
-                if (MasterDetail.NavigationService?.ActiveContent is IChatPage chatPage)
+                if (MasterDetail.NavigationService?.Content is IChatPage chatPage)
                 {
                     chatPage.CompleteBannerAnimation(true);
                 }
@@ -1165,7 +1170,7 @@ namespace Telegram.Views
 
             LayoutRoot.Margin = new(0, 0, 0, -40);
 
-            if (MasterDetail.NavigationService.ActiveContent is IChatPage chatPage)
+            if (MasterDetail.NavigationService.Content is IChatPage chatPage)
             {
                 chatPage.StartBannerAnimation(negative, true);
             }
@@ -1757,8 +1762,8 @@ namespace Telegram.Views
                     if (!MasterDetail.NavigationService.CanGoBack)
                     {
                         MasterDetail.NavigationService.Navigate(typeof(BlankPage), Guid.NewGuid());
-                        MasterDetail.NavigationService.Frame.BackStack.Clear();
-                        MasterDetail.NavigationService.Frame.ForwardStack.Clear();
+                        MasterDetail.NavigationService.ClearBackStack();
+                        MasterDetail.NavigationService.ClearForwardStack();
                         MasterDetail.NavigationService.ClearCache(true);
                     }
 
@@ -1814,7 +1819,7 @@ namespace Telegram.Views
             }
             else if (command is ShortcutCommand.Search)
             {
-                if (MasterDetail.NavigationService.ActiveContent is ISearchablePage child)
+                if (MasterDetail.NavigationService.Content is ISearchablePage child)
                 {
                     child.Search();
                 }
@@ -2062,16 +2067,17 @@ namespace Telegram.Views
 
         public void Initialize()
         {
-            Frame.BackStack.Clear();
+            var root = Frame?.NavigationService;
+            root?.ClearBackStack();
 
             if (MasterDetail.NavigationService == null)
             {
                 var service = BootStrapper.Current.NavigationServiceFactory(ViewModel.Session, ViewModel.NavigationService.Window, BootStrapper.BackButton.Ignore, $"Main{ViewModel.Session.Id}", false) as NavigationService;
                 service.Frame.DataContext = new object();
                 service.Frame.CacheSize = 5;
-                service.FrameFacade.Navigated += OnNavigated;
+                service.Navigated += OnNavigated;
 
-                MasterDetail.Initialize(service, Frame, ViewModel, true);
+                MasterDetail.Initialize(service, root, ViewModel, true);
             }
 
             ViewModel.NavigationService = MasterDetail.NavigationService;
@@ -3903,7 +3909,7 @@ namespace Telegram.Views
         {
             NavigationService.Window.SetTitleBar(null);
 
-            if (MasterDetail.NavigationService.ActiveContent is IActivablePage page)
+            if (MasterDetail.NavigationService.Content is IActivablePage page)
             {
                 page.PopupOpened();
             }
@@ -3913,7 +3919,7 @@ namespace Telegram.Views
         {
             NavigationService.Window.SetTitleBar(TitleBarHandle);
 
-            if (MasterDetail.NavigationService.ActiveContent is IActivablePage page)
+            if (MasterDetail.NavigationService.Content is IActivablePage page)
             {
                 page.PopupClosed();
             }

@@ -21,7 +21,7 @@ namespace Telegram.Views
         public ChatBusinessRepliesPage()
         {
             InitializeComponent();
-            NavigationCacheMode = ApiInfo.NavigationCacheMode;
+            Retention = ApiInfo.PageRetention;
         }
 
         public override string GetTitle()

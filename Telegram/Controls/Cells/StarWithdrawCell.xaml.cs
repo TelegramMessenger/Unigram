@@ -10,6 +10,7 @@ using System.Numerics;
 using Telegram.Common;
 using Telegram.Controls.Media;
 using Telegram.Converters;
+using Telegram.Navigation.Services;
 using Telegram.Td.Api;
 using Telegram.ViewModels.Chats;
 using Windows.UI.Xaml;
@@ -29,7 +30,7 @@ namespace Telegram.Controls.Cells
 
         private DispatcherTimer _countdownTimer;
 
-        public void OnNavigatedTo(NavigationEventArgs e)
+        public void OnNavigatedTo(NavigatedEventArgs e)
         {
             ViewModel.PropertyChanged += OnPropertyChanged;
 
@@ -37,7 +38,7 @@ namespace Telegram.Controls.Cells
             UpdateCountdown();
         }
 
-        public void OnNavigatedFrom(NavigationEventArgs e)
+        public void OnNavigatedFrom(NavigatedEventArgs e)
         {
             ViewModel.PropertyChanged -= OnPropertyChanged;
         }

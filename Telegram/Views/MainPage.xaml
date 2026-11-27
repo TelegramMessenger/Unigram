@@ -19,15 +19,7 @@
                    Loaded="OnLoaded"
                    Unloaded="OnUnloaded">
 
-    <Page.Transitions>
-        <TransitionCollection>
-            <NavigationThemeTransition>
-                <SuppressNavigationTransitionInfo />
-            </NavigationThemeTransition>
-        </TransitionCollection>
-    </Page.Transitions>
-
-    <Page.Resources>
+    <UserControl.Resources>
         <DataTemplate x:Name="SessionItemTemplate"
                       x:DataType="services:ISession">
             <Grid Margin="-2,0">
@@ -76,7 +68,7 @@
                                        Grid.Column="2" />
             </Grid>
         </DataTemplate>
-    </Page.Resources>
+    </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>

@@ -5,6 +5,7 @@
 // file LICENSE or copy at https://www.gnu.org/licenses/gpl-3.0.txt)
 //
 
+using Telegram.Navigation;
 using Telegram.Navigation.Services;
 using Telegram.Services;
 using Telegram.Td.Api;
@@ -15,7 +16,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Telegram.Views
 {
-    public sealed partial class BlankPage : Page
+    public sealed partial class BlankPage : NavigationPage
     {
         private IClientService _clientService;
         private INavigationService _navigationService;
@@ -26,7 +27,8 @@ namespace Telegram.Views
             InitializeComponent();
             DataContext = new object();
 
-            NavigationCacheMode = NavigationCacheMode.Required;
+            Retention = PageRetention.Keep;
+            Transition = PageTransition.None;
         }
 
         public void Activate(INavigationService navigationService)
@@ -36,9 +38,9 @@ namespace Telegram.Views
             _aggregator ??= navigationService.Session.Resolve<IEventAggregator>();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigatedEventArgs e)
         {
-            if (e.NavigationMode == NavigationMode.Back && Frame.ForwardStack.Count > 0 && Frame.ForwardStack[^1].SourcePageType == typeof(AuthorizationPage))
+            if (e.NavigationMode == NavigationMode.Back && _navigationService?.ForwardStack is { Count: > 0 } forward && forward[^1].SourcePageType == typeof(AuthorizationPage))
             {
                 _clientService.Send(new Destroy());
             }

@@ -1321,7 +1321,7 @@ namespace Telegram.Navigation
             {
                 return standalonePage.NavigationService;
             }
-            else if (content is Page { DataContext: ViewModelBase viewModel })
+            else if (content is NavigationPage { DataContext: ViewModelBase viewModel })
             {
                 return viewModel.NavigationService;
             }
@@ -1515,19 +1515,19 @@ namespace Telegram.Navigation
                         AddSignInBackStack(service, false);
                         break;
                     case AuthorizationStateWaitCode:
-                        service.Navigate(typeof(AuthorizationCodePage), navigationStackEnabled: false);
+                        service.Navigate(typeof(AuthorizationCodePage));
                         AddSignInBackStack(service, true);
                         break;
                     case AuthorizationStateWaitEmailAddress:
-                        service.Navigate(typeof(AuthorizationEmailAddressPage), navigationStackEnabled: false);
+                        service.Navigate(typeof(AuthorizationEmailAddressPage));
                         AddSignInBackStack(service, true);
                         break;
                     case AuthorizationStateWaitEmailCode:
-                        service.Navigate(typeof(AuthorizationEmailCodePage), navigationStackEnabled: false);
+                        service.Navigate(typeof(AuthorizationEmailCodePage));
                         AddSignInBackStack(service, true);
                         break;
                     case AuthorizationStateWaitRegistration:
-                        service.Navigate(typeof(AuthorizationRegistrationPage), navigationStackEnabled: false);
+                        service.Navigate(typeof(AuthorizationRegistrationPage));
                         AddSignInBackStack(service, true);
                         break;
                     case AuthorizationStateWaitPassword waitPassword:
@@ -1536,7 +1536,7 @@ namespace Telegram.Navigation
                             await service.ShowPopupAsync(string.Format(Strings.RestoreEmailSent, waitPassword.RecoveryEmailAddressPattern), Strings.AppName, Strings.OK);
                         }
 
-                        service.Navigate(typeof(AuthorizationPasswordPage), navigationStackEnabled: false);
+                        service.Navigate(typeof(AuthorizationPasswordPage));
                         AddSignInBackStack(service, true);
                         break;
                 }
@@ -1743,7 +1743,7 @@ namespace Telegram.Navigation
 
             for (int i = services.Count - 1; i >= 0; i--)
             {
-                services[i].FrameFacade.RaiseShortcutInvoked(args);
+                services[i].RaiseShortcutInvoked(args);
 
                 if (args.Handled)
                 {
@@ -1932,7 +1932,7 @@ namespace Telegram.Navigation
 
             for (int i = services.Count - 1; i >= 0; i--)
             {
-                services[i].FrameFacade.RaiseBackRequested(args);
+                services[i].RaiseBackRequested(args);
 
                 if (handled = args.Handled)
                 {
@@ -1958,7 +1958,7 @@ namespace Telegram.Navigation
 
             foreach (var service in services)
             {
-                service.FrameFacade.RaiseForwardRequested(args);
+                service.RaiseForwardRequested(args);
                 if (args.Handled)
                 {
                     return true;

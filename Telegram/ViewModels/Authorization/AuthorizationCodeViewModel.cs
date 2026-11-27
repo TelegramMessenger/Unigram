@@ -138,7 +138,7 @@ namespace Telegram.ViewModels.Authorization
                 else if (error.MessageEquals(ErrorType.FIRSTNAME_INVALID))
                 {
                     NavigationService.GoBack();
-                    NavigationService.Frame.ForwardStack.Clear();
+                    NavigationService.ClearForwardStack();
 
                     await ShowPopupAsync(error.Message, Strings.InvalidFirstName, Strings.OK);
                 }

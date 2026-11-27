@@ -94,7 +94,7 @@ namespace Telegram.ViewModels.Settings
                 if (passwordState.HasPassword is false)
                 {
                     NavigationService.GoBack();
-                    NavigationService.Frame.ForwardStack.Clear();
+                    NavigationService.ClearForwardStack();
                 }
                 else
                 {

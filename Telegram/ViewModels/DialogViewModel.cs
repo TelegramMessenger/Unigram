@@ -2478,7 +2478,7 @@ namespace Telegram.ViewModels
         private void GoBackFromInaccessible()
         {
             // By now another chat may have replaced this one, and that one must stay open.
-            if (_navigatedFrom || NavigationService?.ActiveContent is not FrameworkElement { DataContext: var context } || context != this)
+            if (_navigatedFrom || NavigationService?.Content is not { DataContext: var context } || context != this)
             {
                 return;
             }
@@ -4373,14 +4373,7 @@ namespace Telegram.ViewModels
 
             await ClientService.SendAsync(new ToggleChatViewAsTopics(chat.Id, true));
 
-            var target = typeof(ProfilePage);
-            var parameter = new ChatMessageTopic(chat.Id, null);
-
-            NavigationService.GoBackAt(0, false);
-
-            NavigationService.Frame.BackStack.Add(new PageStackEntry(target, parameter, null));
-            NavigationService.GoBack(infoOverride: new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft });
-            NavigationService.Frame.ForwardStack.Clear();
+            NavigationService.GoBackTo(typeof(ProfilePage), new ChatMessageTopic(chat.Id, null));
         }
 
         public async void ViewAsTopics()
@@ -4435,23 +4428,23 @@ namespace Telegram.ViewModels
 
             if (SavedMessagesTopic != null || ForumTopic != null)
             {
-                navigationService.Navigate(typeof(ProfilePage), new ChatMessageTopic(chat.Id, TopicId), infoOverride: new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+                navigationService.Navigate(typeof(ProfilePage), new ChatMessageTopic(chat.Id, TopicId), transition: PageTransition.Forward);
             }
             else if (DirectMessagesChatTopic != null)
             {
-                navigationService.NavigateToSender(DirectMessagesChatTopic.SenderId, infoOverride: new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+                navigationService.NavigateToSender(DirectMessagesChatTopic.SenderId, transition: PageTransition.Forward);
             }
             else if (IsDirectMessagesGroup && ClientService.TryGetSupergroupFull(chat, out SupergroupFullInfo fullInfo))
             {
-                navigationService.Navigate(typeof(ProfilePage), fullInfo.DirectMessagesChatId, infoOverride: new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+                navigationService.Navigate(typeof(ProfilePage), fullInfo.DirectMessagesChatId, transition: PageTransition.Forward);
             }
             else if (ChatId == ClientService.Options.MyId)
             {
-                navigationService.Navigate(typeof(ProfilePage), new ChatMessageTopic(chat.Id, null), infoOverride: new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+                navigationService.Navigate(typeof(ProfilePage), new ChatMessageTopic(chat.Id, null), transition: PageTransition.Forward);
             }
             else
             {
-                navigationService.Navigate(typeof(ProfilePage), chat.Id, infoOverride: new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+                navigationService.Navigate(typeof(ProfilePage), chat.Id, transition: PageTransition.Forward);
             }
         }
 

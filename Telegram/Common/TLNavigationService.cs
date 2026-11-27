@@ -50,7 +50,7 @@ namespace Telegram.Common
         private readonly IPasscodeService _passcodeService;
         private readonly IViewService _viewService;
 
-        public TLNavigationService(ISession session, WindowContext window, Frame frame, string id)
+        public TLNavigationService(ISession session, WindowContext window, NavigationFrame frame, string id)
             : base(session, window, frame, id)
         {
             _clientService = session.Resolve<IClientService>();
@@ -59,17 +59,6 @@ namespace Telegram.Common
         }
 
         public IClientService ClientService => _clientService;
-
-        protected override bool GoForwardToParked(object parameter)
-        {
-            if (this.TryGetChatFromParameter(parameter, out ChatMessageTopic target))
-            {
-                NavigateToChat(target.ChatId, topic: target.MessageTopic, force: false);
-                return true;
-            }
-
-            return false;
-        }
 
         public async void NavigateToTextEditor(long chatId, MessageTopic topic, long messageId, RichMessage message, InputMessageReplyTo replyTo = null, MessageSendOptions sendOptions = null)
         {
@@ -199,7 +188,7 @@ namespace Telegram.Common
         {
             TabViewItem CreateTabViewItem(WindowContext window)
             {
-                var frame = new Frame();
+                var frame = new NavigationFrame();
                 var service = new TLNavigationService(Session, window, frame, "InstantView"); // BootStrapper.Current.NavigationServiceFactory(BootStrapper.BackButton.Ignore, frame, _clientService.SessionId, "ciccio", false);
 
                 service.Navigate(typeof(InstantPage), new InstantPageArgs(instantView, url, title));
@@ -424,15 +413,15 @@ namespace Telegram.Common
             await _viewService.OpenAsync(parameters);
         }
 
-        public void NavigateToSender(MessageSender sender, NavigationState state = null, NavigationTransitionInfo infoOverride = null)
+        public void NavigateToSender(MessageSender sender, NavigationState state = null, PageTransition transition = PageTransition.Default)
         {
             if (sender is MessageSenderUser user)
             {
-                NavigateToUser(user.UserId, false, state: state, infoOverride: infoOverride);
+                NavigateToUser(user.UserId, false, state: state, transition: transition);
             }
             else if (sender is MessageSenderChat chat)
             {
-                Navigate(typeof(ProfilePage), chat.ChatId, state: state, infoOverride: infoOverride);
+                Navigate(typeof(ProfilePage), chat.ChatId, state: state, transition: transition);
             }
         }
 
@@ -462,7 +451,7 @@ namespace Telegram.Common
 
                 if (user.Id == _clientService.Options.MyId && chat.ViewAsTopics && topic == null)
                 {
-                    Navigate(typeof(ProfilePage), new ChatMessageTopic(chat.Id, null), infoOverride: new SuppressNavigationTransitionInfo());
+                    Navigate(typeof(ProfilePage), new ChatMessageTopic(chat.Id, null), transition: PageTransition.None);
                     return;
                 }
 
@@ -606,51 +595,18 @@ namespace Telegram.Common
                             parameter = chat.Id;
                         }
 
-                        // A parked page was deactivated when it was parked. The view model is also
-                        // missing after a frame navigation out of the parking that then failed.
-                        var unparked = Unpark(chatPage, parameter);
-                        if (!unparked)
-                        {
-                            chatPage.ViewModel?.NavigatedFrom(null, false);
-                            chatPage.Deactivate(false);
-                        }
-
-                        chatPage.Activate(this);
-
-                        var viewModel = chatPage.ViewModel;
-                        viewModel.NavigationService = this;
-                        viewModel.Dispatcher = Dispatcher;
-
-                        // Before the load, where a frame navigation raises it too: the BlankPage
-                        // entry goes back under the chat, so going back while it loads closes it.
-                        if (unparked)
-                        {
-                            RaiseUnparked(chatPage, parameter);
-                        }
-
-                        await viewModel.NavigatedToAsync(parameter, NavigationMode.New, state);
-
-                        // Closed, replaced by another chat or navigated away from while it loaded:
-                        // whatever came after owns the page and the stacks now.
-                        if (viewModel != chatPage.ViewModel || IsParked || Frame?.Content != chatPage)
-                        {
-                            return;
-                        }
-
-                        FrameFacade.RaiseNavigated(parameter);
-                        Frame.ForwardStack.Clear();
-
-                        if (clearBackStack)
+                        // The chat takes the current one's place: switching chats is not a step to go
+                        // back through.
+                        var replaced = NavigateCore(new NavigationStackItem(typeof(ChatPage), parameter, state, PageTransition.None), PageTransition.None, NavigationMode.New, true);
+                        if (replaced && clearBackStack)
                         {
                             GoBackAt(0, false);
                         }
-
-                        OverlayWindow.TryHide(XamlRoot, ContentDialogResult.None);
                     }
                     else
                     {
                         Type target;
-                        NavigationTransitionInfo info = null;
+                        var transition = PageTransition.None;
                         object parameter;
 
                         if (scheduled)
@@ -668,35 +624,21 @@ namespace Telegram.Common
                             {
                                 if (CurrentPageType == typeof(ProfilePage) || CurrentPageType == typeof(ChatPinnedPage))
                                 {
-                                    var cacheKey = Guid.NewGuid().ToString();
-                                    var cacheParameter = parameter;
-
-                                    parameter = cacheKey;
-                                    CacheKeyToParameter[cacheKey] = cacheParameter;
-
-                                    GoBackAt(0, false);
-
-                                    Frame.BackStack.Add(new PageStackEntry(target, parameter, null));
-                                    GoBack(state, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
-                                    Frame.ForwardStack.Clear();
+                                    GoBackTo(target, parameter, state);
                                     return;
                                 }
                                 else if (CurrentPageType == typeof(ChatPage))
                                 {
-                                    info = new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight };
+                                    transition = PageTransition.Forward;
                                 }
                             }
                             else if (currentChat.ChatId == chat.Id && currentChat.MessageTopic == null && topic != null)
                             {
-                                info = new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight };
-                            }
-                            else
-                            {
-                                info = new SuppressNavigationTransitionInfo();
+                                transition = PageTransition.Forward;
                             }
                         }
 
-                        if (Navigate(target, parameter, state, info))
+                        if (Navigate(target, parameter, state, transition))
                         {
                             if (clearBackStack)
                             {
@@ -870,7 +812,7 @@ namespace Telegram.Common
             NavigateToChat(chat, message, topic, accessToken, state, scheduled, force, createNewWindow);
         }
 
-        public async void NavigateToUser(long userId, bool toChat = false, NavigationState state = null, NavigationTransitionInfo infoOverride = null)
+        public async void NavigateToUser(long userId, bool toChat = false, NavigationState state = null, PageTransition transition = PageTransition.Default)
         {
             if (_clientService.TryGetChatFromUser(userId, out Chat chat))
             {
@@ -881,7 +823,7 @@ namespace Telegram.Common
                 }
                 else
                 {
-                    Navigate(typeof(ProfilePage), chat.Id, state: state, infoOverride: infoOverride);
+                    Navigate(typeof(ProfilePage), chat.Id, state: state, transition: transition);
                 }
             }
             else
@@ -896,7 +838,7 @@ namespace Telegram.Common
                     }
                     else
                     {
-                        Navigate(typeof(ProfilePage), created.Id, state: state, infoOverride: infoOverride);
+                        Navigate(typeof(ProfilePage), created.Id, state: state, transition: transition);
                     }
                 }
             }

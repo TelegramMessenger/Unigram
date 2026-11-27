@@ -24,7 +24,15 @@ namespace Telegram.Views
         public ChatPage()
         {
             InitializeComponent();
-            NavigationCacheMode = ApiInfo.NavigationCacheMode;
+
+            // Resident, it stays in the tree between chats and while the pane is empty, so a chat
+            // opens without the page being loaded again.
+            Retention = ApiInfo.IsXbox
+                ? PageRetention.Discard
+                : AppSettings.Diagnostics.ParkChatPageDebug
+                ? PageRetention.Resident
+                : PageRetention.Cache;
+            Transition = PageTransition.None;
         }
 
         public override string GetTitle()
@@ -47,7 +55,7 @@ namespace Telegram.Views
             View.Search();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigatedEventArgs e)
         {
             if (PowerSavingPolicy.AreSmoothTransitionsEnabled && AppSettings.Diagnostics.ConnectedAnimationsDebug)
             {
@@ -55,7 +63,7 @@ namespace Telegram.Views
             }
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected override void OnNavigatingFrom(NavigatingEventArgs e)
         {
             if (PowerSavingPolicy.AreSmoothTransitionsEnabled && AppSettings.Diagnostics.ConnectedAnimationsDebug && e.SourcePageType == typeof(ProfilePage) && ViewModel.NavigationService.TryGetChatFromParameter(e.Parameter, out ChatMessageTopic nextTopic))
             {
@@ -90,7 +98,7 @@ namespace Telegram.Views
             View.Activate(viewModel);
         }
 
-        public void Park()
+        protected override void OnParked()
         {
             View.Park();
         }

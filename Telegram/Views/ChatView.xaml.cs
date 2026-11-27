@@ -270,6 +270,12 @@ namespace Telegram.Views
             {
                 _debouncer.Stop();
 
+                // The chat has been closed, and messages must not be read after it.
+                if (IsLeaving)
+                {
+                    return;
+                }
+
                 _viewMessagesFirstVisibleId = 0;
                 _viewMessagesLastVisibleId = 0;
 
@@ -542,6 +548,12 @@ namespace Telegram.Views
         /// Hides the view while the page stands for the empty pane, and does what unloading would
         /// have: a collapsed view stays loaded, so OnUnloaded never runs for it.
         /// </summary>
+        /// <summary>
+        /// The page showing this view has been navigated away from and is playing its exit: the
+        /// chat is closed, but the view is still in the tree and its window events still arrive.
+        /// </summary>
+        private bool IsLeaving => Parent is NavigationPage { IsLeaving: true };
+
         public void Park()
         {
             // The containers leave the panel here, as on a normal close, so the close pays for
@@ -1678,8 +1690,8 @@ namespace Telegram.Views
         private void Window_Activated(object sender, Navigation.WindowActivatedEventArgs e)
         {
             // The window events stay subscribed while parked, as the view is never unloaded, and
-            // the empty pane has no composer to focus or chat to save.
-            if (_parked)
+            // the empty pane has no composer to focus or chat to save. Nor has a chat on its way out.
+            if (_parked || IsLeaving)
             {
                 return;
             }
@@ -1777,8 +1789,9 @@ namespace Telegram.Views
 
         private void OnCharacterReceived(WindowContext sender, CharacterReceivedRoutedEventArgs args)
         {
-            // Typing over the empty pane searches the chat list, in MainPage.
-            if (_parked)
+            // Typing over the empty pane searches the chat list, in MainPage. Typing during a
+            // chat's exit belongs to the page coming in.
+            if (_parked || IsLeaving)
             {
                 return;
             }

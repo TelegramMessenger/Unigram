@@ -10,6 +10,8 @@ using System.ComponentModel;
 using Telegram.Common;
 using Telegram.Controls.Cells.Revenue;
 using Telegram.Converters;
+using Telegram.Navigation;
+using Telegram.Navigation.Services;
 using Telegram.Td.Api;
 using Telegram.ViewModels.Grams;
 using Telegram.Views.Grams.Popups;
@@ -26,17 +28,18 @@ namespace Telegram.Views.Grams
         public GramsPage()
         {
             InitializeComponent();
+            Transition = PageTransition.Entrance;
             Title = Strings.GramEarningsTitle;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigatedEventArgs e)
         {
             UpdateOwnedGramCount(ViewModel.OwnedGramCount);
 
             ViewModel.PropertyChanged += OnPropertyChanged;
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected override void OnNavigatedFrom(NavigatedEventArgs e)
         {
             ViewModel.PropertyChanged -= OnPropertyChanged;
         }

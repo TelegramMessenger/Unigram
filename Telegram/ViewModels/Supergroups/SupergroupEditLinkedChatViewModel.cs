@@ -256,7 +256,7 @@ namespace Telegram.ViewModels.Supergroups
                 if (response is Ok)
                 {
                     NavigationService.GoBack();
-                    NavigationService.Frame.ForwardStack.Clear();
+                    NavigationService.ClearForwardStack();
                 }
             }
         }
@@ -297,7 +297,7 @@ namespace Telegram.ViewModels.Supergroups
             if (response is Ok && !supergroup.IsChannel)
             {
                 NavigationService.GoBack();
-                NavigationService.Frame.ForwardStack.Clear();
+                NavigationService.ClearForwardStack();
             }
             else
             {
@@ -330,7 +330,7 @@ namespace Telegram.ViewModels.Supergroups
                     if (response is Ok)
                     {
                         NavigationService.GoBack();
-                        NavigationService.Frame.ForwardStack.Clear();
+                        NavigationService.ClearForwardStack();
                     }
                 }
             }

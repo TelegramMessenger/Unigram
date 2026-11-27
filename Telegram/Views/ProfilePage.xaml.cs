@@ -58,6 +58,7 @@ namespace Telegram.Views
         public ProfilePage()
         {
             InitializeComponent();
+            Transition = PageTransition.Entrance;
 
             _loader = new ScrollViewerIncrementalLoader(ScrollingHost);
 
@@ -149,7 +150,7 @@ namespace Telegram.Views
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigatedEventArgs e)
         {
             if (PowerSavingPolicy.AreSmoothTransitionsEnabled && AppSettings.Diagnostics.ConnectedAnimationsDebug)
             {
@@ -160,7 +161,7 @@ namespace Telegram.Views
 
             if (ViewModel.SelectedItem is ProfileTabItem tab)
             {
-                MediaFrame.Navigate(tab.PageType, tab.Parameter, new SuppressNavigationTransitionInfo());
+                MediaFrame.Navigate(tab.PageType, tab.Parameter, PageTransition.None);
             }
 
             InitializeScrolling();
@@ -200,7 +201,7 @@ namespace Telegram.Views
             ProfileHeader.InitializeScrolling(properties);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected override void OnNavigatedFrom(NavigatedEventArgs e)
         {
             ViewModel.PropertyChanged -= OnPropertyChanged;
             ViewModel.Delegate = null;
@@ -234,7 +235,7 @@ namespace Telegram.Views
             }
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected override void OnNavigatingFrom(NavigatingEventArgs e)
         {
             if (PowerSavingPolicy.AreSmoothTransitionsEnabled && AppSettings.Diagnostics.ConnectedAnimationsDebug && e.SourcePageType == typeof(ChatPage) && ViewModel.NavigationService.TryGetChatFromParameter(e.Parameter, out ChatMessageTopic nextTopic))
             {
@@ -253,7 +254,7 @@ namespace Telegram.Views
         {
             if (e.PropertyName.Equals("SharedCount") && ViewModel.SelectedItem is ProfileTabItem tab)
             {
-                MediaFrame.Navigate(tab.PageType, null, new SuppressNavigationTransitionInfo());
+                MediaFrame.Navigate(tab.PageType, null, PageTransition.None);
             }
         }
 
@@ -464,7 +465,7 @@ namespace Telegram.Views
 
         private bool _backgroundUpdated;
 
-        private void OnNavigating(object sender, NavigatingCancelEventArgs e)
+        private void OnNavigating(object sender, NavigatingEventArgs e)
         {
             if (_notifyCollectionChanged != null)
             {
@@ -484,9 +485,9 @@ namespace Telegram.Views
                     TargetPageParameter = e.Parameter
                 };
 
+                // Torn down once released, so the history stays on screen while the tab slides out.
                 savedMessagesPage.ViewModel.NavigatingFrom(args);
                 savedMessagesPage.ViewModel.NavigatedFrom(null, false);
-                savedMessagesPage.Deactivate(true);
             }
             else if (MediaFrame.Content is ProfileTabPage tabPage)
             {
@@ -495,7 +496,15 @@ namespace Telegram.Views
             }
         }
 
-        private void OnNavigated(object sender, NavigationEventArgs e)
+        private void OnMediaReleased(object sender, NavigationPageReleasedEventArgs e)
+        {
+            if (e.Page is IProfileChatPage savedMessagesPage)
+            {
+                savedMessagesPage.Deactivate(e.Navigation);
+            }
+        }
+
+        private void OnNavigated(object sender, NavigatedEventArgs e)
         {
             UpdateSearch(e.Content);
 
@@ -1073,14 +1082,11 @@ namespace Telegram.Views
             {
                 Logger.Info(page.PageType);
 
-                NavigationTransitionInfo transition = _prevSelectedIndex == -1
-                    ? new SuppressNavigationTransitionInfo()
-                    : new SlideNavigationTransitionInfo
-                    {
-                        Effect = _prevSelectedIndex < Navigation.SelectedIndex
-                            ? SlideNavigationTransitionEffect.FromRight
-                            : SlideNavigationTransitionEffect.FromLeft
-                    };
+                var transition = _prevSelectedIndex == -1
+                    ? PageTransition.None
+                    : _prevSelectedIndex < Navigation.SelectedIndex
+                    ? PageTransition.Forward
+                    : PageTransition.Backward;
 
                 _hasBeenScrolled = false;
 

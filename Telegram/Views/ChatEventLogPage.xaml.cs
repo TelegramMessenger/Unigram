@@ -21,7 +21,7 @@ namespace Telegram.Views
         public ChatEventLogPage()
         {
             InitializeComponent();
-            NavigationCacheMode = ApiInfo.NavigationCacheMode;
+            Retention = ApiInfo.PageRetention;
         }
 
         public override string GetTitle()

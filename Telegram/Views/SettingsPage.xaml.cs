@@ -72,13 +72,13 @@ namespace Telegram.Views
                     return Profile;
                 }
 
-                for (int i = ViewModel.NavigationService.Frame.BackStack.Count - 1; i >= 0; i--)
+                for (int i = ViewModel.NavigationService.BackStack.Count - 1; i >= 0; i--)
                 {
-                    if (_settings.TryGetValue(ViewModel.NavigationService.Frame.BackStack[i].SourcePageType, out item))
+                    if (_settings.TryGetValue(ViewModel.NavigationService.BackStack[i].SourcePageType, out item))
                     {
                         return item;
                     }
-                    else if (ViewModel.NavigationService.Frame.BackStack[i].SourcePageType == typeof(ProfilePage) && ViewModel.NavigationService.Frame.BackStack[i].Parameter is long chatId && chatId == ViewModel.ClientService.Options.MyId)
+                    else if (ViewModel.NavigationService.BackStack[i].SourcePageType == typeof(ProfilePage) && ViewModel.NavigationService.BackStack[i].Parameter is long chatId && chatId == ViewModel.ClientService.Options.MyId)
                     {
                         return Profile;
                     }
