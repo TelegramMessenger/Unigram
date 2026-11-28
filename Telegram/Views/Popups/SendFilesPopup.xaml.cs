@@ -2218,7 +2218,10 @@ namespace Telegram.Views.Popups
                         var preview = new BitmapImage();
                         ThumbnailController.SetDecodeSize(preview, 300, 0, xamlRoot);
 
-                        using var stream = await media.File.OpenReadAsync();
+                        // This runs synchronously inside XAML's layout tick. A brokered file's first
+                        // call blocks on cross-process COM, whose modal loop pumps pointer input, and
+                        // WinUI halts the app on input that arrives while the tick holds its guard.
+                        using var stream = await Task.Run(async () => await media.File.OpenReadAsync());
                         await preview.SetSourceAsync(stream);
 
                         source = preview;
