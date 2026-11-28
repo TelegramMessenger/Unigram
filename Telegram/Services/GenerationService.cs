@@ -655,7 +655,7 @@ namespace Telegram.Services
             {
                 var device = ElementComposition.GetBackgroundDevice();
 
-                using var bitmap = await CanvasBitmap.LoadAsync(device, new Uri("ms-appx:///Assets/Images/VideoNoteText.png"));
+                using var bitmap = await CanvasBitmap.LoadAsync(device, Path.Combine(AppPaths.InstalledPath, "Assets", "Images", "VideoNoteText.png"));
                 using var target = new CanvasRenderTarget(device, textSide, textSide, 96);
 
                 using (var session = target.CreateDrawingSession())
