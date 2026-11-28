@@ -512,6 +512,25 @@
   </Target>
 
   <!--
+    The MSIX tooling's WinAppSdkRemoveLinkedFilesFromPayload strips the JIT build's copy-local files
+    from an AOT package by removing @(_AssembliesToSkipPublish), which .NET 11's ILCompiler no longer
+    produces (it is _RuntimePackFilesToSkipPublish there). Left alone, the package carries CoreCLR,
+    the framework IL and WinRT.*.dll beside the native exe. Whatever the JIT build copies that publish
+    did not is dropped here, so the payload is the publish output, as it is unpackaged.
+  -->
+  <Target Name="RemoveUnpublishedFilesFromAotPayload" AfterTargets="WinAppSdkRemoveLinkedFilesFromPayload" BeforeTargets="_ComputeAppxPackagePayload" Condition="'$(PublishAot)' == 'true' and '$(IncludePublishItemsOutputGroup)' == 'true'">
+    <ItemGroup>
+      <_AotPublished Include="@(PackagingOutputs)" Condition="'%(PackagingOutputs.OutputGroup)' == 'PublishItemsOutputGroupOutput'" />
+      <_AotBuildCopies Include="@(PackagingOutputs)" Condition="'%(PackagingOutputs.OutputGroup)' == 'CopyLocalFilesOutputGroup' or '%(PackagingOutputs.OutputGroup)' == 'GetCopyToOutputDirectoryItemsOutputGroup'" />
+      <_AotBuildCopies Remove="@(_AotPublished)" MatchOnMetadata="TargetPath" MatchOnMetadataOptions="PathLike" />
+    </ItemGroup>
+    <Error Condition="'@(_AotPublished)' == ''" Text="No publish items in the package payload: the unpublished build copies cannot be told apart." />
+    <ItemGroup>
+      <PackagingOutputs Remove="@(_AotBuildCopies)" MatchOnMetadata="TargetPath" MatchOnMetadataOptions="PathLike" />
+    </ItemGroup>
+  </Target>
+
+  <!--
     Without a package, Windows takes the identity Limited Access Features are unlocked for from an
     Identity resource of type LimitedAccessFeature in the process's exe: the family name as UTF-16,
     language neutral, and with no terminator - a name with one is refused. FeatureTokenGenerator reads
