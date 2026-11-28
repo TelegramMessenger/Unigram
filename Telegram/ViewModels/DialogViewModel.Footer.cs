@@ -43,7 +43,16 @@ namespace Telegram.ViewModels
         EventLogFilters
     }
 
-    public sealed record ChatFooterState(ChatFooterKind Kind, ChatFooterAction Action, string Text, bool ReplyRestoresComposer = false, long PaidMessageStarCount = 0)
+    [Flags]
+    public enum ChatFooterSideButtons
+    {
+        None = 0,
+        Gift = 1,
+        Direct = 2,
+        GigagroupInfo = 4
+    }
+
+    public sealed record ChatFooterState(ChatFooterKind Kind, ChatFooterAction Action, string Text, bool ReplyRestoresComposer = false, long PaidMessageStarCount = 0, ChatFooterSideButtons SideButtons = ChatFooterSideButtons.None)
     {
         public static ChatFooterState Composer(long paidMessageStarCount)
         {
@@ -116,7 +125,7 @@ namespace Telegram.ViewModels
 
         public void UpdateFooter(Chat chat, Supergroup group, SupergroupFullInfo fullInfo)
         {
-            ApplyFooter(chat, ResolveCommonFooter(null) ?? ResolveSupergroupFooter(chat, group, fullInfo));
+            ApplyFooter(chat, WithGigagroupInfo(ResolveCommonFooter(null) ?? ResolveSupergroupFooter(chat, group, fullInfo), group));
         }
 
         private void ApplyFooter(Chat chat, ChatFooterState state)
@@ -373,7 +382,7 @@ namespace Telegram.ViewModels
                         return Bar(new ChatFooterState(ChatFooterKind.AccentButton, ChatFooterAction.Join, group.IsChannel ? Strings.ChannelJoinRequest : Strings.GroupJoinRequest));
                     }
 
-                    return Bar(new ChatFooterState(ChatFooterKind.AccentButton, ChatFooterAction.Join, group.IsChannel ? Strings.ChannelJoin : Strings.GroupJoin));
+                    return Bar(new ChatFooterState(ChatFooterKind.AccentButton, ChatFooterAction.Join, group.IsChannel ? Strings.ChannelJoin : Strings.GroupJoin, SideButtons: GetGiftAndDirect(group, fullInfo)));
                 }
             }
 
@@ -392,7 +401,7 @@ namespace Telegram.ViewModels
             {
                 if (Type != DialogType.Thread)
                 {
-                    return Bar(ChatFooterState.Button(ChatFooterAction.ToggleMute, ClientService.Notifications.IsMuted(chat) ? Strings.ChannelUnmute : Strings.ChannelMute));
+                    return Bar(new ChatFooterState(ChatFooterKind.Button, ChatFooterAction.ToggleMute, ClientService.Notifications.IsMuted(chat) ? Strings.ChannelUnmute : Strings.ChannelMute, SideButtons: GetGiftAndDirect(group, fullInfo)));
                 }
             }
             else if (Type == DialogType.Thread && ForumTopic is ForumTopic { Info.IsClosed: true } forumTopic && !CanManageTopic(group, forumTopic))
@@ -423,6 +432,37 @@ namespace Telegram.ViewModels
             }
 
             return ChatFooterState.Composer(administrator || group.IsAdministeredDirectMessagesGroup ? 0 : group.PaidMessageStarCount);
+        }
+
+        // Only the plain join and the mute button offer a gift and the direct messages group: asking to
+        // join, or any state where the user could write, does not.
+        private static ChatFooterSideButtons GetGiftAndDirect(Supergroup group, SupergroupFullInfo fullInfo)
+        {
+            var sides = ChatFooterSideButtons.None;
+
+            if (fullInfo?.CanSendGift == true)
+            {
+                sides |= ChatFooterSideButtons.Gift;
+            }
+
+            if (group.HasDirectMessagesGroup)
+            {
+                sides |= ChatFooterSideButtons.Direct;
+            }
+
+            return sides;
+        }
+
+        // Beside any bar in a broadcast group, the frozen one included, the button that explains who may
+        // write takes the place of the gift and direct messages.
+        private ChatFooterState WithGigagroupInfo(ChatFooterState state, Supergroup group)
+        {
+            if (group?.IsBroadcastGroup != true || state.Kind == ChatFooterKind.Composer || Type is not (DialogType.History or DialogType.Thread))
+            {
+                return state;
+            }
+
+            return state with { SideButtons = ChatFooterSideButtons.GigagroupInfo };
         }
 
         private bool IsForumShownAsMessages(Supergroup group)

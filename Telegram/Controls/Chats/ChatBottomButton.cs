@@ -40,7 +40,6 @@ namespace Telegram.Controls.Chats
 
         private ChatBottomButtonAppearance _appearance;
         private double _accentRadius = 20;
-        private Thickness _accentMargin = new Thickness(4);
 
         public ChatBottomButton()
         {
@@ -61,23 +60,6 @@ namespace Telegram.Controls.Chats
                 if (AccentBackground != null)
                 {
                     AccentBackground.CornerRadius = new CornerRadius(value);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Where the accent fill sits: inset from the edges, and clear of any button laid over this one.
-        /// </summary>
-        public Thickness AccentMargin
-        {
-            get => _accentMargin;
-            set
-            {
-                _accentMargin = value;
-
-                if (AccentBackground != null)
-                {
-                    AccentBackground.Margin = value;
                 }
             }
         }
@@ -112,7 +94,6 @@ namespace Telegram.Controls.Chats
             if (AccentBackground != null)
             {
                 AccentBackground.CornerRadius = new CornerRadius(_accentRadius);
-                AccentBackground.Margin = _accentMargin;
             }
 
             VisualStateManager.GoToState(this, GetStateName(_appearance), false);

@@ -312,6 +312,15 @@ namespace Telegram.Views
             }
 
             _footerShadow = new ThemeShadowEx(FooterShadow, Constants.BubbleElevation);
+
+            _sideIslands = new FrameworkElement[] { GiftIsland, FeedbackIsland, GigagroupInfoIsland };
+            _sideBackgrounds = new Border[] { GiftBackground, FeedbackBackground, GigagroupInfoBackground };
+            _sideShadows = new ThemeShadowEx[]
+            {
+                new ThemeShadowEx(GiftShadow, Constants.BubbleElevation),
+                new ThemeShadowEx(FeedbackShadow, Constants.BubbleElevation),
+                new ThemeShadowEx(GigagroupInfoShadow, Constants.BubbleElevation)
+            };
             _headerShadow = new ThemeShadowEx(HeaderShadow, Constants.BubbleElevation);
 
             UpdateIslands(AppSettings.Appearance.CornerRadius, AppSettings.IsAdaptiveWideEnabled);
@@ -573,6 +582,7 @@ namespace Telegram.Views
             _messages.Flush();
             _dust?.Stop();
             StopChecksHint();
+            CompleteSideButtons();
 
             // Ranges measured against rows this view is about to stop showing.
             _messagesShift.Clear();
@@ -1546,6 +1556,8 @@ namespace Telegram.Views
             _forumViewModel?.SetChat(null);
 
             _updateThemeTask?.TrySetResult(true);
+
+            CompleteSideButtons();
 
             LeakTest(false);
         }
@@ -5916,6 +5928,8 @@ namespace Telegram.Views
                 ? Visibility.Visible
                 : Visibility.Collapsed;
 
+            UpdateSideButtons(FromPreview ? ChatFooterSideButtons.None : state.SideButtons, animated);
+
             if (FromPreview)
             {
                 ButtonAction.Visibility = Visibility.Collapsed;
@@ -6045,13 +6059,170 @@ namespace Telegram.Views
             TextArea.Visibility = Visibility.Collapsed;
         }
 
-        // The side buttons are laid over the bar, 48 wide, so the fill stops short of them.
-        private void UpdateAccentMargin()
+        // By index, from the right edge inwards. Nothing goes on the left: a search button there would
+        // repeat the header's.
+        private static readonly ChatFooterSideButtons[] SideButtonFlags =
         {
-            var left = ButtonFeedback.Visibility == Visibility.Visible ? 48 : 0;
-            var right = ButtonGift.Visibility == Visibility.Visible || ButtonGigagroupInfo.Visibility == Visibility.Visible ? 48 : 0;
+            ChatFooterSideButtons.Gift,
+            ChatFooterSideButtons.Direct,
+            ChatFooterSideButtons.GigagroupInfo
+        };
 
-            ButtonAction.AccentMargin = new Thickness(4 + left, 4, 4 + right, 4);
+        private const int SideButtonsDuration = 300;
+        private const double SideButtonSize = 48;
+
+        private FrameworkElement[] _sideIslands;
+        private Border[] _sideBackgrounds;
+        private ThemeShadowEx[] _sideShadows;
+
+        private readonly float[] _sideFrom = new float[3];
+        private readonly float[] _sideTo = new float[3];
+        private readonly float[] _sideValue = new float[3];
+
+        private double _sideSpacing = 8;
+        private int _sideStart;
+        private bool _sideAnimating;
+
+        // The side buttons are islands beside the bar, and the bar and the composer give up their width.
+        // A change eases every button's share at once, so the edge of the bar and the buttons move together.
+        private void UpdateSideButtons(ChatFooterSideButtons buttons, bool animated)
+        {
+            var changed = false;
+
+            for (int i = 0; i < _sideTo.Length; i++)
+            {
+                var to = (buttons & SideButtonFlags[i]) != 0 ? 1f : 0f;
+                if (to != _sideTo[i])
+                {
+                    _sideTo[i] = to;
+                    changed = true;
+                }
+            }
+
+            if (!changed)
+            {
+                return;
+            }
+            else if (!animated)
+            {
+                CompleteSideButtons();
+                return;
+            }
+
+            // From wherever an interrupted transition left them.
+            Array.Copy(_sideValue, _sideFrom, _sideValue.Length);
+            _sideStart = Environment.TickCount;
+
+            if (!_sideAnimating)
+            {
+                _sideAnimating = true;
+                CompositionTarget.Rendering += OnSideButtonsRendering;
+            }
+        }
+
+        private void CompleteSideButtons()
+        {
+            if (_sideAnimating)
+            {
+                _sideAnimating = false;
+                CompositionTarget.Rendering -= OnSideButtonsRendering;
+            }
+
+            Array.Copy(_sideTo, _sideValue, _sideTo.Length);
+            ApplySideButtons();
+        }
+
+        // Per frame rather than on the compositor: the width of the bar is layout, and the composer's
+        // text has to wrap to it.
+        private void OnSideButtonsRendering(object sender, object e)
+        {
+            var t = (Environment.TickCount - _sideStart) / (float)SideButtonsDuration;
+            if (t >= 1)
+            {
+                CompleteSideButtons();
+                return;
+            }
+
+            // Ease out quint.
+            var k = 1 - t;
+            var eased = 1 - k * k * k * k * k;
+
+            for (int i = 0; i < _sideValue.Length; i++)
+            {
+                _sideValue[i] = _sideFrom[i] + (_sideTo[i] - _sideFrom[i]) * eased;
+            }
+
+            ApplySideButtons();
+        }
+
+        private void ApplySideButtons()
+        {
+            var step = SideButtonSize + _sideSpacing;
+            var right = 0d;
+
+            for (int i = 0; i < _sideValue.Length; i++)
+            {
+                PlaceSideButton(i, right);
+                right += _sideValue[i] * step;
+            }
+
+            ChatFooter.Margin =
+                FooterShadow.Margin =
+                TextArea.Margin = new Thickness(0, 0, right, 0);
+        }
+
+        private void PlaceSideButton(int index, double offset)
+        {
+            var island = _sideIslands[index];
+            var value = _sideValue[index];
+
+            if (value <= 0)
+            {
+                island.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            island.Visibility = Visibility.Visible;
+            island.Margin = new Thickness(0, 0, offset, 0);
+
+            var scale = 0.4f + 0.6f * value;
+
+            var visual = ElementComposition.GetElementVisual(island);
+            visual.CenterPoint = new Vector3((float)SideButtonSize / 2);
+            visual.Scale = new Vector3(scale, scale, 1);
+            visual.Opacity = value;
+        }
+
+        // Docked, the buttons sit flush against the bar and share its surface.
+        private void UpdateSideButtonsIslands(bool merged)
+        {
+            _sideSpacing = merged ? 0 : 8;
+
+            foreach (var shadow in _sideShadows)
+            {
+                shadow.IsVisible = !merged;
+            }
+
+            ApplySideButtons();
+        }
+
+        private void UpdateSideButtonsRadius(double surface)
+        {
+            var radius = Math.Min(surface, SideButtonSize / 2);
+
+            GiftShadow.RadiusX = GiftShadow.RadiusY =
+                FeedbackShadow.RadiusX = FeedbackShadow.RadiusY =
+                GigagroupInfoShadow.RadiusX = GigagroupInfoShadow.RadiusY = radius;
+
+            foreach (var background in _sideBackgrounds)
+            {
+                background.CornerRadius = new CornerRadius(radius);
+            }
+
+            foreach (var shadow in _sideShadows)
+            {
+                shadow.Invalidate();
+            }
         }
 
         // The pill sits on the bar, which stays as its background and takes no clicks of its own.
@@ -7386,6 +7557,8 @@ namespace Telegram.Views
             ButtonAction.AccentRadius = pill;
             ButtonStart.CornerRadius = new CornerRadius(pill);
 
+            UpdateSideButtonsRadius(surface);
+
             // The quoted message is a strip, not a button, and a full radius would make it a pill. Its
             // left side carries the accent line, so it keeps a quote's 4 there.
             var reference = Math.Max(4, radius - 4);
@@ -7508,6 +7681,7 @@ namespace Telegram.Views
             FooterScrim.Margin = new Thickness(-margin, -ScrimOutset, -margin, -margin);
             UpdateFooterScrim();
             _footerShadow.IsVisible = !merged;
+            UpdateSideButtonsIslands(merged);
 
             InlinePanel.Margin = new Thickness(margin, 0, margin, -surface);
             InlineShadow.Margin = new Thickness(0, 0, 0, -surface);
@@ -7549,11 +7723,7 @@ namespace Telegram.Views
 
             UpdateUserStatus(chat, user);
 
-            ButtonFeedback.Visibility = Visibility.Collapsed;
-            ButtonGift.Visibility = Visibility.Collapsed;
             ButtonSuggest.Visibility = Visibility.Collapsed;
-            ButtonGigagroupInfo.Visibility = Visibility.Collapsed;
-            UpdateAccentMargin();
 
             if (fullInfo == null)
             {
@@ -7672,11 +7842,7 @@ namespace Telegram.Views
                 ViewModel.UpdateLastSeen(Locale.Declension(Strings.R.Members, group.MemberCount));
             }
 
-            ButtonFeedback.Visibility = Visibility.Collapsed;
-            ButtonGift.Visibility = Visibility.Collapsed;
             ButtonSuggest.Visibility = Visibility.Collapsed;
-            ButtonGigagroupInfo.Visibility = Visibility.Collapsed;
-            UpdateAccentMargin();
 
             if (fullInfo == null)
             {
@@ -7734,40 +7900,14 @@ namespace Telegram.Views
                 ViewModel.UpdateLastSeen(null as string);
             }
 
-            ButtonFeedback.Visibility = group.HasDirectMessagesGroup
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-
             ButtonSuggest.Visibility = group.IsDirectMessagesGroup
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-
-            ButtonGigagroupInfo.Visibility = group.IsBroadcastGroup && ViewModel.Type is DialogType.History or DialogType.Thread
                 ? Visibility.Visible
                 : Visibility.Collapsed;
 
             if (group.IsChannel)
             {
-                if (fullInfo == null)
-                {
-                    ButtonGift.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    ButtonGift.Visibility = fullInfo.CanSendGift
-                        ? Visibility.Visible
-                        : Visibility.Collapsed;
-                }
-
-                UpdateAccentMargin();
                 return;
             }
-            else
-            {
-                ButtonGift.Visibility = Visibility.Collapsed;
-            }
-
-            UpdateAccentMargin();
 
             UpdateComposerHeader(chat, ViewModel.ComposerHeader);
             UpdateChatPermissions(chat);

@@ -1647,30 +1647,70 @@
                     <chats:ChatStartButton x:Name="ButtonStart"
                                            Click="{x:Bind ViewModel.Action}"
                                            Visibility="Collapsed" />
-                    <controls:GlyphButton x:Name="ButtonFeedback"
-                                          Click="ButtonFeedback_Click"
-                                          AutomationProperties.Name="{CustomResource SendDirectMessage}"
-                                          ToolTipService.ToolTip="{CustomResource SendDirectMessage}"
-                                          HorizontalAlignment="Left"
-                                          Glyph="&#xE954;"
-                                          FontSize="24"
-                                          Visibility="Collapsed" />
-                    <controls:GlyphButton x:Name="ButtonGift"
-                                          Click="ButtonGift_Click"
-                                          AutomationProperties.Name="{CustomResource SendAGift}"
-                                          ToolTipService.ToolTip="{CustomResource SendAGift}"
-                                          HorizontalAlignment="Right"
-                                          Glyph="&#xEABB;"
-                                          FontSize="24"
-                                          Visibility="Collapsed" />
-                    <controls:GlyphButton x:Name="ButtonGigagroupInfo"
-                                          Click="ButtonGigagroupInfo_Click"
-                                          AutomationProperties.Name="{CustomResource BroadcastGroupInfo}"
-                                          ToolTipService.ToolTip="{CustomResource BroadcastGroupInfo}"
-                                          HorizontalAlignment="Right"
-                                          Glyph="&#xEA8C;"
-                                          FontSize="24"
-                                          Visibility="Collapsed" />
+                </Grid>
+
+                <!-- The side buttons, each an island of its own: placed and animated by UpdateSideButtons. -->
+                <Grid x:Name="GiftIsland"
+                      Width="48"
+                      Height="48"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom"
+                      Visibility="Collapsed">
+                    <Rectangle x:Name="GiftShadow"
+                               RadiusX="24"
+                               RadiusY="24" />
+                    <Border x:Name="GiftBackground"
+                            Background="{ThemeResource PageSubHeaderBackgroundBrush2}"
+                            CornerRadius="24">
+                        <controls:GlyphButton x:Name="ButtonGift"
+                                              Click="ButtonGift_Click"
+                                              AutomationProperties.Name="{CustomResource SendAGift}"
+                                              ToolTipService.ToolTip="{CustomResource SendAGift}"
+                                              Glyph="&#xEABB;"
+                                              FontSize="24" />
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="FeedbackIsland"
+                      Width="48"
+                      Height="48"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom"
+                      Visibility="Collapsed">
+                    <Rectangle x:Name="FeedbackShadow"
+                               RadiusX="24"
+                               RadiusY="24" />
+                    <Border x:Name="FeedbackBackground"
+                            Background="{ThemeResource PageSubHeaderBackgroundBrush2}"
+                            CornerRadius="24">
+                        <controls:GlyphButton x:Name="ButtonFeedback"
+                                              Click="ButtonFeedback_Click"
+                                              AutomationProperties.Name="{CustomResource SendDirectMessage}"
+                                              ToolTipService.ToolTip="{CustomResource SendDirectMessage}"
+                                              Glyph="&#xE954;"
+                                              FontSize="24" />
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="GigagroupInfoIsland"
+                      Width="48"
+                      Height="48"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom"
+                      Visibility="Collapsed">
+                    <Rectangle x:Name="GigagroupInfoShadow"
+                               RadiusX="24"
+                               RadiusY="24" />
+                    <Border x:Name="GigagroupInfoBackground"
+                            Background="{ThemeResource PageSubHeaderBackgroundBrush2}"
+                            CornerRadius="24">
+                        <controls:GlyphButton x:Name="ButtonGigagroupInfo"
+                                              Click="ButtonGigagroupInfo_Click"
+                                              AutomationProperties.Name="{CustomResource BroadcastGroupInfo}"
+                                              ToolTipService.ToolTip="{CustomResource BroadcastGroupInfo}"
+                                              Glyph="&#xEA8C;"
+                                              FontSize="24" />
+                    </Border>
                 </Grid>
 
                 <Grid x:Name="ManagePanel"
