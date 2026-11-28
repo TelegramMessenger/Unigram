@@ -358,9 +358,26 @@
                                                      VerticalAlignment="Bottom"
                                                      AutomationProperties.Name="{CustomResource AccDescrEmojiButton}"
                                                      CornerRadius="20"
-                                                     Margin="0,0,-8,0"
-                                                     Grid.Column="1" />
+                                                     Margin="0,0,-8,0" />
                             <!--ToolTipService.ToolTip="{CustomResource AccDescrEmojiButton}"-->
+
+                            <!-- The reaction chosen for the story, or an empty heart to react with one.
+                                 Next to sending rather than to stickers, which open on hover: the
+                                 reactions offered above it would otherwise be reached across that
+                                 button. -->
+                            <local:StoryReactionButton x:Name="ButtonReact"
+                                                       ContextRequested="ButtonReact_ContextRequested"
+                                                       ReactionSize="28"
+                                                       ShowsEmptyHeart="True"
+                                                       AllowFocusOnInteraction="False"
+                                                       VerticalAlignment="Bottom"
+                                                       HorizontalContentAlignment="Center"
+                                                       CornerRadius="20"
+                                                       Width="48"
+                                                       Height="48"
+                                                       Margin="0,0,-8,0"
+                                                       AutomationProperties.Name="{CustomResource Reactions}"
+                                                       Grid.Column="1" />
 
                             <Grid x:Name="ButtonRecord"
                                   VerticalAlignment="Bottom"
