@@ -86,6 +86,30 @@ namespace Telegram.ViewModels.Settings
 
         #endregion
 
+        #region Screen reader
+
+        public bool AnnounceMessages
+        {
+            get => Settings.Notifications.AnnounceMessages;
+            set
+            {
+                Settings.Notifications.AnnounceMessages = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool AnnounceChatActions
+        {
+            get => Settings.Notifications.AnnounceChatActions;
+            set
+            {
+                Settings.Notifications.AnnounceChatActions = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        #endregion
+
         public bool ShowName
         {
             get => Settings.Notifications.ShowName;

@@ -58,6 +58,36 @@ namespace Telegram.Common
             return null;
         }
 
+        public static bool IsScreenReaderListening()
+        {
+            return AutomationPeer.ListenerExists(AutomationEvents.LiveRegionChanged);
+        }
+
+        // Speaks text through the screen reader without moving focus. MostRecent replaces a pending
+        // announcement with the same activityId, so a burst of updates is read once, not queued.
+        public static void Announce(UIElement element, string text, string activityId, bool queue = false)
+        {
+            if (element == null || string.IsNullOrEmpty(text) || !IsScreenReaderListening())
+            {
+                return;
+            }
+
+            try
+            {
+                var peer = FrameworkElementAutomationPeer.FromElement(element)
+                    ?? FrameworkElementAutomationPeer.CreatePeerForElement(element);
+
+                peer?.RaiseNotificationEvent(AutomationNotificationKind.Other,
+                    queue ? AutomationNotificationProcessing.All : AutomationNotificationProcessing.MostRecent,
+                    text,
+                    activityId);
+            }
+            catch
+            {
+                // The element can be leaving the tree, in which case there is nothing to announce from.
+            }
+        }
+
         public static void SetToolTip(DependencyObject element, string text)
         {
             try

@@ -175,6 +175,20 @@ namespace Telegram.Services.Settings
             set => AddOrUpdateValue(ref _inAppSounds, "InAppSounds", value);
         }
 
+        private bool? _announceMessages;
+        public bool AnnounceMessages
+        {
+            get => _announceMessages ??= GetValueOrDefault("AnnounceMessages", true);
+            set => AddOrUpdateValue(ref _announceMessages, "AnnounceMessages", value);
+        }
+
+        private bool? _announceChatActions;
+        public bool AnnounceChatActions
+        {
+            get => _announceChatActions ??= GetValueOrDefault("AnnounceChatActions", true);
+            set => AddOrUpdateValue(ref _announceChatActions, "AnnounceChatActions", value);
+        }
+
         private bool? _includeMutedChats;
         public bool IncludeMutedChats
         {

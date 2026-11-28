@@ -6738,9 +6738,18 @@ namespace Telegram.Views
                 Subtitle.Opacity = 1;
             }
 
-            //var peer = FrameworkElementAutomationPeer.FromElement(ChatActionLabel);
-            //peer.RaiseAutomationEvent(AutomationEvents.LiveRegionChanged);
+            // Only the start of an action, or a change to it, is read; its end is silent, since
+            // "typing" stopping is usually followed by the message itself being announced.
+            var text = ChatActionLabel.Text;
+            if (text.Length > 0 && text != _lastAnnouncedChatAction && ViewModel?.Settings.Notifications.AnnounceChatActions is true)
+            {
+                Automation.Announce(ChatActionPanel, text, "ChatAction");
+            }
+
+            _lastAnnouncedChatAction = text;
         }
+
+        private string _lastAnnouncedChatAction = string.Empty;
 
 
         public void UpdateChatNotificationSettings(Chat chat)
