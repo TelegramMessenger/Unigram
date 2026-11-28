@@ -84,6 +84,10 @@ namespace Telegram.ViewModels
             Aggregator.Unsubscribe(Stories.Items);
             Aggregator.Unsubscribe(this);
 
+            // XAML can leave a story the strip showed pegged after its window closes, so no item may
+            // keep the window. Before the clear below: the setter only reaches the items still listed.
+            Stories.NavigationService = null;
+
             if (Dispatcher != null && Dispatcher.HasThreadAccess)
             {
                 Chats.Items.Clear();
