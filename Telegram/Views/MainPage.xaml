@@ -638,6 +638,7 @@
                                              Canvas.ZIndex="1" />
 
                             <controls:ChatListListView x:Name="ChatsList"
+                                                       AutomationProperties.Name="{CustomResource FilterChats}"
                                                        ItemClick="ListView_ItemClick"
                                                        IsItemClickEnabled="True"
                                                        AutomationProperties.LandmarkType="Main"
