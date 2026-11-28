@@ -1303,7 +1303,7 @@
                                                            Click="Reply_Click"
                                                            ContextRequested="Reply_ContextRequested"
                                                            CornerRadius="4,13,4,4"
-                                                           Padding="0,0,40,0" />
+                                                           Padding="0,0,44,0" />
                                 </Border>
                                 <FontIcon x:Name="ComposerHeaderGlyph"
                                           Foreground="{ThemeResource MessageAccentBrush}"
@@ -1324,6 +1324,7 @@
                                                       Glyph="&#xE711;"
                                                       Margin="0,0,0,-4"
                                                       Height="52"
+                                                      Width="52"
                                                       Grid.Column="2" />
                             </Grid>
 
