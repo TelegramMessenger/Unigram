@@ -198,6 +198,26 @@
     <CustomBeforeMicrosoftCommonTargets>$(MSBuildThisFileDirectory)Telegram.WinUI.Unpackaged.targets</CustomBeforeMicrosoftCommonTargets>
   </PropertyGroup>
 
+  <!-- -p:TelegramXaml=<folder>: our build of Microsoft.ui.xaml.dll and its <lang>\*.mui in place of
+       the Windows App SDK's, packaged or not. LoadMUILibrary only takes a .mui whose checksum
+       matches the DLL's, so every one is replaced, and one left over from the SDK would make the
+       first localized string a fail-fast. -->
+  <Target Name="UseTelegramXaml" AfterTargets="AddMicrosoftWindowsAppSDKPayloadFilesFromComponents" Condition="'$(TelegramXaml)' != ''">
+    <PropertyGroup>
+      <_TelegramXamlDir>$([MSBuild]::EnsureTrailingSlash('$(TelegramXaml)'))</_TelegramXamlDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <_TelegramXamlStock Include="@(None)" Condition="'%(Filename)%(Extension)' == 'Microsoft.ui.xaml.dll' or '%(Filename)%(Extension)' == 'Microsoft.ui.xaml.dll.mui'" />
+      <_TelegramXaml Include="@(_TelegramXamlStock->'$(_TelegramXamlDir)%(Link)')" />
+    </ItemGroup>
+    <Error Condition="'@(_TelegramXamlStock)' == ''" Text="TelegramXaml is set, but the Windows App SDK payload has no Microsoft.ui.xaml.dll to replace: it is only laid down self-contained." />
+    <Error Condition="!Exists('%(_TelegramXaml.Identity)')" Text="$(TelegramXaml) has no %(_TelegramXaml.Link) to replace the Windows App SDK's." />
+    <ItemGroup>
+      <None Remove="@(_TelegramXamlStock)" />
+      <None Include="@(_TelegramXaml)" />
+    </ItemGroup>
+  </Target>
+
   <PropertyGroup>
     <!-- See the file: it exists for maxversiontested, without which WindowsXamlManager fails
          E_UNEXPECTED in a process with no package manifest to read the OS version from. -->
