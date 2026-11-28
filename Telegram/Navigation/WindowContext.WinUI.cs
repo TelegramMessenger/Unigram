@@ -120,12 +120,9 @@ namespace Telegram.Navigation
             // NightModeService only recolours the caption buttons on a theme change.
             UpdateTitleBar();
 
-            // A package's windows take their icon from the manifest. Without one the taskbar
-            // button still finds the exe's, but its thumbnails and Alt+Tab ask the window.
-            if (!ApiInfo.HasPackageIdentity)
-            {
-                SetIcon(_handle);
-            }
+            // The manifest logo only reaches the taskbar button, packaged or not: the title bar,
+            // Alt+Tab and the thumbnails ask the window.
+            SetIcon(_handle);
 
             Title = _window.Title;
 
