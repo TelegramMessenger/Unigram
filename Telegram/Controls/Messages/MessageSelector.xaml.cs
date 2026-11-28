@@ -30,6 +30,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -382,6 +383,32 @@ namespace Telegram.Controls.Messages
                     message.Delegate.Unselect(message, true);
                 }
             }
+        }
+
+        // Space toggles the selector only while selecting messages; otherwise it clicks the media, once per press. An
+        // album item's selector holds its media directly rather than in a bubble.
+        protected override void OnKeyDown(KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Space && !_selectionEnabled && e.OriginalSource == this)
+            {
+                var media = Content is MessageBubble bubble
+                    ? bubble.MediaTemplateRoot
+                    : Content as UIElement;
+
+                if (media is ButtonBase { IsEnabled: true } button
+                    && FrameworkElementAutomationPeer.CreatePeerForElement(button)?.GetPattern(PatternInterface.Invoke) is IInvokeProvider provider)
+                {
+                    if (!e.KeyStatus.WasKeyDown)
+                    {
+                        provider.Invoke();
+                    }
+
+                    e.Handled = true;
+                    return;
+                }
+            }
+
+            base.OnKeyDown(e);
         }
 
         // Swipe to reply, for a touch press; from PointerPressed only. Content that handles its presses calls it for the ones
