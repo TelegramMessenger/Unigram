@@ -91,6 +91,8 @@ namespace Telegram.Navigation
             {
                 StartUnpackaged();
             }
+
+            ToastActivator.Ready();
         }
 
         /// <summary>
@@ -121,8 +123,6 @@ namespace Telegram.Navigation
                 Logger.Info("No identity; starting as a plain launch");
                 CallInternalActivated(new PlainActivatedEventArgs(ApplicationExecutionState.NotRunning));
             }
-
-            ToastActivator.Ready();
         }
 
         /// <summary>

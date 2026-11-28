@@ -252,6 +252,10 @@
     <WinUIPackageIdentity Condition="'$(WinUIPackageIdentity)' == ''">38833FF26BA1D.UnigramWinUI</WinUIPackageIdentity>
     <WinUIPackageDisplayName Condition="'$(WinUIPackageDisplayName)' == ''">Unigram WinUI</WinUIPackageDisplayName>
     <WinUIClaimSuffix Condition="'$(WinUIClaimSuffix)' == ''">winui</WinUIClaimSuffix>
+    <!-- One per identity, and none shared with the unpackaged one in ToastActivator.cs: a CLSID
+         names a single server, and these can all be installed on one machine. -->
+    <WinUIToastActivatorClsid Condition="'$(WinUIIdentity)' == 'Bundle'">B90A8FE5-E598-474E-A884-D0D9F915354A</WinUIToastActivatorClsid>
+    <WinUIToastActivatorClsid Condition="'$(WinUIToastActivatorClsid)' == ''">63E7C543-3A15-4972-98B5-EC7D8B2D3C9D</WinUIToastActivatorClsid>
     <!-- The source manifest is Telegram\Package.appxmanifest, which says 12.7.0.12195 and has not
          moved since - it is only used to deploy the app project from Visual Studio, so nothing
          bumps it. Set here instead, and in the generated manifest's path for the reason the
@@ -278,7 +282,7 @@
     <!-- Package.Win32.xslt, not a copy of it: what it removes is everything the UWP app model
          means and a full trust desktop process does not have, and that set is identical for both
          desktop flavours. A second stylesheet would drift the first time one of them changed. -->
-    <XslTransformation XmlInputPaths="$(WinUIAppxManifest)" XslInputPath="Package.Win32.xslt" OutputPaths="$(WinUIAppxManifest).tmp" />
+    <XslTransformation XmlInputPaths="$(WinUIAppxManifest)" XslInputPath="Package.Win32.xslt" OutputPaths="$(WinUIAppxManifest).tmp" Parameters="&lt;Parameter Name='ToastActivatorClsid' Value='$(WinUIToastActivatorClsid)' /&gt;" />
     <Copy SourceFiles="$(WinUIAppxManifest).tmp" DestinationFiles="$(WinUIAppxManifest)" />
     <Delete Files="$(WinUIAppxManifest).tmp" />
 
@@ -318,6 +322,20 @@
          means nothing to a process that will not be registered anyway. -->
     <AppxManifest Condition="'$(Unpackaged)' != 'true'" Include="$(WinUIAppxManifest)" />
   </ItemGroup>
+
+  <!-- The manifest's activator CLSID, for the class object ToastActivator registers. Written
+       straight after PrepareForBuild rather than before CoreCompile, because the XAML compiler's
+       own pass compiles the sources first. The path is spelled out rather than kept in a body
+       property: IntermediateOutputPath is only set by the common targets, after this file. -->
+  <ItemGroup>
+    <Compile Include="$(IntermediateOutputPath)ToastActivator.Packaged.g.cs" />
+  </ItemGroup>
+  <Target Name="GenerateToastActivatorClsid" AfterTargets="PrepareForBuild">
+    <WriteLinesToFile File="$(IntermediateOutputPath)ToastActivator.Packaged.g.cs" Overwrite="true" WriteOnlyWhenDifferent="true" Lines="namespace Telegram.Common { internal static partial class ToastActivator { private const string PackagedClsid = &quot;$(WinUIToastActivatorClsid)&quot;%3B } }" />
+    <ItemGroup>
+      <FileWrites Include="$(IntermediateOutputPath)ToastActivator.Packaged.g.cs" />
+    </ItemGroup>
+  </Target>
 
   <!-- The desktop CRT the payload links against, added to the generated manifest for the reason
        Package.Win32.Final.xslt documents: without it Telegram.Native fails to load inside the
