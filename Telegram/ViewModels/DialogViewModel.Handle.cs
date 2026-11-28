@@ -910,6 +910,7 @@ namespace Telegram.ViewModels
                     if (!update.Message.IsOutgoing)
                     {
                         PlaySound(false);
+                        AnnounceMessage(message);
                     }
                 });
             }
@@ -1429,6 +1430,30 @@ namespace Telegram.ViewModels
                     service.UpdateMessage(message);
                 }, newMessageId: update.Message.Id);
             }
+        }
+
+        // A screen reader user doesn't see messages arrive in the open chat, and nothing moves focus
+        // to them, so the message is read aloud as it lands. Queued so that a burst is read in full.
+        private void AnnounceMessage(MessageViewModel message)
+        {
+            if (Type is not (DialogType.History or DialogType.Thread) || Window?.IsActive != true || !Settings.Notifications.AnnounceMessages)
+            {
+                return;
+            }
+
+            // Only while the user is at the end of the chat: a message landing while they read
+            // older history would interrupt them with something they haven't scrolled to yet.
+            if (IsNewestSliceLoaded != true || HistoryField?.IsFollowingEnd is not true)
+            {
+                return;
+            }
+
+            if (ClientService.Notifications.IsMuted(Chat) && Chat.Type is not ChatTypePrivate)
+            {
+                return;
+            }
+
+            Automation.Announce(Window.Content, Automation.GetSummaryWithName(message, true), "NewMessage", queue: true);
         }
 
         private void PlaySound(bool sent)

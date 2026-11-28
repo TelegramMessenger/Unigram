@@ -256,6 +256,17 @@
                               Style="{StaticResource SettingsCheckBoxStyle}" />
                 </controls:HeaderedControl>
 
+                <controls:HeaderedControl Header="Screen reader"
+                                          Footer="Read aloud by Narrator, NVDA or JAWS in the open chat, without moving focus. Has no effect when no screen reader is running.">
+                    <CheckBox IsChecked="{x:Bind ViewModel.AnnounceMessages, Mode=TwoWay}"
+                              Content="Read new messages"
+                              Style="{StaticResource SettingsCheckBoxStyle}" />
+
+                    <CheckBox IsChecked="{x:Bind ViewModel.AnnounceChatActions, Mode=TwoWay}"
+                              Content="Read when someone is typing"
+                              Style="{StaticResource SettingsCheckBoxStyle}" />
+                </controls:HeaderedControl>
+
                 <controls:HeaderedControl Header="{CustomResource Events}">
                     <CheckBox IsChecked="{x:Bind ViewModel.IsContactEnabled, Mode=TwoWay}"
                               Content="{CustomResource ContactJoined}"

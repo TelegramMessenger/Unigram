@@ -5298,6 +5298,7 @@
                                    Margin="0,0,0,8"
                                    Style="{StaticResource BaseTextBlockStyle}"
                                    FontFamily="{ThemeResource EmojiThemeFontFamilyWithSymbols}"
+                                   AutomationProperties.HeadingLevel="Level2"
                                    Visibility="{Binding Header, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource NullToVisibilityConverter}}" />
 
                         <!--<Border x:Name="ContentPanel"
